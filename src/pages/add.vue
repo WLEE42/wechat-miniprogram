@@ -33,7 +33,7 @@
         <div class="weui-cell__hd">
           <label class="weui-label">邀请好友：</label>
         </div>
-        <mp-button type="default" size="normal">邀请好友</mp-button>
+          <mp-button type="default" size="mini">邀请好友</mp-button>
       </div>
 
       <button class="weui-btn" @click="addTodo">添加日程</button>
@@ -53,7 +53,8 @@ export default {
     return {
       motto: 'Hello World',
       time: '请选择时间',
-      date: '请选择日期'
+      date: '请选择日期',
+      thing: ''
     }
   },
   components: {
@@ -63,16 +64,22 @@ export default {
   },
   computed: {
     ...mapState([
-      'count'
+      'count',
+      'todos'
     ])
   },
   methods: {
     ...mapMutations([
-      'increment',
-      'decrement'
     ]),
+    addTodo () {
+      if (this.date === '请选择日期' || this.time === '请选择时间') {
+        return
+      }
+      this.todos.push({ time: this.time, date: this.date, thing: this.thing })
+      console.log(this.todos)
+    },
     TimeChange (e) {
-      console.log('选中的时间为：' + e.mp.detail.value)
+      // console.log('选中的时间为：' + e.mp.detail.value)
       // console.log(this.time)
       this.time = e.mp.detail.value
     },

@@ -7,15 +7,15 @@
       <p class="page__desc">日程</p>
     </div>
 
+    <div class="weui-cells__title">日程</div>
     <ul class="weui-cells">
-      <view class="weui-cell" v-for='(todo, index) in todos' :key="index">
+      <div class="weui-cell" v-for='(todo, index) in todos' :key="index">
         <div class="weui-cell__bd">{{todo.date}}：</div>
+        <div class="weui-cell__bd">{{todo.time}}</div>
         <div class="weui-cell__ft">{{todo.thing}}</div>
-      </view>
+      </div>
     </ul>
-    <view>
-      <input type="text" v-model="mytodo">
-    </view>
+
   </div>
 </template>
 
@@ -34,7 +34,6 @@ export default {
 
   computed: {
     ...mapState([
-      'count',
       'todos'
     ])
   },
@@ -44,8 +43,6 @@ export default {
 
   methods: {
     ...mapMutations([
-      'increment',
-      'decrement'
     ]),
     clickHandle (msg, ev) {
       // eslint-disable-next-line

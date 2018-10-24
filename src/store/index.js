@@ -7,22 +7,13 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
   state: {
-    count: 0,
     todos: [
-      { thing: '吃饭', date: '1月1日' },
-      { thing: '学习', date: '1月2日' },
-      { thing: 'dddd', date: '1月3日' }
+      { thing: '吃饭', date: '2018-1-1', time: '08:08' },
+      { thing: '学习', date: '2018-1-2', time: '08:08' },
+      { thing: 'dddd', date: '2018-1-2', time: '08:08' }
     ]
   },
   mutations: {
-    increment: state => {
-      const obj = state
-      obj.count += 1
-    },
-    decrement: state => {
-      const obj = state
-      obj.count -= 1
-    }
   }
 })
 
