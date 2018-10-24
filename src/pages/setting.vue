@@ -1,24 +1,36 @@
 <template>
   <div>
-    <view>我是设置</view>
-    <div class="userinfo" @click="bindViewTap">
-      <img class="userinfo-avatar" v-if="userInfo.avatarUrl" :src="userInfo.avatarUrl" background-size="cover" />
-      <div class="userinfo-nickname">
-        <card :text="userInfo.nickName"></card>
+    <div class="weui-cell">我是设置</div>
+    <div class="weui-cell">
+      <div class="userinfo" @click="bindViewTap">
+        <img class="userinfo-avatar" v-if="userInfo.avatarUrl" :src="userInfo.avatarUrl" background-size="cover" />
+        <div class="userinfo-nickname">
+          <div class="weui-cell__bd">{{userInfo.nickName}}</div>
+        </div>
+      </div>
+
+      <div class="usermotto">
+        <div class="user-motto">
+          <card :text="motto"></card>
+        </div>
       </div>
     </div>
 
-    <div class="usermotto">
-      <div class="user-motto">
-        <card :text="motto"></card>
-      </div>
+    <div class="weui-cell">
+      <mp-button type="primary" size="large">
+        意见反馈
+      </mp-button>
+    </div>
+    <div class="weui-cell">
+      <button open-type="getUserInfo" @getuserinfo="getUserInfo">
+        获取授权
+      </button>
     </div>
   </div>
 </template>
 
 <script>
-import card from '@/components/card'
-
+import mpButton from 'mpvue-weui/src/button'
 export default {
   data () {
     return {
@@ -27,7 +39,7 @@ export default {
   },
 
   components: {
-    card
+    mpButton
   },
 
   methods: {
@@ -35,23 +47,14 @@ export default {
       const url = '/packageA/logs'
       wx.navigateTo({ url })
     },
-    getUserInfo () {
+    getUserInfo (e) {
       // 调用登录接口
-      wx.login({
-        success: () => {
-          wx.getUserInfo({
-            success: res => {
-              this.userInfo = res.userInfo
-            }
-          })
-        }
-      })
+      this.userInfo = e.mp.detail.userInfo
     }
   },
 
   onLoad () {
     // 调用应用实例的方法获取全局数据
-    this.getUserInfo()
   }
 }
 </script>
