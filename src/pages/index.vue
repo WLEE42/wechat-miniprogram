@@ -1,22 +1,19 @@
-<template>
-  <div class="page">
+<template lang="pug">
+  .page
 
-    <div class="page__hd">
-      <h1 class="page__title">给队伍取个名字</h1>
-      <p class="page__desc">我是首页</p>
-      <p class="page__desc">日程</p>
-    </div>
+    .page__hd
+      h1.page__title 给队伍取个名字
+      p.page__desc 我是首页
+      p.page__desc 日程
+    
 
-    <div class="weui-cells__title">日程</div>
-    <ul class="weui-cells">
-      <div class="weui-cell" v-for='(todo, index) in todos' :key="index">
-        <div class="weui-cell__bd">{{todo.date}}：</div>
-        <div class="weui-cell__bd">{{todo.time}}</div>
-        <div class="weui-cell__ft">{{todo.thing}}</div>
-      </div>
-    </ul>
-
-  </div>
+    .weui-cells__title 日程
+    ul.weui-cells
+      .weui-cell(v-for='(todo, index) in todos' :key="index")
+        .weui-cell__bd {{todo.date}}：
+        .weui-cell__bd {{todo.time}}
+        .weui-cell__ft {{todo.thing}}
+  
 </template>
 
 <script>
@@ -43,11 +40,7 @@ export default {
 
   methods: {
     ...mapMutations([
-    ]),
-    clickHandle (msg, ev) {
-      // eslint-disable-next-line
-      console.log('clickHandle:', msg, ev)
-    }
+    ])
   }
 }
 </script>

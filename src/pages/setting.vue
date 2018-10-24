@@ -1,46 +1,26 @@
-<template>
-  <div>
-    <div class="weui-cell">我是设置</div>
-    <div class="weui-cell">
-      <div class="userinfo" @click="bindViewTap">
-        <img class="userinfo-avatar" v-if="userInfo.avatarUrl" :src="userInfo.avatarUrl" background-size="cover" />
-        <div class="userinfo-nickname">
-          <div class="weui-cell__bd">{{userInfo.nickName}}</div>
-        </div>
-      </div>
+<template lang="pug">
+  .page
+    .weui-cell 我是设置
+    .weui-cell.userinfo
+      .userinfo(@click="bindViewTap")
+        img.userinfo-avatar(v-if="userInfo.avatarUrl" :src="userInfo.avatarUrl" background-size="cover")
+        .userinfo-nickname
+          .weui-cell__bd {{userInfo.nickName}}
 
-      <div class="usermotto">
-        <div class="user-motto">
-          <card :text="motto"></card>
-        </div>
-      </div>
-    </div>
-    <div class="weui-cells__title">意见反馈</div>
-    <div class="weui-cells">
-      <div class="weui-cells::before">
-      </div>
-
-      <div class="weui-cell">
-        <div class="weui-cell__bd">
-          <p>意见反馈</p>
-        </div>
-        <div class="weui-cell__ft">
-        </div>
-      </div>
-      <div class="weui-cell">
-        <div class="weui-cell__bd">
-          <p>关于日历</p>
-        </div>
-      </div>
-      <div class="weui-cell__ft::after">
-        </div>
-    </div>
-    <div class="weui-cell">
-      <button open-type="getUserInfo" @getuserinfo="getUserInfo">
-        获取授权
-      </button>
-    </div>
-  </div>
+      .usermotto
+        .user-motto
+          div(:text="motto")
+    .weui-cells__title 意见反馈
+    .weui-cells
+      .weui-cell
+        .weui-cell__bd
+          p 意见反馈
+        .weui-cell__ft
+      .weui-cell
+        .weui-cell__bd
+          p 关于日历
+    .weui-cell
+      button(open-type="getUserInfo" @getuserinfo="getUserInfo") 获取授权
 </template>
 
 <script>
@@ -75,9 +55,9 @@ export default {
 
 <style scoped>
 .userinfo {
-  display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
 }
 
 .userinfo-avatar {
@@ -92,7 +72,7 @@ export default {
 }
 
 .usermotto {
-  margin-top: 150px;
+  margin-top: 15px;
 }
 
 .form-control {
