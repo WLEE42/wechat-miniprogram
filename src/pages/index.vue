@@ -36,6 +36,18 @@ export default {
   },
 
   mounted () {
+    this.$http.get('login')
+      .then((d) => {
+        this.todos.push({ time: this.time, date: this.date, thing: this.thing })
+
+        // 输出请求数据
+        console.log(d.data)
+        // 输出响应头
+        console.log(d.header)
+      })
+      .catch(err => {
+        console.log(err.status, err.message)
+      })
   },
 
   methods: {
