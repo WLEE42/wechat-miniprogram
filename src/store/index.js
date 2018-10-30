@@ -11,7 +11,8 @@ const store = new Vuex.Store({
       { thing: '吃饭', date: '2018-1-1', time: '08:08' },
       { thing: '学习', date: '2018-1-2', time: '08:08' },
       { thing: 'dddd', date: '2018-1-2', time: '08:08' }
-    ]
+    ],
+    userinfo: {}
   },
   mutations: {
     showTodos () {

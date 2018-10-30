@@ -1,5 +1,5 @@
 {
-  "pages": ["pages/index", "pages/add", "pages/setting"],
+  "pages": ["pages/index", "pages/add", "pages/setting", "^pages/start"],
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",
@@ -27,8 +27,8 @@
       {
         "pagePath": "pages/setting",
         "text": "设置",
-        "iconPath": "/static/settings.png",
-        "selectedIconPath": "/static/settings.png"
+        "iconPath": "/static/setting.png",
+        "selectedIconPath": "/static/setting.png"
       }
     ]
   }

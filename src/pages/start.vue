@@ -10,15 +10,6 @@
       .usermotto
         .user-motto
           div(:text="motto")
-    .weui-cells__title 意见反馈
-    .weui-cells
-      .weui-cell
-        .weui-cell__bd
-          p 意见反馈
-        .weui-cell__ft
-      .weui-cell
-        .weui-cell__bd
-          p 关于日历
     .weui-cell
       button(open-type="getUserInfo" @getuserinfo="getUserInfo") 获取授权
 </template>
@@ -45,10 +36,6 @@ export default {
   methods: {
     ...mapMutations([
     ]),
-    bindViewTap () {
-      const url = '/packageA/logs'
-      wx.navigateTo({ url })
-    },
     getUserInfo (e) {
       // 调用登录接口
       this.userInfo = e.mp.detail.userInfo
