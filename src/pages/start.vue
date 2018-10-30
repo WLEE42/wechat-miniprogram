@@ -1,21 +1,11 @@
 <template lang="pug">
   .page
     .weui-cell 我是设置
-    .weui-cell.userinfo
-      .userinfo(@click="bindViewTap")
-        img.userinfo-avatar(v-if="userInfo.avatarUrl" :src="userInfo.avatarUrl" background-size="cover")
-        .userinfo-nickname
-          .weui-cell__bd {{userInfo.nickName}}
-
-      .usermotto
-        .user-motto
-          div(:text="motto")
     .weui-cell
       button(open-type="getUserInfo" @getuserinfo="getUserInfo") 获取授权
 </template>
 
 <script>
-import mpButton from 'mpvue-weui/src/button'
 import { mapState, mapMutations } from 'vuex'
 
 export default {
@@ -25,25 +15,23 @@ export default {
   },
 
   components: {
-    mpButton
   },
 
   computed: {
     ...mapState([
-      'userinfo'
+      'userInfo'
     ])
   },
   methods: {
     ...mapMutations([
+      'setUserInfo'
     ]),
     getUserInfo (e) {
       // 调用登录接口
-      this.userInfo = e.mp.detail.userInfo
+      this.setUserInfo(e.mp.detail.userInfo)
+      console.log(this.userInfo)
+      this.$router.push({ path: '/pages/index', isTab: true })
     }
-  },
-
-  onLoad () {
-    // 调用应用实例的方法获取全局数据
   }
 }
 </script>

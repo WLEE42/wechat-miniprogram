@@ -12,7 +12,7 @@ const store = new Vuex.Store({
       { thing: '学习', date: '2018-1-2', time: '08:08' },
       { thing: 'dddd', date: '2018-1-2', time: '08:08' }
     ],
-    userinfo: {}
+    userInfo: {}
   },
   mutations: {
     showTodos () {
@@ -33,6 +33,9 @@ const store = new Vuex.Store({
         .catch(err => {
           console.log(err.status, err.message)
         })
+    },
+    setUserInfo (state, data) {
+      state.userInfo = data
     }
   }
 })

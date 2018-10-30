@@ -6,10 +6,6 @@
         img.userinfo-avatar(v-if="userInfo.avatarUrl" :src="userInfo.avatarUrl" background-size="cover")
         .userinfo-nickname
           .weui-cell__bd {{userInfo.nickName}}
-
-      .usermotto
-        .user-motto
-          div(:text="motto")
     .weui-cells__title 意见反馈
     .weui-cells
       .weui-cell
@@ -19,8 +15,6 @@
       .weui-cell
         .weui-cell__bd
           p 关于日历
-    .weui-cell
-      button(open-type="getUserInfo" @getuserinfo="getUserInfo") 获取授权
 </template>
 
 <script>
@@ -39,7 +33,7 @@ export default {
 
   computed: {
     ...mapState([
-      'userinfo'
+      'userInfo'
     ])
   },
   methods: {
@@ -48,10 +42,6 @@ export default {
     bindViewTap () {
       const url = '/packageA/logs'
       wx.navigateTo({ url })
-    },
-    getUserInfo (e) {
-      // 调用登录接口
-      this.userInfo = e.mp.detail.userInfo
     }
   },
 
