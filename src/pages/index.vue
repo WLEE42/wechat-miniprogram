@@ -12,20 +12,44 @@
         .weui-cell__bd {{todo.date}}：
         .weui-cell__bd {{todo.time}}
         .weui-cell__ft {{todo.thing}}
-  
+    Calendar(
+      :months="months"
+      :value="value"
+      @next="next"
+      @prev="prev"
+      :events="events"
+      lunar
+      clean
+      @select="select"
+      ref="calendar"
+      @selectMonth="selectMonth"
+      @selectYear="selectYear"
+      :tileContent="tileContent"
+      :almanacs="almanacs"
+    ) 
 </template>
 
 <script>
 import { mapState, mapMutations } from 'vuex'
+import Calendar from 'mpvue-calendar'
 import mpButton from 'mpvue-weui/src/button'
+import 'mpvue-calendar/src/style.css'
+
 export default {
   data () {
     return {
+      events: { '2018-6-7': '今日备注', '2018-6-8': '一条很长的明日备注' },
+      almanacs: { '9-3': '抗战胜利日', '11-17': '学生日' },
+      tileContent: [
+        { date: '2018-9-22', className: 'holiday ', content: '休' },
+        { date: '2018-9-23', className: 'holiday ', content: '休' }
+      ]
     }
   },
 
   components: {
-    mpButton
+    mpButton,
+    Calendar
   },
 
   computed: {
@@ -34,14 +58,40 @@ export default {
     ])
   },
 
-  mounted () {
+  created () {
     this.showTodos()
   },
 
   methods: {
     ...mapMutations([
       'showTodos'
-    ])
+    ]),
+    selectMonth (month, year) {
+      console.log(year, month)
+    },
+    prev (month) {
+      console.log(month)
+    },
+    next (month) {
+      console.log(month)
+    },
+    selectYear (year) {
+      console.log(year)
+    },
+    setToday () {
+      this.$refs.calendar.setToday()
+    },
+    dateInfo () {
+      const info = this.$refs.calendar.dateInfo(2018, 8, 23)
+      console.log(info)
+    },
+    renderer () {
+      this.$refs.calendar.renderer(2018, 8) // 渲染2018年8月份
+    },
+    select (val, val2) {
+      console.log(val)
+      console.log(val2)
+    }
   }
 }
 </script>

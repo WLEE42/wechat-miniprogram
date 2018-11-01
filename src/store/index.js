@@ -15,18 +15,19 @@ const store = new Vuex.Store({
     userInfo: {}
   },
   mutations: {
-    showTodos () {
-      this.$http
+    showTodos (state) {
+      Vue.prototype.$http
         .get('login')
         .then(d => {
-          this.todos.push({
-            time: this.time,
-            date: this.date,
-            thing: this.thing
+          d.data.forEach(element => {
+            state.todos.push({
+              time: element.time,
+              date: element.date,
+              thing: element.thing
+            })
           })
-
           // 输出请求数据
-          console.log(d.data)
+          console.log(d)
           // 输出响应头
           console.log(d.header)
         })

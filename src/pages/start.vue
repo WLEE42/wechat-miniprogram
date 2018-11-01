@@ -29,47 +29,29 @@ export default {
     getUserInfo (e) {
       // 调用登录接口
       this.setUserInfo(e.mp.detail.userInfo)
-      console.log(this.userInfo)
       this.$router.push({ path: '/pages/index', isTab: true })
     }
+  },
+  created () {
+    // console.log('launch')
+    wx.login({
+      success: function (res) {
+        console.log(res)
+        if (res.code) {
+          // 存在code
+          console.log('获取用户信息成!' + res.code)
+          wx.request({
+            url: 'http://127.0.0.01:5000',
+            data: { code: res.code }
+          })
+        } else {
+          console.log('获取用户信息失败!' + res.errMsg)
+        }
+      }
+    })
   }
 }
 </script>
 
 <style scoped>
-.userinfo {
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-.userinfo-avatar {
-  width: 128rpx;
-  height: 128rpx;
-  margin: 20rpx;
-  border-radius: 50%;
-}
-
-.userinfo-nickname {
-  color: #aaa;
-}
-
-.usermotto {
-  margin-top: 15px;
-}
-
-.form-control {
-  display: block;
-  padding: 0 12px;
-  margin-bottom: 5px;
-  border: 1px solid #ccc;
-}
-
-.counter {
-  display: inline-block;
-  margin: 10px auto;
-  padding: 5px 10px;
-  color: blue;
-  border: 1px solid blue;
-}
 </style>
