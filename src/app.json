@@ -3,7 +3,7 @@
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "某个日历",
+    "navigationBarTitleText": "Social历",
     "navigationBarTextStyle": "black"
   },
   "tabBar": {

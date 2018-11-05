@@ -1,32 +1,24 @@
 <template lang="pug">
   .page
-
     .page__hd
       h1.page__title 给队伍取个名字
       p.page__desc 我是首页
       p.page__desc 日程
+    Calendar(
+      :events="events"
+      @select="select"
+      ref="calendar"
+      @selectMonth="selectMonth"
+      @selectYear="selectYear"
+    )
+    
 
     .weui-cells__title 日程
     ul.weui-cells
       .weui-cell(v-for='(todo, index) in todos' :key="index")
         .weui-cell__bd {{todo.date}}：
         .weui-cell__bd {{todo.time}}
-        .weui-cell__ft {{todo.thing}}
-    Calendar(
-      :months="months"
-      :value="value"
-      @next="next"
-      @prev="prev"
-      :events="events"
-      lunar
-      clean
-      @select="select"
-      ref="calendar"
-      @selectMonth="selectMonth"
-      @selectYear="selectYear"
-      :tileContent="tileContent"
-      :almanacs="almanacs"
-    ) 
+        .weui-cell__ft {{todo.thing}} 
 </template>
 
 <script>
@@ -38,12 +30,6 @@ import 'mpvue-calendar/src/style.css'
 export default {
   data () {
     return {
-      events: { '2018-6-7': '今日备注', '2018-6-8': '一条很长的明日备注' },
-      almanacs: { '9-3': '抗战胜利日', '11-17': '学生日' },
-      tileContent: [
-        { date: '2018-9-22', className: 'holiday ', content: '休' },
-        { date: '2018-9-23', className: 'holiday ', content: '休' }
-      ]
     }
   },
 
@@ -54,7 +40,8 @@ export default {
 
   computed: {
     ...mapState([
-      'todos'
+      'todos',
+      'events'
     ])
   },
 
