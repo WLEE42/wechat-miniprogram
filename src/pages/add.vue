@@ -40,8 +40,6 @@
     components: {
       mpButton
     },
-    mounted () {
-    },
     computed: {
       ...mapState([
         'count',
@@ -74,6 +72,25 @@
       DateChange (e) {
         // console.log('选中的日期为：' + e.mp.detail.value)
         this.date = e.mp.detail.value
+      }
+    },
+
+    onShareAppMessage: function (res) {
+      if (res.from === 'button') {
+        // 来自页面内转发按钮
+        console.log(res.target)
+      }
+      return {
+        title: '自定义转发标题',
+        path: '/page/user?id=123',
+        success: function (res) {
+          // 转发成功
+          // 如果这里有 shareTickets，则说明是分享到群的
+          console.log(res.shareTickets)
+        },
+        fail: function (res) {
+          // 转发失败
+        }
       }
     }
   }
