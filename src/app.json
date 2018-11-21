@@ -1,5 +1,11 @@
 {
-  "pages": ["pages/start", "pages/index", "pages/add", "pages/setting"],
+  "pages": [
+    "pages/start",
+    "pages/index",
+    "pages/add",
+    "pages/setting",
+    "pages/dayView"
+  ],
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",

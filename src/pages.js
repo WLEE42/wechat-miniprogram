@@ -12,6 +12,9 @@ module.exports = [
     path: 'pages/setting'
   },
   {
+    path: 'pages/dayView'
+  },
+  {
     path: 'packageA/logs',
     subPackage: true,
     config: {
