@@ -5,8 +5,8 @@
       p.page__desc 我是首页
       p.page__desc 日程
     div
-      button(type='default') 月
-      button(type='default',@click="$router.push({path:'/pages/dayView'})") 日
+      mp-button(type='mini') 月
+      mp-button(type='mini',@click="$router.push({path:'/pages/dayView'})") 日
     Calendar(
     :events="events"
     @select="select"

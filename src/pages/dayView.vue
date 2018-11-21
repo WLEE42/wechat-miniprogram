@@ -2,7 +2,7 @@
   .page
     div 具体日程
 
-    .weui-cells
+    div.weui-cells
 
       .weui-cell
         label.weui-cell__bd 时间：
