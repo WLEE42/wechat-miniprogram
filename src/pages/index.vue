@@ -6,7 +6,7 @@
       p.page__desc 日程
     div
       mp-button(type='mini') 月
-      mp-button(type='mini',@click="$router.push({path:'/pages/dayView'})") 日
+      mp-button(type='mini',@click="$router.push({path:'/pages/dayView',query: { date: null, year: null, month: null }})") 日
     Calendar(
     :events="events"
     @select="select"
@@ -15,10 +15,9 @@
     @selectYear="selectYear"
     )
 
-
     .weui-cells__title 日程
     ul.weui-cells
-      li.weui-cell(v-for='(todo, index) in todos' :key="index" @touchstart="ontouchstart")
+      li.weui-cell(v-for='(todo, index) in todos' :key="index"  @touchstart="ontouchstart")
         .weui-cell__bd {{todo.date}}：
         .weui-cell__bd {{todo.time}}
         .weui-cell__ft {{todo.thing}}

@@ -11,7 +11,7 @@ const store = new Vuex.Store({
   },
   mutations: {
     showTodos (state) {
-      /* state.todos['2018-11-3'] = [{ thing: '吃饭', date: '2018-11-3', time: '08:08' }, {
+      state.todos['2018-11-3'] = [{ thing: '吃饭', date: '2018-11-3', time: '08:08' }, {
         thing: '吃饭',
         date: '2018-11-3',
         time: '08:08'
@@ -25,7 +25,7 @@ const store = new Vuex.Store({
         thing: '吃饭',
         date: '2018-11-1',
         time: '08:08'
-      }] */
+      }]
       Vue.prototype.$http
         .get('todos')
         .then(d => {
