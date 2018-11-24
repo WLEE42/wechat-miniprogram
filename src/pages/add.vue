@@ -15,6 +15,10 @@
       .weui-cell
         label 事件：
         input(placeholder="请输入日程")
+      .weui-cell
+        label 地点：
+        input(placeholder="请输入地点")
+      
       .weui-cell.invite
         label 邀请好友：
         button.invite-btn 邀请好友
@@ -34,7 +38,8 @@
         motto: 'Hello World',
         time: '请选择时间',
         date: '请选择日期',
-        thing: ''
+        thing: '',
+        place: ''
       }
     },
     components: {
@@ -47,21 +52,57 @@
       ])
     },
     methods: {
-      ...mapMutations([]),
+      ...mapMutations([
+        'addTodo'
+      ]),
       addTodo () {
         if (this.date === '请选择日期' || this.time === '请选择时间') {
+          wx.showModal({
+            title: '提示',
+            content: '请填写日期与时间',
+            success: function (res) {
+              if (res.confirm) {
+                console.log('用户点击确定')
+              }
+            }
+          })
           return
         }
-        this.todos.push({ time: this.time, date: this.date, thing: this.thing })
+        this.todos.push({ time: this.time, date: this.date, thing: this.thing, place: this.place })
         console.log(this.todos)
         this.$http.get('add', {
           todo: {
             time: this.time,
             date: this.date,
-            thing: this.thing
+            thing: this.thing,
+            place: this.place
           }
         }).then(d => {
-          console.log('添加成功' + d)
+          if (d === 'success') {
+            console.log('添加成功' + d)
+            wx.showModal({
+              title: '成功！',
+              content: '已添加日程',
+              success: function (res) {
+                if (res.confirm) {
+                  console.log('用户点击确定')
+                }
+              }
+            })
+          } else {
+            console.log('添加失败' + d)
+            wx.showModal({
+              title: '时间冲突',
+              content: '与原有日程时间冲突\n[确定]继续编辑当前日程\n[取消]跳转至原有日程',
+              success: function (res) {
+                if (res.confirm) {
+                  console.log('用户点击确定')
+                } else {
+                  this.$router.push({ path: '/pages/detail', query: { id: d.id } })
+                }
+              }
+            })
+          }
         })
       },
       TimeChange (e) {
@@ -97,16 +138,16 @@
 </script>
 
 <style scoped>
-  .pick {
-    width: 700 rpx;
-  }
+.pick {
+  width: 700 rpx;
+}
 
-  .invite {
-    justify-content: space-between;
-  }
+.invite {
+  justify-content: space-between;
+}
 
-  .invite-btn {
-    margin-right: 0px;
-    height: 100 rpx;
-  }
+.invite-btn {
+  margin-right: 0px;
+  height: 100 rpx;
+}
 </style>
