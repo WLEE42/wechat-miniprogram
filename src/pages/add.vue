@@ -104,7 +104,7 @@
             })
           }
         })
-      },
+      },//
       TimeChange (e) {
         // console.log('选中的时间为：' + e.mp.detail.value)
         // console.log(this.time)
