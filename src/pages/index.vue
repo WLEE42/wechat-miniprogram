@@ -6,7 +6,7 @@
       p.page__desc 日程
     div
       mp-button(type='mini') 月
-      mp-button(type='mini',@click="$router.push({path:'/pages/dayView',query: { date: null, year: null, month: null }})") 日
+      mp-button(type='mini',@click="$router.push({path:'/pages/dayView'})") 日
     Calendar(
     :events="events"
     @select="select"
@@ -17,8 +17,8 @@
 
     .weui-cells__title 日程
     ul.weui-cells
-      li.weui-cell(v-for='(todo, index) in todos' :key="index"  @touchstart="ontouchstart")
-        .weui-cell__bd {{todo.date}}：
+      li.weui-cell(v-for='(todo, index) in todos[todayDate]' :key="index" @click="toDetail($event,index)")
+        .weui-cell__bd {{todo.date}}
         .weui-cell__bd {{todo.time}}
         .weui-cell__ft {{todo.thing}}
 </template>
@@ -28,10 +28,13 @@ import { mapState, mapMutations } from 'vuex'
 import Calendar from 'mpvue-calendar'
 import mpButton from 'mpvue-weui/src/button'
 import 'mpvue-calendar/src/style.css'
+import { formatDate } from '../utils'
 
 export default {
   data () {
-    return {}
+    return {
+      todayDate: ''
+    }
   },
 
   components: {
@@ -46,7 +49,8 @@ export default {
     ])
   },
 
-  created () {
+  mounted () {
+    this.todayDate = formatDate(new Date())
     this.showTodos()
   },
 
@@ -54,36 +58,41 @@ export default {
     ...mapMutations([
       'showTodos'
     ]),
-    selectMonth (month, year) {
-      console.log(year, month)
-    },
-    prev (month) {
-      console.log(month)
-    },
-    next (month) {
-      console.log(month)
-    },
-    selectYear (year) {
-      console.log(year)
-    },
-    setToday () {
-      this.$refs.calendar.setToday()
-    },
     dateInfo () {
       const info = this.$refs.calendar.dateInfo(2018, 8, 23)
       console.log(info)
-    },
-    renderer () {
-      this.$refs.calendar.renderer(2018, 8) // 渲染2018年8月份
     },
     select (val, val2) {
       console.log(val)
       console.log(val2)
       this.$router.push({ path: '/pages/dayView', query: { date: val[2], year: val[0], month: val[1] } })
     },
-    ontouchstart (e) {
-      console.log('touchS' + e.data.data)
+    toDetail (e, index) {
+      this.$router.push({ path: '/pages/detail', query: { date: this.todayDate, id: this.todos[this.todayDate][index].id } })
     }
+    // touchStart (e) {
+    //   // 获取移动距离，可以通过打印出e，然后分析e的值得出
+    //   this.startX = e.mp.changedTouches[0].clientX
+    // },
+    // // 滑动结束
+    // touchEnd (e, index) {
+    //   // 获取移动距离
+    //   this.endX = e.mp.changedTouches[0].clientX
+    //   if (this.startX - this.endX > 10) {
+    //     for (let i = 0; i < this.commitInfo.length; i++) {
+    //       this.commitInfo[i].type = 0
+    //     }
+    //     this.commitInfo[index].type = 1
+    //   } else if (this.startX - this.endX < -10) {
+    //     for (let i = 0; i < this.commitInfo.length; i++) {
+    //       this.commitInfo[i].type = 0
+    //     }
+    //   }
+    // },
+    // // 点击回复原状
+    // recover (index) {
+    //   this.commitInfo[index].type = 0
+    // }
   }
 }
 </script>

@@ -7,25 +7,37 @@ const store = new Vuex.Store({
   state: {
     todos: {},
     userInfo: {},
-    events: { '2018-11-7': '今日备注', '2018-11-8': '一条很长的明日备注' }
+    events: { '2018-11-28': '今日备注', '2018-11-29': '一条很长的明日备注' }
   },
   mutations: {
     showTodos (state) {
-      state.todos['2018-11-3'] = [{ thing: '吃饭', date: '2018-11-3', time: '08:08' }, {
-        thing: '吃饭',
-        date: '2018-11-3',
-        time: '08:08'
-      }]
-      state.todos['2018-11-2'] = [{ thing: '吃饭', date: '2018-11-2', time: '09:08' }, {
-        thing: '吃饭',
-        date: '2018-11-2',
-        time: '08:08'
-      }]
-      state.todos['2018-11-3'] = [{ thing: '吃饭', date: '2018-11-1', time: '10:08' }, {
-        thing: '吃饭',
-        date: '2018-11-1',
-        time: '08:08'
-      }]
+      state.todos['2018-11-30'] = [
+        { thing: '吃饭', date: '2018-11-30', time: '08:08', id: '000' },
+        {
+          thing: '学习',
+          date: '2018-11-30',
+          time: '08:08',
+          id: '001'
+        }
+      ]
+      state.todos['2018-11-29'] = [
+        { thing: '吃饭', date: '2018-11-29', time: '09:08', id: '002' },
+        {
+          thing: '学习',
+          date: '2018-11-29',
+          time: '08:08',
+          id: '003'
+        }
+      ]
+      state.todos['2018-11-24'] = [
+        { thing: '吃饭', date: '2018-11-24', time: '10:08', id: '004' },
+        {
+          thing: '学习',
+          date: '2018-11-24',
+          time: '08:08',
+          id: '005'
+        }
+      ]
       Vue.prototype.$http
         .get('todos')
         .then(d => {
@@ -37,11 +49,13 @@ const store = new Vuex.Store({
                 thing: element.thing
               })
             } else {
-              state.todos[element.date] = [{
-                time: element.time,
-                date: element.date,
-                thing: element.thing
-              }]
+              state.todos[element.date] = [
+                {
+                  time: element.time,
+                  date: element.date,
+                  thing: element.thing
+                }
+              ]
             }
 
             if (!state.events[element.date]) {

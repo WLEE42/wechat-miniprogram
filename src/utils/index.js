@@ -23,5 +23,6 @@ export function formatDate (date) {
 }
 export default {
   formatNumber,
-  formatTime
+  formatTime,
+  formatDate
 }
