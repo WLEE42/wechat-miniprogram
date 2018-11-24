@@ -4,12 +4,14 @@
     "pages/index",
     "pages/add",
     "pages/setting",
-    "pages/dayView"
+    "pages/dayView",
+    "pages/detail",
+    "pages/main"
   ],
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "Social历",
+    "navigationBarTitleText": "Socially",
     "navigationBarTextStyle": "black"
   },
   "tabBar": {

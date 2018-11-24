@@ -15,6 +15,12 @@ module.exports = [
     path: 'pages/dayView'
   },
   {
+    path: 'pages/main'
+  },
+  {
+    path: 'pages/detail'
+  },
+  {
     path: 'packageA/logs',
     subPackage: true,
     config: {
