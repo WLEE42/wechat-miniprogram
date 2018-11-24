@@ -15,6 +15,9 @@ module.exports = [
     path: 'pages/dayView'
   },
   {
+    path: 'pages/main'
+  },
+  {
     path: 'pages/detail'
   },
   {

@@ -5,7 +5,8 @@
     "pages/add",
     "pages/setting",
     "pages/dayView",
-    "pages/detail"
+    "pages/detail",
+    "pages/main"
   ],
   "window": {
     "backgroundTextStyle": "light",
