@@ -22,10 +22,12 @@ import { mapState, mapMutations } from 'vuex'
 export default {
   data () {
     return {
-      time: '请选择时间',
-      date: '请选择日期',
-      thing: '',
-      place: ''
+      todo: {
+        time: '请选择时间',
+        date: '请选择日期',
+        thing: '',
+        place: ''
+      }
     }
   },
   computed: {
@@ -35,6 +37,28 @@ export default {
   },
   methods: {
     ...mapMutations([])
+  },
+  modifyEvents () {
+    this.$http.get('event/modifyEvent', { sessionKey: this.sessionKey, todo: this.todo }).then(
+      d => {
+        this.todos[this.$route.query.date].forEach((todo, index, object) => {
+          if (todo.id === this.$route.query.id) {
+            object.splice(index, 1, this.todo)
+          }
+        })
+      }
+    )
+  },
+  deleteEvents () {
+    this.$http.get('event/deleteEvent', { sessionKey: this.sessionKey, eventKey: this.eventKey }).then(
+      d => {
+        this.todos[this.$route.query.date].forEach((todo, index, object) => {
+          if (todo.id === this.$route.query.id) {
+            object.splice(index, 1)
+          }
+        })
+      }
+    )
   },
   mounted () {
     // console.log(this.$route.query.date)
