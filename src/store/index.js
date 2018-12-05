@@ -7,7 +7,8 @@ const store = new Vuex.Store({
   state: {
     todos: {},
     userInfo: {},
-    events: { '2018-11-28': '今日备注', '2018-11-29': '一条很长的明日备注' }
+    events: { '2018-11-28': '今日备注', '2018-11-29': '一条很长的明日备注' },
+    sessionKey: ''
   },
   mutations: {
     showTodos (state) {
@@ -39,14 +40,15 @@ const store = new Vuex.Store({
         }
       ]
       Vue.prototype.$http
-        .get('todos')
+        .get('user/events', {sessionKey: this.sessionKey})
         .then(d => {
           d.data.forEach(element => {
             if (state.todos.hasOwnProperty(element.date)) {
               state.todos.get(element.date).push({
                 time: element.time,
                 date: element.date,
-                thing: element.thing
+                thing: element.thing,
+                place: element.place
               })
             } else {
               state.todos[element.date] = [
