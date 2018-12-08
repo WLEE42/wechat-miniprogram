@@ -61,7 +61,7 @@ export default {
     } else {
       this.thing = '今日无事件'
     }
-  },
+  }
 }
 </script>
 

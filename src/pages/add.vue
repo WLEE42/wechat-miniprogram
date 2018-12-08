@@ -77,7 +77,7 @@ export default {
           thing: this.thing,
           place: this.place
         },
-        userInfo: ''
+        sessionKey: ''
       }).then(d => {
         if (d === 'success') {
           console.log('添加成功' + d)
@@ -99,7 +99,7 @@ export default {
               if (res.confirm) {
                 console.log('用户点击确定')
               } else {
-                this.$router.push({ path: '/pages/detail', query: { id: d.id } })
+                this.$router.push({ path: '/pages/detail', query: { id: d } })
               }
             }
           })

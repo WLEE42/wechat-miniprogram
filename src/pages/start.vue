@@ -7,7 +7,6 @@
 
 <script>
 import { mapState, mapMutations } from 'vuex'
-import fly from '../utils/fly'
 
 export default {
   data () {
@@ -30,7 +29,7 @@ export default {
     getUserInfo (e) {
       // 调用登录接口
       this.setUserInfo(e.mp.detail.userInfo)
-      this.$router.push({ path: '/pages/index', isTab: true })
+      this.$router.replace('/pages/main')
     }
   }
 }

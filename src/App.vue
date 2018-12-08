@@ -8,7 +8,36 @@ export default {
 
     // eslint-disable-next-line
     console.log('app created and cache logs by setStorageSync')
+  },
+  onLaunch: function () {
+    wx.login({
+      success (res) {
+        console.log(res)
+        var code = res.code
+        if (code) {
+          console.log('获取用户登录凭证：' + res.code)
+          // 发送凭证
+          // 发起网络请求
+          wx.request({
+            url: 'https://39.96.33.101/login',
+            data: {
+              code: res.code
+            }
+          })
+        } else {
+          console.log('获取用户登录态失败：' + res.errMsg)
+        }
+      },
+      fail (error) {
+        console.log('login failed' + error.message)
+      },
+      complete () {
+        console.log('complete')
+      }
+
+    })
   }
+
 }
 </script>
 

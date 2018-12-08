@@ -14,6 +14,8 @@
         label 地点：{{place}}
       .weui-cell
         label 事件：{{thing}}
+    button(@clicle="deleteEvents") 删除事件
+    button(@clicle="deleteEvents") 修改事件
 </template>
 
 <script>
