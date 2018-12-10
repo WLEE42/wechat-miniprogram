@@ -15,7 +15,7 @@
       //-   label.weui-cell__ft {{thing}}
       //- .weui-cells__title 日程
       ul.weui-cells(v-if="flag")
-        li.weui-cell(v-for="(todo, index) in thing" :key="index"  @click="toDetail($event,index)")
+        li.weui-cell(v-for="todo in thing" :key="todo.eventKey"  @click="toDetail($event,todo.eventKey)")
           .weui-cell__bd {{todo.date}}：
           .weui-cell__bd {{todo.time}}
           .weui-cell__ft {{todo.thing}}
@@ -33,7 +33,6 @@ export default {
     return {
       date: '',
       thing: '',
-      eventKey: '',
       flag: false
     }
   },
@@ -43,8 +42,8 @@ export default {
     ])
   },
   method: {
-    toDetail (e, index) {
-      this.$router.push({ path: '/pages/detail', query: { date: this.todayDate, id: this.todos[this.todayDate][index].id } })
+    toDetail (e, eventKey) {
+      this.$router.push({ path: '/pages/detail', query: { date: this.todayDate, eventKey: eventKey } })
     }
   },
   mounted () {

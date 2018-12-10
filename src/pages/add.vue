@@ -53,7 +53,7 @@ export default {
   },
   methods: {
     ...mapMutations([
-      'addTodo'
+      'addTodos'
     ]),
     addTodo () {
       if (this.date === '请选择日期' || this.time === '请选择时间') {
@@ -68,8 +68,7 @@ export default {
         })
         return
       }
-      this.todos.push({ time: this.time, date: this.date, thing: this.thing, place: this.place })
-      console.log(this.todos)
+      // console.log(this.todos)
       this.$http.get('event/addEvent', {
         todo: {
           time: this.time,
@@ -79,8 +78,9 @@ export default {
         },
         sessionKey: ''
       }).then(d => {
-        if (d === 'success') {
-          console.log('添加成功' + d)
+        if (d.state === 'success') {
+          console.log('添加成功' + d.state)
+          this.addTodos({ time: this.time, date: this.date, thing: this.thing, place: this.place, eventKey: d.eventKey })
           wx.showModal({
             title: '成功！',
             content: '已添加日程',
@@ -90,8 +90,8 @@ export default {
               }
             }
           })
-        } else {
-          console.log('添加失败' + d)
+        } else if (d.state === 'fail') {
+          console.log('添加失败' + d.state)
           wx.showModal({
             title: '时间冲突',
             content: '与原有日程时间冲突\n[确定]继续编辑当前日程\n[取消]跳转至原有日程',
@@ -99,7 +99,7 @@ export default {
               if (res.confirm) {
                 console.log('用户点击确定')
               } else {
-                this.$router.push({ path: '/pages/detail', query: { id: d } })
+                this.$router.push({ path: '/pages/detail', query: { eventKey: d.eventKey } })
               }
             }
           })

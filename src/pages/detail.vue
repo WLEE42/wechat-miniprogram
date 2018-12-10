@@ -28,7 +28,8 @@ export default {
         time: '请选择时间',
         date: '请选择日期',
         thing: '',
-        place: ''
+        place: '',
+        eventKey: ''
       }
     }
   },
@@ -44,7 +45,7 @@ export default {
     this.$http.get('event/modifyEvent', { sessionKey: this.sessionKey, todo: this.todo }).then(
       d => {
         this.todos[this.$route.query.date].forEach((todo, index, object) => {
-          if (todo.id === this.$route.query.id) {
+          if (todo.eventKey === this.$route.query.eventKey) {
             object.splice(index, 1, this.todo)
           }
         })
@@ -55,7 +56,7 @@ export default {
     this.$http.get('event/deleteEvent', { sessionKey: this.sessionKey, eventKey: this.eventKey }).then(
       d => {
         this.todos[this.$route.query.date].forEach((todo, index, object) => {
-          if (todo.id === this.$route.query.id) {
+          if (todo.eventKey === this.$route.query.eventKey) {
             object.splice(index, 1)
           }
         })
@@ -66,11 +67,12 @@ export default {
     // console.log(this.$route.query.date)
     if (this.todos[this.$route.query.date].length !== 0) {
       this.todos[this.$route.query.date].forEach(todo => {
-        if (todo.id === this.$route.query.id) {
+        if (todo.eventKey === this.$route.query.eventKey) {
           this.date = todo.date
           this.time = todo.time
           this.thing = todo.thing
           this.place = todo.place
+          this.eventKey = todo.eventKey
         }
       })
     } else {
