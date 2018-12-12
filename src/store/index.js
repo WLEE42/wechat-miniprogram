@@ -12,17 +12,17 @@ const store = new Vuex.Store({
   },
   mutations: {
     showTodos (state) {
-      state.todos['2018-12-11'] = [
-        { thing: '吃饭', date: '2018-12-11', time: '08:08', eventKey: '000' },
-        { thing: '学习', date: '2018-12-11', time: '08:08', eventKey: '001' }
+      state.todos['2018-12-12'] = [
+        { thing: '吃饭', date: '2018-12-12', time: '08:08', eventKey: '000', place: 'beijing' },
+        { thing: '学习', date: '2018-12-12', time: '08:08', eventKey: '001', place: 'beijing' }
       ]
       state.todos['2018-12-29'] = [
-        { thing: '吃饭', date: '2018-12-29', time: '09:08', eventKey: '002' },
-        { thing: '学习', date: '2018-12-29', time: '08:08', eventKey: '003' }
+        { thing: '吃饭', date: '2018-12-29', time: '09:08', eventKey: '002', place: 'beijing' },
+        { thing: '学习', date: '2018-12-29', time: '08:08', eventKey: '003', place: 'beijing' }
       ]
       state.todos['2018-12-24'] = [
-        { thing: '吃饭', date: '2018-12-24', time: '10:08', eventKey: '004' },
-        { thing: '学习', date: '2018-12-24', time: '08:08', eventKey: '005' }
+        { thing: '吃饭', date: '2018-12-24', time: '10:08', eventKey: '004', place: 'beijing' },
+        { thing: '学习', date: '2018-12-24', time: '08:08', eventKey: '005', place: 'beijing' }
       ]
       state.sessionKey = wx.getStorageSync('sessionKey')
       // console.log(state.sessionKey)

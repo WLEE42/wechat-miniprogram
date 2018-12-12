@@ -42,7 +42,7 @@ export default {
       'todos'
     ])
   },
-  method: {
+  methods: {
     toDetail (e, todo) {
       console.log(todo.eventKey)
       this.$router.push({ path: '/pages/detail', query: { date: this.date, eventKey: todo.eventKey } })
