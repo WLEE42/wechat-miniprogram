@@ -1,12 +1,10 @@
 <template lang="pug">
   .page
-    .page__hd
-      h1.page__title 给队伍取个名字
-      p.page__desc 我是首页
-      p.page__desc 日程
     div
-      mp-button(type='mini') 月
-      mp-button(type='mini',@click="$router.push({path:'/pages/dayView'})") 日
+      p 查看个人日程
+    div.btn_cell
+      button 月
+      button(@click="$router.push({path:'/pages/dayView'})") 日
     Calendar(
     :events="events"
     @select="select"
@@ -98,5 +96,23 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+button {
+  border: 0px 0px;
+  padding: 0 32rpx;
+  margin: 32rpx 16rpx;
+  border-radius: 4rpx;
+  box-shadow: 0 4rpx 10rpx 0 rgba(0, 0, 0, 0.26);
+  color: rgb(33, 33, 33);
+  letter-spacing: 0.01em;
+  line-height: 100rpx;
+  min-width: 176rpx;
+  background-color: rgb(250, 250, 250);
+  max-width: 100%;
+  vertical-align: middle;
+}
+.btn_cell {
+  display: flex;
+  justify-content: center;
+}
 </style>
