@@ -1,28 +1,26 @@
 <template lang="pug">
-  .page
-    div 每天日程
+  div
+    div.title 今日日程
 
-    div.weui-cells
+    div.date
+      label 日期：
+      label {{date}}
 
       //- .weui-cell
       //-   label.weui-cell__bd 时间：
       //-   label.weui-cell__ft {{time}}
-      .weui-cell
-        label.weui-cell__bd 日期：
-        label.weui-cell__ft {{date}}
       //- .weui-cel
       //-   label 事件：
       //-   label.weui-cell__ft {{thing}}
       //- .weui-cells__title 日程
-      ul.weui-cells(v-if="flag")
-        li.weui-cell(v-for="todo in thing" :key="todo.eventKey"  @click="toDetail($event,todo)")
-          .weui-cell__bd {{todo.date}}：
-          .weui-cell__bd {{todo.time}}
-          .weui-cell__ft {{todo.thing}}
-          .weui-cell__ft {{todo.place}}
-      div.weui-cell(v-else) 今日无事件
+    ul(v-if="flag")
+      li(v-for="todo in thing" :key="todo.eventKey"  @click="toDetail($event,todo)") 
+        div {{todo.date}}
+        div {{todo.time}}
+        div {{todo.thing}} 
+        div {{todo.place}}
+    div(v-else) 今日无事件
       
-
 </template>
 
 <script>
@@ -66,5 +64,29 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+.title {
+  font: 50rpx sans-serif;
+  text-align: center;
+}
+.date {
+display: flex;
+justify-content: space-between;
+}
+ul {
+  &:before{
+    content: "before";
+    display: table;
+  }
+  li {
+    display: flex;
+    justify-content: space-between;
+    padding: 10rpx;
+    border-bottom: solid 2rpx;
+    border-bottom-color:hotpink;
+    div {
+      display: inline;
+    }
+  }
+}
 </style>
