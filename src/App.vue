@@ -1,5 +1,11 @@
 <script>
+import { mapState } from 'vuex'
 export default {
+  computed: {
+    ...mapState([
+      'sessionKey'
+    ])
+  },
   created () {
     // 调用API从本地缓存中获取数据
     const logs = wx.getStorageSync('logs') || []
@@ -19,9 +25,20 @@ export default {
           // 发送凭证
           // 发起网络请求
           wx.request({
-            url: 'https://39.96.33.101/login',
+            url: 'http://39.96.33.101:80/login',
             data: {
               code: res.code
+            },
+            success (res) {
+              // var jsonStr = res.data
+              // var obj = JSON.parse(jsonStr)
+              // var result = obj.result
+              wx.setStorageSync('sessionKey', res.data['sessionKey'])
+              // this.sessionKey = res.data['sessionKey']
+              console.log('写入sessionKey' + res.data['sessionKey'])
+            },
+            fail (res) {
+              console.log('访问服务器失败')
             }
           })
         } else {
@@ -32,7 +49,7 @@ export default {
         console.log('login failed' + error.message)
       },
       complete () {
-        console.log('complete')
+        console.log('login complete')
       }
 
     })

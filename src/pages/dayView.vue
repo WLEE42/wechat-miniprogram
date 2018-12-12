@@ -15,17 +15,18 @@
       //-   label.weui-cell__ft {{thing}}
       //- .weui-cells__title 日程
       ul.weui-cells(v-if="flag")
-        li.weui-cell(v-for="todo in thing" :key="todo.eventKey"  @click="toDetail($event,todo.eventKey)")
+        li.weui-cell(v-for="todo in thing" :key="todo.eventKey"  @click="toDetail($event,todo)")
           .weui-cell__bd {{todo.date}}：
           .weui-cell__bd {{todo.time}}
           .weui-cell__ft {{todo.thing}}
+          .weui-cell__ft {{todo.place}}
       div.weui-cell(v-else) 今日无事件
       
 
 </template>
 
 <script>
-import formatDate from '../utils/index'
+import { formatDate, formatNumber } from '../utils/index'
 import { mapState } from 'vuex'
 
 export default {
@@ -42,14 +43,15 @@ export default {
     ])
   },
   method: {
-    toDetail (e, eventKey) {
-      this.$router.push({ path: '/pages/detail', query: { date: this.todayDate, eventKey: eventKey } })
+    toDetail (e, todo) {
+      console.log(todo.eventKey)
+      this.$router.push({ path: '/pages/detail', query: { date: this.date, eventKey: todo.eventKey } })
     }
   },
   mounted () {
     this.flag = false
     if (this.$route.query.year !== undefined) {
-      this.date = this.$route.query.year + '-' + this.$route.query.month + '-' + this.$route.query.date
+      this.date = this.$route.query.year + '-' + formatNumber(parseInt(this.$route.query.month)) + '-' + formatNumber(parseInt(this.$route.query.date))
     } else {
       this.date = formatDate(new Date())
       console.log(this.date)

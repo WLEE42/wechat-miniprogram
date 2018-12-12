@@ -17,7 +17,7 @@
 
     .weui-cells__title 日程
     ul.weui-cells
-      li.weui-cell(v-for='todo in todos[todayDate]' :key="todo.eventKey" @click="toDetail($event,eodo.eventKey)")
+      li.weui-cell(v-for='todo in todos[todayDate]' :key="todo.eventKey" @click="toDetail($event,todo)")
         .weui-cell__bd {{todo.date}}
         .weui-cell__bd {{todo.time}}
         .weui-cell__ft {{todo.thing}}
@@ -68,8 +68,8 @@ export default {
       console.log(val2)
       this.$router.push({ path: '/pages/dayView', query: { date: val[2], year: val[0], month: val[1] } })
     },
-    toDetail (e, eventKey) {
-      this.$router.push({ path: '/pages/detail', query: { date: this.todayDate, eventKey: eventKey } })
+    toDetail (e, todo) {
+      this.$router.push({ path: '/pages/detail', query: { date: this.todayDate, eventKey: todo.eventKey } })
     }
     // touchStart (e) {
     //   // 获取移动距离，可以通过打印出e，然后分析e的值得出

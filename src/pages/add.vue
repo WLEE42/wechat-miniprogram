@@ -14,10 +14,10 @@
           label.weui-cell__ft {{date}}
       .weui-cell
         label 事件：
-        input(placeholder="请输入日程")
+        input(v-model="thing" placeholder="请输入日程")
       .weui-cell
         label 地点：
-        input(placeholder="请输入地点")
+        input(v-model="place" placeholder="请输入地点")
       
       .weui-cell.invite
         label 邀请好友：
@@ -48,7 +48,8 @@ export default {
   computed: {
     ...mapState([
       'count',
-      'todos'
+      'todos',
+      'sessionKey'
     ])
   },
   methods: {
@@ -70,17 +71,16 @@ export default {
       }
       // console.log(this.todos)
       this.$http.get('event/addEvent', {
-        todo: {
-          time: this.time,
-          date: this.date,
-          thing: this.thing,
-          place: this.place
-        },
-        sessionKey: ''
+        time: this.time,
+        date: this.date,
+        thing: this.thing,
+        place: this.place,
+        sessionKey: this.sessionKey
       }).then(d => {
-        if (d.state === 'success') {
-          console.log('添加成功' + d.state)
-          this.addTodos({ time: this.time, date: this.date, thing: this.thing, place: this.place, eventKey: d.eventKey })
+        console.log(d)
+        if (d.data.state === 'success') {
+          console.log('添加成功' + d.data.state)
+          this.addTodos({ time: this.time, date: this.date, thing: this.thing, place: this.place, eventKey: d.data.eventKey })
           wx.showModal({
             title: '成功！',
             content: '已添加日程',
@@ -90,8 +90,8 @@ export default {
               }
             }
           })
-        } else if (d.state === 'fail') {
-          console.log('添加失败' + d.state)
+        } else if (d.data.state === 'fail') {
+          console.log('添加失败' + d.data.state)
           wx.showModal({
             title: '时间冲突',
             content: '与原有日程时间冲突\n[确定]继续编辑当前日程\n[取消]跳转至原有日程',
