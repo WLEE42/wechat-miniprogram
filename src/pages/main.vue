@@ -47,7 +47,7 @@ export default {
   text-align: center;
   padding: 48rpx 32rpx 32rpx;
   color: rgba(0, 0, 0, 0.87);
-  font-size: 72rpx;
+  font-size: 50rpx;
 }
 button {
   border: 0px 0px;

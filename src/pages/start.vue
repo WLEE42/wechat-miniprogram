@@ -47,7 +47,7 @@ export default {
     padding: 48rpx 32rpx 32rpx;
     display: flex;
     color: rgba(0, 0, 0, 0.87);
-    font-size: 72rpx;
+    font-size: 50rpx;
   }
   .content {
     padding: 32rpx;

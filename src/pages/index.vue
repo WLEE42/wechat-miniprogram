@@ -1,7 +1,7 @@
 <template lang="pug">
   .page
     div
-      p 查看个人日程
+      p.tit 查看个人日程
     div.btn_cell
       button 月
       button(@click="$router.push({path:'/pages/dayView'})") 日
@@ -16,7 +16,7 @@
     .weui-cells__title 日程
     ul
       li(v-for='todo in todos[todayDate]' :key="todo.eventKey" @click="toDetail($event,todo)")
-        p
+        p.title
           span {{todo.date}}
           span {{todo.time}}
         p
@@ -99,6 +99,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.tit {
+  padding: 48rpx 32rpx 32rpx;
+  text-align: center;
+  color: rgba(0, 0, 0, 0.87);
+  font-size: 50rpx;
+}
 button {
   border: 0px 0px;
   padding: 0 32rpx;
@@ -119,14 +125,29 @@ button {
 }
 ul {
   &:before {
-    content: "before";
-    display: table;
+    content: "";
+    position: absolute;
+    width: 100%;
+    display: block;
+    border-top:1rpx solid #d9d9d9; 
   }
   li {
     padding: 0 32rpx;
     display: block;
-
+    &:after {
+      border-top-width: 1rpx;
+      border-top-style: solid;
+      display: block;
+      content: "";
+      width: 100%;
+      position: absolute;
+      color: #d9d9d9;
+    }
     p {
+      &.title {
+        font-size: 45rpx;
+        color:#ea6151;
+      }
       display: flex;
       justify-content: space-between;
       span {

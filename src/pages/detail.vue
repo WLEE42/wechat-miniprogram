@@ -86,5 +86,19 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+button {
+  border: 0px 0px;
+  padding: 0 32rpx;
+  margin: 32rpx 16rpx;
+  border-radius: 4rpx;
+  box-shadow: 0 4rpx 10rpx 0 rgba(0, 0, 0, 0.26);
+  color: rgb(33, 33, 33);
+  letter-spacing: 0.01em;
+  line-height: 100rpx;
+  min-width: 176rpx;
+  background-color: rgb(250, 250, 250);
+  max-width: 100%;
+  vertical-align: middle;
+}
 </style>

@@ -1,6 +1,6 @@
 <template lang="pug">
   .page
-    div 添加日程
+    div.title 添加日程
 
     .weui-cells
 
@@ -138,17 +138,29 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+.title {
+  text-align: center;
+  padding: 48rpx 32rpx 32rpx;
+  color: rgba(0, 0, 0, 0.87);
+  font-size: 50rpx;
+}
+button {
+  border: 0px 0px;
+  padding: 0 32rpx;
+  margin: 32rpx 16rpx;
+  border-radius: 4rpx;
+  box-shadow: 0 4rpx 10rpx 0 rgba(0, 0, 0, 0.26);
+  color: rgb(33, 33, 33);
+  letter-spacing: 0.01em;
+  line-height: 100rpx;
+  min-width: 176rpx;
+  background-color: rgb(250, 250, 250);
+  max-width: 100%;
+  vertical-align: middle;
+}
 .pick {
   width: 700 rpx;
 }
 
-.invite {
-  justify-content: space-between;
-}
-
-.invite-btn {
-  margin-right: 0px;
-  height: 100 rpx;
-}
 </style>
