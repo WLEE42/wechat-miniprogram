@@ -29,7 +29,9 @@ export default {
     getUserInfo (e) {
       // 调用登录接口
       this.setUserInfo(e.mp.detail.userInfo)
+
       this.$router.replace('/pages/main')
+
     }
   }
 }
