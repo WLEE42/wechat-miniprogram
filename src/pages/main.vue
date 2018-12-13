@@ -1,15 +1,15 @@
 <template lang="pug">
 
   .page
-    div 主页面
+    div.title 主页面
 
-    button.weui-btn(@click="$router.push({path:'/pages/index',isTab:true})") 日程管理
+    button(@click="$router.push({path:'/pages/index',isTab:true})") 日程管理
 
-    button.weui-btn(@click="$router.push({path:'/pages/setting',isTab:true})") 用户中心 
+    button(@click="$router.push({path:'/pages/setting'})") 用户中心 
     
-    button.weui-btn() 日程邀请
+    button() 日程邀请
 
-    button.weui-btn() 时间统计
+    button() 时间统计
 
 </template>
 
@@ -41,11 +41,26 @@ export default {
 }
 </script>
 
-<style scoped>
-.weui-btn {
-  width: 50%;
-  background: #66ccff;
-  border-radius: 5px;
-}
+<style lang="scss" scoped>
 
+.title {
+  text-align: center;
+  padding: 48rpx 32rpx 32rpx;
+  color: rgba(0, 0, 0, 0.87);
+  font-size: 72rpx;
+}
+button {
+  border: 0px 0px;
+  padding: 0 32rpx;
+  margin: 32rpx 16rpx;
+  border-radius: 4rpx;
+  box-shadow: 0 4rpx 10rpx 0 rgba(0, 0, 0, 0.26);
+  color: rgb(33, 33, 33);
+  letter-spacing: 0.01em;
+  line-height: 100rpx;
+  min-width: 176rpx;
+  background-color: rgb(250, 250, 250);
+  max-width: 100%;
+  vertical-align: middle;
+}
 </style>
