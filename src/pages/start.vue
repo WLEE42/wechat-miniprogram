@@ -36,7 +36,6 @@ export default {
       this.setUserInfo(e.mp.detail.userInfo)
 
       this.$router.replace('/pages/main')
-
     }
   }
 }

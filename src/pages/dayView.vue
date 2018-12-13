@@ -3,7 +3,6 @@
     div.title 今日日程
 
     div.date
-      label 日期：
       label {{date}}
 
       //- .weui-cell
@@ -15,10 +14,12 @@
       //- .weui-cells__title 日程
     ul(v-if="flag")
       li(v-for="todo in thing" :key="todo.eventKey"  @click="toDetail($event,todo)") 
-        div {{todo.date}}
-        div {{todo.time}}
-        div {{todo.thing}} 
-        div {{todo.place}}
+        p 
+          span {{todo.date}}  
+          span {{todo.time}}
+        p 
+          span {{todo.thing}}  
+          span {{todo.place}}
     div(v-else) 今日无事件
       
 </template>
@@ -70,22 +71,25 @@ export default {
   text-align: center;
 }
 .date {
-display: flex;
-justify-content: space-between;
+  display: flex;
+  color: #ff6347;
+  margin: 36rpx 0rpx;
+  justify-content: center;
 }
 ul {
-  &:before{
+  &:before {
     content: "before";
     display: table;
   }
   li {
-    display: flex;
-    justify-content: space-between;
-    padding: 10rpx;
-    border-bottom: solid 2rpx;
-    border-bottom-color:hotpink;
-    div {
-      display: inline;
+    padding: 0 32rpx;
+    display: block;
+    p {
+      display: flex;
+      justify-content: space-between;
+      span {
+        display: inline;
+      }
     }
   }
 }

@@ -14,12 +14,14 @@
     )
 
     .weui-cells__title 日程
-    ul.weui-cells
-      li.weui-cell(v-for='todo in todos[todayDate]' :key="todo.eventKey" @click="toDetail($event,todo)")
-        .weui-cell__bd {{todo.date}}
-        .weui-cell__bd {{todo.time}}
-        .weui-cell__ft {{todo.thing}}
-        .weui-cell__ft {{todo.place}}
+    ul
+      li(v-for='todo in todos[todayDate]' :key="todo.eventKey" @click="toDetail($event,todo)")
+        p
+          span {{todo.date}}
+          span {{todo.time}}
+        p
+          span {{todo.thing}}
+          span {{todo.place}}
 </template>
 
 <script>
@@ -114,5 +116,23 @@ button {
 .btn_cell {
   display: flex;
   justify-content: center;
+}
+ul {
+  &:before {
+    content: "before";
+    display: table;
+  }
+  li {
+    padding: 0 32rpx;
+    display: block;
+
+    p {
+      display: flex;
+      justify-content: space-between;
+      span {
+        display: inline;
+      }
+    }
+  }
 }
 </style>
