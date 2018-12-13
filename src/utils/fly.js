@@ -7,6 +7,6 @@ fly.interceptors.request.use((config, promise) => {
   return config
 })
 // 配置请求基地址
-fly.config.baseURL = 'http://127.0.0.1:5000/'
+fly.config.baseURL = 'http://39.96.33.101:80/'
 
 export default fly

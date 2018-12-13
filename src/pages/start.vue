@@ -7,7 +7,6 @@
 
 <script>
 import { mapState, mapMutations } from 'vuex'
-import fly from '../utils/fly'
 
 export default {
   data () {
@@ -30,22 +29,10 @@ export default {
     getUserInfo (e) {
       // 调用登录接口
       this.setUserInfo(e.mp.detail.userInfo)
-      this.$router.push({ path: '/pages/main' })
+
+      this.$router.replace('/pages/main')
+
     }
-  },
-  created () {
-    wx.login({
-      success: function (res) {
-        console.log(res)
-        if (res.code) {
-          // 存在code
-          console.log('获取用户信息成!' + res.code)
-          fly.get('login', { code: res.code })
-        } else {
-          console.log('获取用户信息失败!' + res.errMsg)
-        }
-      }
-    })
   }
 }
 </script>

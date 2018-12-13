@@ -1,4 +1,5 @@
 <template lang="pug">
+
   .page
     div 主页面
 
@@ -9,7 +10,6 @@
     button.weui-btn() 日程邀请
 
     button.weui-btn() 时间统计
-
 
 </template>
 
@@ -34,7 +34,6 @@ export default {
   },
 
   mounted () {
-    this.showTodos()
   },
 
   methods: {

@@ -14,10 +14,10 @@
           label.weui-cell__ft {{date}}
       .weui-cell
         label 事件：
-        input(placeholder="请输入日程")
+        input(v-model="thing" placeholder="请输入日程")
       .weui-cell
         label 地点：
-        input(placeholder="请输入地点")
+        input(v-model="place" placeholder="请输入地点")
       
       .weui-cell.invite
         label 邀请好友：
@@ -29,112 +29,113 @@
 </template>
 
 <script>
-  import { mapState, mapMutations } from 'vuex'
-  import mpButton from 'mpvue-weui/src/button'
+import { mapState, mapMutations } from 'vuex'
+import mpButton from 'mpvue-weui/src/button'
 
-  export default {
-    data () {
-      return {
-        motto: 'Hello World',
-        time: '请选择时间',
-        date: '请选择日期',
-        thing: '',
-        place: ''
+export default {
+  data () {
+    return {
+      motto: 'Hello World',
+      time: '请选择时间',
+      date: '请选择日期',
+      thing: '',
+      place: ''
+    }
+  },
+  components: {
+    mpButton
+  },
+  computed: {
+    ...mapState([
+      'count',
+      'todos',
+      'sessionKey'
+    ])
+  },
+  methods: {
+    ...mapMutations([
+      'addTodos'
+    ]),
+    addTodo () {
+      if (this.date === '请选择日期' || this.time === '请选择时间') {
+        wx.showModal({
+          title: '提示',
+          content: '请填写日期与时间',
+          success: function (res) {
+            if (res.confirm) {
+              console.log('用户点击确定')
+            }
+          }
+        })
+        return
       }
-    },
-    components: {
-      mpButton
-    },
-    computed: {
-      ...mapState([
-        'count',
-        'todos'
-      ])
-    },
-    methods: {
-      ...mapMutations([
-        'addTodo'
-      ]),
-      addTodo () {
-        if (this.date === '请选择日期' || this.time === '请选择时间') {
+      // console.log(this.todos)
+      this.$http.get('event/addEvent', {
+        time: this.time,
+        date: this.date,
+        thing: this.thing,
+        place: this.place,
+        sessionKey: this.sessionKey
+      }).then(d => {
+        console.log(d)
+        if (d.data.state === 'success') {
+          console.log('添加成功' + d.data.state)
+          this.addTodos({ time: this.time, date: this.date, thing: this.thing, place: this.place, eventKey: d.data.eventKey })
           wx.showModal({
-            title: '提示',
-            content: '请填写日期与时间',
+            title: '成功！',
+            content: '已添加日程',
             success: function (res) {
               if (res.confirm) {
                 console.log('用户点击确定')
               }
             }
           })
-          return
+        } else if (d.data.state === 'fail') {
+          console.log('添加失败' + d.data.state)
+          wx.showModal({
+            title: '时间冲突',
+            content: '与原有日程时间冲突\n[确定]继续编辑当前日程\n[取消]跳转至原有日程',
+            success: function (res) {
+              if (res.confirm) {
+                console.log('用户点击确定')
+              } else {
+                this.$router.push({ path: '/pages/detail', query: { eventKey: d.eventKey } })
+              }
+            }
+          })
         }
-        this.todos.push({ time: this.time, date: this.date, thing: this.thing, place: this.place })
-        console.log(this.todos)
-        this.$http.get('add', {
-          todo: {
-            time: this.time,
-            date: this.date,
-            thing: this.thing,
-            place: this.place
-          }
-        }).then(d => {
-          if (d === 'success') {
-            console.log('添加成功' + d)
-            wx.showModal({
-              title: '成功！',
-              content: '已添加日程',
-              success: function (res) {
-                if (res.confirm) {
-                  console.log('用户点击确定')
-                }
-              }
-            })
-          } else {
-            console.log('添加失败' + d)
-            wx.showModal({
-              title: '时间冲突',
-              content: '与原有日程时间冲突\n[确定]继续编辑当前日程\n[取消]跳转至原有日程',
-              success: function (res) {
-                if (res.confirm) {
-                  console.log('用户点击确定')
-                } else {
-                  this.$router.push({ path: '/pages/detail', query: { id: d.id } })
-                }
-              }
-            })
-          }
-        })
-      },
-      TimeChange (e) {
-        // console.log('选中的时间为：' + e.mp.detail.value)
-        // console.log(this.time)
-        this.time = e.mp.detail.value
-      },
-      DateChange (e) {
-        // console.log('选中的日期为：' + e.mp.detail.value)
-        this.date = e.mp.detail.value
-      }
+      })
     },
+    TimeChange (e) {
+      // console.log('选中的时间为：' + e.mp.detail.value)
+      // console.log(this.time)
+      this.time = e.mp.detail.value
+    },
+    DateChange (e) {
+      // console.log('选中的日期为：' + e.mp.detail.value)
+      this.date = e.mp.detail.value
+    }
+  },
 
-    onShareAppMessage: function (res) {
-      if (res.from === 'button') {
-        // 来自页面内转发按钮
-        console.log(res.target)
-      }
-      return {
-        title: '自定义转发标题',
-        path: '/page/user?id=123',
-        success: function (res) {
-          // 转发成功
-          // 如果这里有 shareTickets，则说明是分享到群的
-          console.log(res.shareTickets)
-        },
-        fail: function (res) {
-          // 转发失败
-        }
+  onShareAppMessage: function (res) {
+    if (res.from === 'button') {
+      // 来自页面内转发按钮
+      console.log(res.target)
+    }
+    return {
+      title: '自定义转发标题',
+      path: '/page/user?id=123',
+      success: function (res) {
+        // 转发成功
+        // 如果这里有 shareTickets，则说明是分享到群的
+        console.log(res.shareTickets)
+      },
+      fail: function (res) {
+        // 转发失败
       }
     }
   }
+}
 </script>
 
 <style scoped>
