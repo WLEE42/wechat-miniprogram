@@ -30,7 +30,7 @@ export default {
     getUserInfo (e) {
       // 调用登录接口
       this.setUserInfo(e.mp.detail.userInfo)
-      this.$router.push({ path: '/pages/index', isTab: true })
+      this.$router.push({ path: '/pages/main' })
     }
   },
   created () {
