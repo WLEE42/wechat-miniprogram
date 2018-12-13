@@ -1,12 +1,12 @@
 {
   "pages": [
     "pages/start",
+    "pages/main",
     "pages/index",
     "pages/add",
     "pages/setting",
     "pages/dayView",
-    "pages/detail",
-    "pages/main"
+    "pages/detail"
   ],
   "window": {
     "backgroundTextStyle": "light",
