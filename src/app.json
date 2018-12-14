@@ -21,6 +21,12 @@
     "borderStyle": "#a8a8a8",
     "list": [
       {
+        "pagePath": "pages/main",
+        "text": "主界面",
+        "iconPath": "/static/settings.png",
+        "selectedIconPath": "/static/settings.png"
+      },
+      {
         "pagePath": "pages/index",
         "text": "日程",
         "iconPath": "/static/calendar.png",
@@ -31,12 +37,6 @@
         "text": "添加日程",
         "iconPath": "/static/add.png",
         "selectedIconPath": "/static/add.png"
-      },
-      {
-        "pagePath": "pages/setting",
-        "text": "设置",
-        "iconPath": "/static/settings.png",
-        "selectedIconPath": "/static/settings.png"
       }
     ]
   }

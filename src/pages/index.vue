@@ -1,12 +1,10 @@
 <template lang="pug">
   .page
-    .page__hd
-      h1.page__title 给队伍取个名字
-      p.page__desc 我是首页
-      p.page__desc 日程
     div
-      mp-button(type='mini') 月
-      mp-button(type='mini',@click="$router.push({path:'/pages/dayView'})") 日
+      p.tit 查看个人日程
+    div.btn_cell
+      button 月
+      button(@click="$router.push({path:'/pages/dayView'})") 日
     Calendar(
     :events="events"
     @select="select"
@@ -16,12 +14,14 @@
     )
 
     .weui-cells__title 日程
-    ul.weui-cells
-      li.weui-cell(v-for='todo in todos[todayDate]' :key="todo.eventKey" @click="toDetail($event,todo)")
-        .weui-cell__bd {{todo.date}}
-        .weui-cell__bd {{todo.time}}
-        .weui-cell__ft {{todo.thing}}
-        .weui-cell__ft {{todo.place}}
+    ul
+      li(v-for='todo in todos[todayDate]' :key="todo.eventKey" @click="toDetail($event,todo)")
+        p.title
+          span {{todo.date}}
+          span {{todo.time}}
+        p
+          span {{todo.thing}}
+          span {{todo.place}}
 </template>
 
 <script>
@@ -98,5 +98,62 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+.tit {
+  padding: 48rpx 32rpx 32rpx;
+  text-align: center;
+  color: rgba(0, 0, 0, 0.87);
+  font-size: 50rpx;
+}
+button {
+  border: 0px 0px;
+  padding: 0 32rpx;
+  margin: 32rpx 16rpx;
+  border-radius: 4rpx;
+  box-shadow: 0 4rpx 10rpx 0 rgba(0, 0, 0, 0.26);
+  color: rgb(33, 33, 33);
+  letter-spacing: 0.01em;
+  line-height: 100rpx;
+  min-width: 176rpx;
+  background-color: rgb(250, 250, 250);
+  max-width: 100%;
+  vertical-align: middle;
+}
+.btn_cell {
+  display: flex;
+  justify-content: center;
+}
+ul {
+  &:before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    display: block;
+    border-top:1rpx solid #d9d9d9; 
+  }
+  li {
+    padding: 0 32rpx;
+    display: block;
+    &:after {
+      border-top-width: 1rpx;
+      border-top-style: solid;
+      display: block;
+      content: "";
+      width: 100%;
+      position: absolute;
+      color: #d9d9d9;
+    }
+    p {
+      &.title {
+        font-size: 45rpx;
+        color:#ea6151;
+      }
+      display: flex;
+      justify-content: space-between;
+      span {
+        display: inline;
+      }
+    }
+  }
+}
 </style>
