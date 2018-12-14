@@ -3,7 +3,7 @@
     <img v-if="isShow" class="start_img" :src="userInfo.avatarUrl">
     <img v-else class="start_img" src="/static/calendar.png">
     <p> Hello! {{userInfo.nickName}}</p>
-    <navigator v-if="isShow" open-type="switchTab" url="/pages/main">
+    <navigator v-if="isShow" open-type="redirect" url="/pages/main">
       <button class="btn"> 开始探索 </button>
     </navigator>
     <button v-else class="btn" open-type="getUserInfo" @getuserinfo="getUserInfo"> 获取授权 </button>
