@@ -3,14 +3,13 @@
   .page
     div.title 主页面
 
-    button(@click="$router.push({path:'/pages/index',isTab:true})") 日程管理
+    button(@click="$router.replace({path:'/pages/index'})") 日程管理
 
     button(@click="$router.push({path:'/pages/setting'})") 用户中心 
     
-    button() 日程邀请
+    button(@click="$router.replace({path:'/pages/invite_index'})") 日程邀请
 
     button() 时间统计
-
 </template>
 
 <script>
