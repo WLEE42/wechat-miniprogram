@@ -6,7 +6,8 @@
     "pages/add",
     "pages/setting",
     "pages/dayView",
-    "pages/detail"
+    "pages/detail",
+    "pages/invite_index"
   ],
   "window": {
     "backgroundTextStyle": "light",

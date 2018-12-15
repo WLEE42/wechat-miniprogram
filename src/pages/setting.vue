@@ -1,34 +1,18 @@
-<template lang="pug">
-  .page
-    .weui-cell 我是设置
-    .weui-cell.userinfo
-      .userinfo(@click="bindViewTap")
-        img.userinfo-avatar(v-if="userInfo.avatarUrl" :src="userInfo.avatarUrl" background-size="cover")
-        .userinfo-nickname
-          .weui-cell__bd {{userInfo.nickName}}
-    .weui-cells__title 意见反馈
-    .weui-cells
-      .weui-cell
-        .weui-cell__bd
-          p 意见反馈
-        .weui-cell__ft
-      .weui-cell
-        .weui-cell__bd
-          p 关于日历
+<template>
+  <div>
+    <div>我是设置</div>
+    <p> 意见反馈</p>
+    <p> 关于日历</p>
+  </div>
 </template>
 
 <script>
-import mpButton from 'mpvue-weui/src/button'
 import { mapState, mapMutations } from 'vuex'
 
 export default {
   data () {
     return {
     }
-  },
-
-  components: {
-    mpButton
   },
 
   computed: {
@@ -43,10 +27,6 @@ export default {
       const url = '/packageA/logs'
       wx.navigateTo({ url })
     }
-  },
-
-  onLoad () {
-    // 调用应用实例的方法获取全局数据
   }
 }
 </script>

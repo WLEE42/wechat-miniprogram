@@ -1,21 +1,27 @@
-<template lang="pug">
-  .page
-    div 添加日程
+<template>
+  <div class='page'>
+    <div> 添加日程</div>
 
-    .weui-cells
+    <div class='weui-cells'>
 
-      .weui-cell
-          label.weui-cell__bd 时间：
-          label.weui-cell__ft {{todo.time}}
-      .weui-cell
-          label.weui-cell__bd 日期：
-          label.weui-cell__ft {{todo.date}}
-      .weui-cell
-        label 地点：{{todo.place}}
-      .weui-cell
-        label 事件：{{todo.thing}}
-    button(@click="deleteEvents") 删除事件
-    button(@click="modifyEvents") 修改事件
+      <div class='weui-cell'>
+          <label class='weui-cell__bd'> 时间：</label>
+          <label class='weui-cell__ft'> {{todo.time}}</label>
+      </div>
+      <div class='.weui-cell'>
+          <label class='weui-cell__bd'> 日期：</label>
+          <label class='weui-cell__ft'> {{todo.date}}</label>
+      </div>
+      <div class='weui-cell'>
+        <label> 地点：{{todo.place}}</label>
+      </div>
+      <div class='weui-cell'>
+        <label> 事件：{{todo.thing}}</label>
+      </div>
+    </div>
+    <button @click="deleteEvents"> 删除事件</button>
+    <button @click="modifyEvents"> 修改事件</button>
+  </div>
 </template>
 
 <script>

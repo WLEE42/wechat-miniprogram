@@ -1,13 +1,31 @@
-<template lang="pug">
-  .box
-    <img v-if="isShow" class="start_img" :src="userInfo.avatarUrl">
-    <img v-else class="start_img" src="/static/calendar.png">
+<template>
+  <div>
+    <img
+      v-if="isShow"
+      class="start_img"
+      :src="userInfo.avatarUrl"
+    >
+    <img
+      v-else
+      class="start_img"
+      src="/static/calendar.png"
+    >
     <p> Hello! {{userInfo.nickName}}</p>
-    <navigator v-if="isShow" open-type="redirect" url="/pages/main">
+    <navigator
+      v-if="isShow"
+      open-type="redirect"
+      url="/pages/main"
+    >
       <button class="btn"> 开始探索 </button>
     </navigator>
-    <button v-else class="btn" open-type="getUserInfo" @getuserinfo="getUserInfo"> 获取授权 </button>
+    <button
+      v-else
+      class="btn"
+      open-type="getUserInfo"
+      @getuserinfo="getUserInfo"
+    > 获取授权 </button>
     <p v-show="textShow">我们需要您的授权！</p>
+  </div>
 </template>
 
 <script>
@@ -62,10 +80,10 @@ export default {
   display: flex;
   flex-direction: column;
 }
-.start_img{
+.start_img {
   width: 200rpx;
   height: 200rpx;
-  border-radius:100rpx;
+  border-radius: 100rpx;
   margin: 100rpx 0;
 }
 </style>

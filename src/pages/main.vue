@@ -5,7 +5,7 @@
 
     button(@click="$router.replace({path:'/pages/index'})") 日程管理
 
-    button(@click="$router.push({path:'/pages/setting'})") 用户中心 
+    button(@click="$router.replace({path:'/pages/setting'})") 用户中心 
     
     button(@click="$router.replace({path:'/pages/invite_index'})") 日程邀请
 
@@ -14,15 +14,10 @@
 
 <script>
 import { mapState } from 'vuex'
-import mpButton from 'mpvue-weui/src/button'
 
 export default {
   data () {
     return {}
-  },
-
-  components: {
-    mpButton
   },
 
   computed: {

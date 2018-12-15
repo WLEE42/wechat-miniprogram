@@ -1,59 +1,57 @@
 <template lang="pug">
-  .page
+  <div>
     <view class="body">
-      div
-        p.tit 查看个人日程
-      div.btn_cell
-        button 月
-        button(@click="$router.push({path:'/pages/dayView'})") 日
-      Calendar(
-      :events="events"
-      @select="select"
-      ref="calendar"
-      @selectMonth="selectMonth"
-      @selectYear="selectYear"
-      )
+      <div>
+        <p class='tit'> 查看个人日程</p>
+      </div>
+      <div class="btn_cell">
+        <button> 月 </button>
+        <button @click="$router.push({path:'/pages/dayView'})"> 日</button>
+      </div>
     
-    .weui-cells__title 日程
-    ul
-      li(v-for='todo in todos[todayDate]' :key="todo.eventKey" @click="toDetail($event,todo)")
-        p.title
-          span {{todo.date}}
-          span {{todo.time}}
-        p
-          span {{todo.thing}}
-          span {{todo.place}}
+    <div class="weui-cells__title"> 日程</div>
+    <ul>
+      <li v-for='todo in todos[todayDate]' :key="todo.eventKey" @click="toDetail($event,todo)">
+        <p class='title'>
+          <span> {{todo.date}} </span>
+          <span> {{todo.time}} </span>
+        </p>
+        <p>
+          <span> {{todo.thing}} </span>
+          <span> {{todo.place}} </span>
+        </p>
+      </li>
+    </ul>
     </view>
     
     <view class="tabBar">
       <block>
         <view class="tabBar-item">
-          <navigator open-type="switchTab" url="/pages/main">
+          <navigator open-type="redirect" url="/pages/main">
             <view><image class="icon" src='/static/settings.png'></image></view>
             <view class="tabBartext">主页</view>
           </navigator>  
         </view>
         <view class="tabBar-item">
-          <navigator open-type="switchTab" url="/pages/index">
+          <navigator open-type="redirect" url="/pages/index">
             <view><image class="icon" src='/static/calendar.png'></image></view>
-            <view class="tabBartext">主页</view>
+            <view class="tabBartext">显示</view>
           </navigator>  
         </view>
         <view class="tabBar-item">
-          <navigator open-type="switchTab" url="/pages/add">
+          <navigator open-type="redirect" url="/pages/add">
             <view><image class="icon" src='/static/add.png'></image></view>
-            <view class="tabBartext">主页</view>
+            <view class="tabBartext">添加</view>
           </navigator>  
         </view>
       </block>
     </view>
-
+  </div>
 </template>
 
 <script>
 import { mapState, mapMutations } from 'vuex'
 import Calendar from 'mpvue-calendar'
-import mpButton from 'mpvue-weui/src/button'
 import 'mpvue-calendar/src/style.css'
 import { formatDate } from '../utils'
 
@@ -65,7 +63,6 @@ export default {
   },
 
   components: {
-    mpButton,
     Calendar
   },
 
@@ -155,7 +152,7 @@ ul {
     position: absolute;
     width: 100%;
     display: block;
-    border-top:1rpx solid #d9d9d9; 
+    border-top: 1rpx solid #d9d9d9;
   }
   li {
     padding: 0 32rpx;
@@ -172,7 +169,7 @@ ul {
     p {
       &.title {
         font-size: 45rpx;
-        color:#ea6151;
+        color: #ea6151;
       }
       display: flex;
       justify-content: space-between;
@@ -182,33 +179,33 @@ ul {
     }
   }
 }
-.icon{
-  width:54rpx;
+.icon {
+  width: 54rpx;
   height: 54rpx;
 }
-.tabBar{
-  width:100%;
+.tabBar {
+  width: 100%;
   position: fixed;
-  bottom:0;
-  padding:10rpx;
-  margin-left:-4rpx;
-  background:#F7F7FA;
-  font-size:20rpx;
-  color:#8A8A8A;
+  bottom: 0;
+  padding: 10rpx;
+  margin-left: -4rpx;
+  background: #f7f7fa;
+  font-size: 20rpx;
+  color: #8a8a8a;
   box-shadow: 6rpx 6rpx 6rpx 6rpx #aaa;
 }
-.tabBar-item{
-  float:left;
-  width:33%;
+.tabBar-item {
+  float: left;
+  width: 33%;
   text-align: center;
   overflow: hidden;
 }
 /*当前字体颜色*/
-.tabBartext{
-  color:grey;
+.tabBartext {
+  color: grey;
 }
-.body{
-  width:100%;
-  margin-bottom:150rpx;
+.body {
+  width: 100%;
+  margin-bottom: 150rpx;
 }
 </style>

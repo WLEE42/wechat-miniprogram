@@ -1,31 +1,38 @@
 <template lang="pug">
-  .page
-    div.title 添加日程
+  <div class='page'>
+    <div class='title'> 添加日程</div>
 
-    .weui-cells
+    <div class='weui-cells'>
 
-      .weui-cell
-        picker.pick(mode="time" v-bind:value="time" start="00:00" end="24:00" @change="TimeChange")
-          label.weui-cell__bd 时间：
-          label.weui-cell__ft {{time}}
-      .weui-cell
-        picker.pick(mode="date" v-bind:value="date" start="1999-01-01" end="2099-01-01" @change="DateChange")
-          label.weui-cell__bd 日期：
-          label.weui-cell__ft {{date}}
-      .weui-cell
-        label 事件：
-        input(v-model="thing" placeholder="请输入日程")
-      .weui-cell
-        label 地点：
-        input(v-model="place" placeholder="请输入地点")
-      
-      .weui-cell.invite
-        label 邀请好友：
-        button.invite-btn 邀请好友
+      <div class='weui-cell'>
+        <picker class='pick' mode="time" v-bind:value="time" start="00:00" end="24:00" @change="TimeChange">
+          <label class='weui-cell__bd'> 时间：</label>
+          <label class='weui-cell__ft'> {{time}}</label>
+        </picker>
+      </div>
+      <div class='weui-cell'>
+        <picker class='pick' mode="date" v-bind:value="date" start="1999-01-01" end="2099-01-01" @change="DateChange">
+          <label class='weui-cell__bd'> 日期：</label>
+          <label class='weui-cell__ft'> {{date}}</label>
+        </picker>
+      </div>
+      <div class='weui-cell'>
+        <label> 事件：</label>
+        <input v-model="thing" placeholder="请输入日程"></input>
+      </div>
+      <div class='weui-cell'>
+        <label> 地点：</label>
+        <input v-model="place" placeholder="请输入地点"></input>
+      </div>
+      <div class='weui-cell.invite'>
+        <label> 邀请好友：</label>
+        <button class='invite-btn'> 邀请好友</button>
+      </div>
+    </div>
+    <button class='weui-btn' @click="addTodo" type="primary"> 添加日程</button>
 
-    button.weui-btn(@click="addTodo", type="primary") 添加日程
-
-    button.weui-btn(@click="$router.push({path:'/pages/index',isTab:true})") 查看日程
+    <button class='weui-btn' @click="$router.push({path:'/pages/index',isTab:true})"> 查看日程</button>
+  </div>
 </template>
 
 <script>
