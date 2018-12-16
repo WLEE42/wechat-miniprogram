@@ -1,0 +1,273 @@
+<template lang="pug">
+  .page
+    <div class="calendar-tools">
+      <div class="calendar-prev" @click="prev">
+        <img :src="arrowLeft" v-if="!!arrowLeft">
+        <i class="iconfont icon-arrow-left"></i>
+      </div>
+      <div class="calendar-next"  @click="next">
+        <img :src="arrowRight" v-if="!!arrowRight">
+        <i class="iconfont icon-arrow-right" v-else></i>
+      </div>
+      <div class="calendar-info">
+        <div class="mc-month">
+          <div class="mc-month-inner" :style="{'top': monthPosition + unit}" v-if="isIos">
+            <span v-for="m in months" :key="m" >{{m}}</span>
+          </div>
+          <div class="mc-month-text" v-else>{{monthText}}</div>
+        </div>
+      <div class="mc-year">{{year}}</div>
+      </div>
+    </div>
+    <view class="body">
+      <view v-if="!hasData" class="notfound">
+        <image src='/static/calendar.png'></image>
+        <p>您还没有邀请</p>
+      </view>
+      <view v-else>
+        .weui-cells__title 日程
+        ul
+          li(v-for='invitation in myinvitations[month+1]' :key="invitation.eventKey")
+            p.title
+              span {{invitation.date}}
+              span {{invitation.time}}
+            p
+              span {{invitation.thing}}
+              span {{invitation.place}}
+              <span v-if="invitation.invitee!=''"> {{invitation.invitee}} </span>
+              <span v-else> 暂未应邀 </span>
+      </view>
+      
+    </view>
+    
+    <view class="tabBar">
+      <block>
+        <view class="tabBar-item" @click="$router.replace({path:'/pages/main'})">
+          <view><image class="icon" src='/static/settings.png'></image></view>
+          <view class="tabBartext">主页</view>
+        </view>
+        <view class="tabBar-item" @click="$router.replace({path:'/pages/inviter_index'})">
+          <view><image class="icon" src='/static/calendar.png'></image></view>
+          <view class="tabBartext">我的邀请</view>
+        </view>
+        <view class="tabBar-item" @click="$router.replace({path:'/pages/invitee_index'})">
+          <view><image class="icon" src='/static/calendar.png'></image></view>
+          <view class="tabBartext">邀请我的</view>
+        </view>
+        <view class="tabBar-item" @click="$router.push({path:'/pages/invite_add'})">
+          <view><image class="icon" src='/static/add.png'></image></view>
+          <view class="tabBartext">添加邀请</view>
+        </view>
+      </block>
+    </view>
+
+</template>
+
+<script>
+import './icon.css'
+import { mapState, mapMutations } from 'vuex'
+
+export default {
+  computed: {
+    ...mapState([
+      'userID',
+      'myinvitations'
+    ])
+  },
+  data () {
+    return {
+      // store system info
+      isIos: false,
+      // determine which page to display
+      hasData: true,
+      year: 0,
+      month: 0,
+      monthText: '',
+      months: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月']
+    }
+  },
+  //
+  // initialize systeminfo and date
+  //
+  mounted () {
+    wx.getSystemInfo({
+      success: function (res) {
+        console.log(res.system)
+        // this.isIos = (res.system.split(' ') || [])[0] === 'iOS'
+      }
+    })
+    let now = new Date()
+    this.year = now.getFullYear()
+    this.month = now.getMonth()
+    this.monthText = this.months[this.month]
+    this.getMyInvitations()
+  },
+  methods: {
+    ...mapMutations([
+      'getMyInvitations'
+    ]),
+    //
+    // respond to "calendar-prev"
+    // update the month and year to the previous month date
+    //
+    prev (e) {
+      if (this.month === 0) {
+        this.month = 11
+        this.year = parseInt(this.year) - 1
+      } else {
+        this.month = parseInt(this.month) - 1
+      }
+      this.monthText = this.months[this.month]
+    },
+    //
+    // respond to "calendar-next"
+    // update the month and year to the next month date
+    //
+    next (e) {
+      if (this.month === 11) {
+        this.month = 0
+        this.year = parseInt(this.year) + 1
+      } else {
+        this.month = parseInt(this.month) + 1
+      }
+      this.monthText = this.months[this.month]
+    }
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+.notfound{
+  margin-top:200rpx;
+  text-align:center;
+}
+.calendar-tools{
+    height:40px;
+    font-size: 20px;
+    line-height: 40px;
+    color:#5e7a88;
+    box-shadow: 0rpx 4rpx 8rpx rgba(25, 47, 89, 0.1);
+    margin-bottom: 30rpx;
+    border-top: 1px solid rgba(200, 200, 200, .1);
+}
+.calendar-prev{
+    width: 14.28571429%;
+    float:left;
+    text-align: center;
+}
+.calendar-prev img, .calendar-next img{
+    width: 34rpx;
+    height: 34rpx;
+}
+.calendar-info{
+    padding-top: 3px;
+    font-size:16px;
+    line-height: 1.3;
+    text-align: center;
+    width: 220rpx;
+    margin: 0 auto;
+}
+.calendar-info>div.mc-month{
+    margin:auto;
+    height:40rpx;
+    width:100px;
+    text-align: center;
+    color:#5e7a88;
+    overflow: hidden;
+    position: relative;
+}
+.calendar-info>div.mc-month .mc-month-inner{
+    position: absolute;
+    left:0;
+    top:0;
+    height:480rpx;
+    transition:top .5s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+.calendar-info .mc-month-text{
+    display:block;
+    font-size:28rpx;
+    height:40rpx;
+    width:200rpx;
+    overflow:hidden;
+    text-align:center;
+}
+.calendar-info>div.mc-month .mc-month-inner>span{
+    display: block;
+    font-size: 14px;
+    height:20px;
+    width:100px;
+    overflow: hidden;
+    text-align: center;
+}
+.calendar-info>div.mc-year{
+    font-size:10px;
+    line-height: 1;
+    color:#999;
+}
+.calendar-next{
+    width: 14.28571429%;
+    float:right;
+    text-align: center;
+}
+ul {
+  &:before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    display: block;
+    border-top:1rpx solid #d9d9d9; 
+  }
+  li {
+    padding: 0 32rpx;
+    display: block;
+    &:after {
+      border-top-width: 1rpx;
+      border-top-style: solid;
+      display: block;
+      content: "";
+      width: 100%;
+      position: absolute;
+      color: #d9d9d9;
+    }
+    p {
+      &.title {
+        font-size: 45rpx;
+        color:#ea6151;
+      }
+      display: flex;
+      justify-content: space-between;
+      span {
+        display: inline;
+      }
+    }
+  }
+}
+.icon{
+  width:54rpx;
+  height: 54rpx;
+}
+.tabBar{
+  width:100%;
+  position: fixed;
+  bottom:0;
+  padding:10rpx;
+  margin-left:-4rpx;
+  background:#F7F7FA;
+  font-size:20rpx;
+  color:#8A8A8A;
+  box-shadow: 6rpx 6rpx 6rpx 6rpx #aaa;
+}
+.tabBar-item{
+  float:left;
+  width:25%;
+  text-align: center;
+  overflow: hidden;
+}
+.tabBartext{
+  color:grey;
+}
+.body{
+  width:100%;
+  margin-bottom:150rpx;
+}
+</style>

@@ -7,22 +7,17 @@ const store = new Vuex.Store({
   state: {
     todos: {},
     userInfo: {},
-    events: { '2018-11-28': '今日备注', '2018-11-29': '一条很长的明日备注' },
-    sessionKey: ''
+    events: {},
+    sessionKey: '',
+    userID: '',
+    myinvitations: {},
+    invitations: {}
   },
   mutations: {
     showTodos (state) {
-      state.todos['2018-12-13'] = [
-        { thing: '吃饭', date: '2018-12-13', time: '08:08', eventKey: '000', place: '北京' },
-        { thing: '学习', date: '2018-12-13', time: '08:08', eventKey: '001', place: '北京' }
-      ]
-      state.todos['2018-12-14'] = [
-        { thing: '吃饭', date: '2018-12-14', time: '09:08', eventKey: '002', place: '北京' },
-        { thing: '学习', date: '2018-12-14', time: '08:08', eventKey: '003', place: '北京' }
-      ]
-      state.todos['2018-12-15'] = [
-        { thing: '吃饭', date: '2018-12-15', time: '10:08', eventKey: '004', place: '北京' },
-        { thing: '学习', date: '2018-12-15', time: '08:08', eventKey: '005', place: '北京' }
+      state.todos['2018-12-16'] = [
+        { thing: '吃饭', date: '2018-12-16', time: '08:08', eventKey: '000', place: '北京' },
+        { thing: '学习', date: '2018-12-16', time: '08:08', eventKey: '001', place: '北京' }
       ]
       state.sessionKey = wx.getStorageSync('sessionKey')
       // console.log(state.sessionKey)
@@ -56,6 +51,102 @@ const store = new Vuex.Store({
 
               if (!state.events[element.date]) {
                 state.events[element.date] = element.thing
+              }
+            })
+          }
+        })
+        .catch(err => {
+          console.log(err.status, err.message)
+        })
+    },
+    //
+    // getmyinvitations and store them
+    //
+    getMyInvitations (state) {
+      state.myinvitations['12'] = [
+        { thing: '吃饭', date: '2018-12-16', time: '08:08', eventKey: '000', place: '北京', invitee: '自己' },
+        { thing: '学习', date: '2018-12-16', time: '08:08', eventKey: '001', place: '北京', invitee: '' }
+      ]
+      state.userID = wx.getStorageSync('userID')
+      // console.log(state.sessionKey)
+      Vue.prototype.$http
+        .get('invitation/getmyinvitation', { userID: state.userID })
+        .then(d => {
+          // console.log(d.data)
+          for (let eleArray in d.data) {
+            // console.log(eleArray)
+            d.data[eleArray].forEach(element => {
+              if (state.myinvitations.hasOwnProperty(element.month)) {
+                state.myinvitations[element.month].push({
+                  time: element.time,
+                  date: element.date,
+                  month: element.month,
+                  thing: element.thing,
+                  place: element.place,
+                  eventKey: element.eventKey,
+                  invitee: element.invitee
+                })
+              } else {
+                console.log(element.month)
+                state.myinvitations[element.month] = [
+                  {
+                    time: element.time,
+                    date: element.date,
+                    month: element.month,
+                    thing: element.thing,
+                    place: element.place,
+                    eventKey: element.eventKey,
+                    invitee: element.invitee
+                  }
+                ]
+              }
+            })
+          }
+        })
+        .catch(err => {
+          console.log(err.status, err.message)
+        })
+    },
+    //
+    // getinvitations and store them
+    //
+    getInvitations (state) {
+      state.invitations['12'] = [
+        { thing: '吃饭', date: '2018-12-16', time: '08:08', eventKey: '000', place: '北京', inviter: '还是自己' },
+        { thing: '学习', date: '2018-12-16', time: '08:08', eventKey: '001', place: '北京', inviter: '' }
+      ]
+      state.userID = wx.getStorageSync('userID')
+      // console.log(state.sessionKey)
+      Vue.prototype.$http
+        .get('invitation/getinvitation', { userID: state.userID })
+        .then(d => {
+          // console.log(d.data)
+          for (let eleArray in d.data) {
+            // console.log(eleArray)
+            d.data[eleArray].forEach(element => {
+              if (state.invitations.hasOwnProperty(element.month)) {
+                state.invitations[element.month].push({
+                  time: element.time,
+                  date: element.date,
+                  month: element.month,
+                  thing: element.thing,
+                  place: element.place,
+                  eventKey: element.eventKey,
+                  invitee: element.invitee
+                })
+              } else {
+                console.log(element.month)
+                state.myinvitations[element.month] = [
+                  {
+                    time: element.time,
+                    date: element.date,
+                    month: element.month,
+                    thing: element.thing,
+                    place: element.place,
+                    eventKey: element.eventKey,
+                    invitee: element.invitee
+                  }
+                ]
               }
             })
           }
