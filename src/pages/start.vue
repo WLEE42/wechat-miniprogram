@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="page">
     <img
       v-if="isShow"
       class="start_img"
