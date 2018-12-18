@@ -1,13 +1,6 @@
 <template lang="pug">
   <div class='page'>
     <view class="body">
-      <div>
-        <p class='tit'> 查看个人日程</p>
-      </div>
-      <div class='btn_cell'>
-        <button> 月</button>
-        <button @click="$router.push({path:'/pages/dayView'})"> 日</button>
-      </div>
       <Calendar :events="events" @select="select" ref="calendar" @selectMonth="selectMonth" @selectYear="selectYear"></Calendar>
     
       <div class='weui-cells__title'> 日程</div>

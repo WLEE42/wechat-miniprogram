@@ -24,6 +24,18 @@ module.exports = [
     path: 'pages/detail'
   },
   {
+    path: 'pages/inviter_index'
+  },
+  {
+    path: 'pages/invitee_index'
+  },
+  {
+    path: 'pages/invite_add'
+  },
+  {
+    path: 'pages/invite_accept'
+  },
+  {
     path: 'packageA/logs',
     subPackage: true,
     config: {

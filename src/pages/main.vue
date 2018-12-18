@@ -7,7 +7,7 @@
 
     button(@click="$router.replace({path:'/pages/setting'})") 用户中心 
     
-    button(@click="$router.replace({path:'/pages/invite_index'})") 日程邀请
+    button(@click="$router.replace({path:'/pages/inviter_index'})") 日程邀请
 
     button() 时间统计
 </template>

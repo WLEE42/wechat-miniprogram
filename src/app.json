@@ -7,7 +7,10 @@
     "pages/setting",
     "pages/dayView",
     "pages/detail",
-    "pages/invite_index"
+    "pages/inviter_index",
+    "pages/invitee_index",
+    "pages/invite_accept",
+    "pages/invite_add"
   ],
   "window": {
     "backgroundTextStyle": "light",
