@@ -9,6 +9,7 @@
     "pages/detail",
     "pages/inviter_index",
     "pages/invitee_index",
+    "pages/invite_accept",
     "pages/invite_add"
   ],
   "window": {

@@ -17,7 +17,7 @@
         label 地点：
         input(v-model="place" placeholder="请输入地点")
 
-    button.weui-btn(@click="addTodo" type="default" open-type="share" :disabled = "disabled") 邀请好友
+    button.weui-btn(type="default" open-type="share" :disabled = "disabled") 邀请好友
 </template>
 
 <script>
@@ -27,7 +27,6 @@ import mpButton from 'mpvue-weui/src/button'
 export default {
   data () {
     return {
-      motto: 'Hello World',
       time: '请选择时间',
       date: '请选择日期',
       disabled: true,
@@ -35,9 +34,11 @@ export default {
       place: ''
     }
   },
+
   components: {
     mpButton
   },
+
   computed: {
     ...mapState([
       'count',
@@ -45,6 +46,7 @@ export default {
       'sessionKey'
     ])
   },
+
   watch: {
     date (newVal, oldVal) {
       if (newVal !== '请选择日期' && this.time !== '请选择时间') {
@@ -58,28 +60,30 @@ export default {
       }
     }
   },
+
   methods: {
     ...mapMutations([
       'addTodos'
     ]),
-    addTodo () {
-      this.$http.get('event/addEvent', {
+
+    addInvitation () {
+      var that = this
+      this.$http.get('invitation/addInvitation', {
         time: this.time,
         date: this.date,
         thing: this.thing,
         place: this.place,
-        sessionKey: this.sessionKey
+        inviter: this.sessionKey
       }).then(d => {
-        console.log(d)
         if (d.data.state === 'success') {
           console.log('添加成功' + d.data.state)
-          this.addTodos({ time: this.time, date: this.date, thing: this.thing, place: this.place, eventKey: d.data.eventKey })
           wx.showModal({
             title: '成功！',
             content: '已添加日程',
             success: function (res) {
               if (res.confirm) {
                 console.log('用户点击确定')
+                that.$router.replace({path: 'pages/inviter_index'})
               }
             }
           })
@@ -92,39 +96,46 @@ export default {
               if (res.confirm) {
                 console.log('用户点击确定')
               } else {
-                this.$router.push({ path: '/pages/detail', query: { eventKey: d.eventKey } })
+                that.$router.push({ path: '/pages/detail', query: { eventKey: d.eventKey } })
               }
             }
           })
         }
       })
     },
+
     TimeChange (e) {
       // console.log('选中的时间为：' + e.mp.detail.value)
       // console.log(this.time)
       this.time = e.mp.detail.value
     },
+
     DateChange (e) {
       // console.log('选中的日期为：' + e.mp.detail.value)
       this.date = e.mp.detail.value
     }
   },
 
+  //
+  // Triggered when the invite button is pressed
+  // enter the friend list and locate the page to share
+  //
   onShareAppMessage: function (res) {
+    var that = this
     if (res.from === 'button') {
-      // 来自页面内转发按钮
       console.log('invite_add: ' + res.target)
     }
     return {
-      title: '自定义转发标题',
-      path: '/pages/invite_add',
+      title: this.thing,
+      // the page to share
+      // the parameters are to identify a specific event
+      path: '/pages/invite_accept?inviterID=' + this.userID + '&date=' + this.date + '&time=' + this.time,
       success: function (res) {
-        // 转发成功
-        // 如果这里有 shareTickets，则说明是分享到群的
-        console.log(res.shareTickets)
+        console.log('invite_add.onShareAppMessage: success')
+        that.addInvitation()
       },
       fail: function (res) {
-        // 转发失败
+        console.log('invite_add: share failed')
       }
     }
   }

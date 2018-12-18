@@ -89,7 +89,7 @@ export default {
   //
   // initialize systeminfo and date
   //
-  mounted () {
+  onLoad () {
     wx.getSystemInfo({
       success: function (res) {
         console.log(res.system)
@@ -100,14 +100,14 @@ export default {
     this.year = now.getFullYear()
     this.month = now.getMonth()
     this.monthText = this.months[this.month]
-    this.getInvitations()
+    this.getInviteeInvitations()
     for (let invitation in this.invitations['12']) {
-      console.log('invite_index.mounted: ' + invitation)
+      console.log('invite_index.onLoad: ' + invitation)
     }
   },
   methods: {
     ...mapMutations([
-      'getInvitations'
+      'getInviteeInvitations'
     ]),
     //
     // respond to "calendar-prev"

@@ -86,10 +86,12 @@ export default {
       months: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月']
     }
   },
+
   //
   // initialize systeminfo and date
   //
-  mounted () {
+  onLoad () {
+    this.getInviterInvitations()
     wx.getSystemInfo({
       success: function (res) {
         console.log(res.system)
@@ -100,12 +102,13 @@ export default {
     this.year = now.getFullYear()
     this.month = now.getMonth()
     this.monthText = this.months[this.month]
-    this.getMyInvitations()
   },
+
   methods: {
     ...mapMutations([
-      'getMyInvitations'
+      'getInviterInvitations'
     ]),
+
     //
     // respond to "calendar-prev"
     // update the month and year to the previous month date

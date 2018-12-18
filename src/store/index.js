@@ -59,18 +59,16 @@ const store = new Vuex.Store({
           console.log(err.status, err.message)
         })
     },
+
     //
     // getmyinvitations and store them
     //
-    getMyInvitations (state) {
-      state.myinvitations['12'] = [
-        { thing: '吃饭', date: '2018-12-16', time: '08:08', eventKey: '000', place: '北京', invitee: '自己' },
-        { thing: '学习', date: '2018-12-16', time: '08:08', eventKey: '001', place: '北京', invitee: '' }
-      ]
-      state.userID = wx.getStorageSync('userID')
+    getInviterInvitations (state) {
+      state.myinvitations = {}
+      state.sessionKey = wx.getStorageSync('sessionKey')
       // console.log(state.sessionKey)
       Vue.prototype.$http
-        .get('invitation/getmyinvitation', { userID: state.userID })
+        .get('invitation/getInviterInvitations', { sessionKey: state.sessionKey })
         .then(d => {
           // console.log(d.data)
           for (let eleArray in d.data) {
@@ -107,18 +105,16 @@ const store = new Vuex.Store({
           console.log(err.status, err.message)
         })
     },
+
     //
     // getinvitations and store them
     //
-    getInvitations (state) {
-      state.invitations['12'] = [
-        { thing: '吃饭', date: '2018-12-16', time: '08:08', eventKey: '000', place: '北京', inviter: '还是自己' },
-        { thing: '学习', date: '2018-12-16', time: '08:08', eventKey: '001', place: '北京', inviter: '' }
-      ]
-      state.userID = wx.getStorageSync('userID')
+    getInviteeInvitations (state) {
+      state.invitations = {}
+      state.sessionKey = wx.getStorageSync('sessionKey')
       // console.log(state.sessionKey)
       Vue.prototype.$http
-        .get('invitation/getinvitation', { userID: state.userID })
+        .get('invitation/getInviteeInvitations', { sessionKey: state.sessionKey })
         .then(d => {
           // console.log(d.data)
           for (let eleArray in d.data) {
@@ -132,11 +128,11 @@ const store = new Vuex.Store({
                   thing: element.thing,
                   place: element.place,
                   eventKey: element.eventKey,
-                  invitee: element.invitee
+                  inviter: element.inviter
                 })
               } else {
                 console.log(element.month)
-                state.myinvitations[element.month] = [
+                state.invitations[element.month] = [
                   {
                     time: element.time,
                     date: element.date,
@@ -144,7 +140,7 @@ const store = new Vuex.Store({
                     thing: element.thing,
                     place: element.place,
                     eventKey: element.eventKey,
-                    invitee: element.invitee
+                    inviter: element.inviter
                   }
                 ]
               }

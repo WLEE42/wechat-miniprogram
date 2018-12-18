@@ -30,6 +30,9 @@ module.exports = [
     path: 'pages/invite_add'
   },
   {
+    path: 'pages/invite_accept'
+  },
+  {
     path: 'packageA/logs',
     subPackage: true,
     config: {
