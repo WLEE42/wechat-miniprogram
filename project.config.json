@@ -9,8 +9,8 @@
 	},
 	"miniprogramRoot": "dist/",
 	"compileType": "miniprogram",
-	"appid": "wx11517929be41cb58",
-	"projectname": "social_ly",
+	"appid": "wxe6e1b5630f5d504a",
+	"projectname": "Socially",
 	"condition": {
 		"search": {
 			"current": -1,
