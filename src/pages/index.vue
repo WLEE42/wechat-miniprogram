@@ -1,11 +1,6 @@
 <template lang="pug">
   .page
     <view class="body">
-      div
-        p.tit 查看个人日程
-      div.btn_cell
-        button 月
-        button(@click="$router.push({path:'/pages/dayView'})") 日
       Calendar(
       :events="events"
       @select="select"
