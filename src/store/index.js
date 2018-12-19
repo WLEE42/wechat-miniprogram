@@ -85,7 +85,6 @@ const store = new Vuex.Store({
                   invitee: element.invitee
                 })
               } else {
-                console.log(element.month)
                 state.myinvitations[element.month] = [
                   {
                     time: element.time,
@@ -131,7 +130,7 @@ const store = new Vuex.Store({
                   inviter: element.inviter
                 })
               } else {
-                console.log(element.month)
+                // console.log(element.month)
                 state.invitations[element.month] = [
                   {
                     time: element.time,

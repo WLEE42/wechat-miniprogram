@@ -20,22 +20,35 @@
       </div>
     </div>
     <view class="body">
-      <view v-if="!hasData" class="notfound">
+      <view v-if="hasData" class="notfound">
         <image src='/static/calendar.png'></image>
-        <p>您还没有邀请</p>
+        <p>还没有人邀请您</p>
       </view>
       <view v-else>
-        .weui-cells__title 日程
         ul
-          li(v-for='invitation in invitations[month+1]' :key="invitation.eventKey")
-            p.title
-              span {{invitation.date}}
-              span {{invitation.time}}
-            p
-              span {{invitation.thing}}
-              span {{invitation.place}}
-              <span v-if="invitation.inviter!=''"> {{invitation.inviter}} </span>
-              <span v-else> 暂未应邀 </span>
+          li(v-for='invitation in myinvitations[month+1]' :key="invitation.eventKey")
+            <view class="item">
+                <view>
+                  <p class="title">{{invitation.date}}</p>
+                  <p class="title">{{invitation.time}}</p>
+                </view>
+                <view class="content">
+                  <view class="item">
+                    <p>事件：</p>
+                    <span v-if="invitation.invitee!=''"> {{invitation.thing}} </span>
+                    <span v-else> 无 </span>
+                  </view>
+                  <view class="item">
+                    <p>地点：</p>
+                    <span v-if="invitation.invitee!=''"> {{invitation.place}} </span>
+                    <span v-else> 无 </span>
+                  </view>
+                  <view class="item">
+                    <p>邀请人：</p>
+                    <span> {{invitation.inviter}} </span>
+                  </view>
+                </view>
+            </view>
       </view>
       
     </view>
@@ -79,36 +92,39 @@ export default {
       // store system info
       isIos: false,
       // determine which page to display
-      hasData: true,
+      hasData: false,
       year: 0,
       month: 0,
       monthText: '',
       months: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月']
     }
   },
+
   //
   // initialize systeminfo and date
   //
   onLoad () {
+    var that = this
     wx.getSystemInfo({
       success: function (res) {
-        console.log(res.system)
-        // this.isIos = (res.system.split(' ') || [])[0] === 'iOS'
+        that.isIos = (res.system.split(' ') || [])[0] === 'iOS'
       }
     })
     let now = new Date()
     this.year = now.getFullYear()
     this.month = now.getMonth()
     this.monthText = this.months[this.month]
-    this.getInviteeInvitations()
-    for (let invitation in this.invitations['12']) {
-      console.log('invite_index.onLoad: ' + invitation)
-    }
+    console.log(this.month)
+    // this.getInviteeInvitations()
+
+    // console.log(this.invitations)
   },
+
   methods: {
     ...mapMutations([
       'getInviteeInvitations'
     ]),
+
     //
     // respond to "calendar-prev"
     // update the month and year to the previous month date
@@ -122,6 +138,7 @@ export default {
       }
       this.monthText = this.months[this.month]
     },
+
     //
     // respond to "calendar-next"
     // update the month and year to the next month date
@@ -272,5 +289,31 @@ ul {
 .body{
   width:100%;
   margin-bottom:150rpx;
+}
+.content {
+  background-color: #FFc1c1;
+  border-radius: 30rpx;
+  padding-left: 20rpx;
+  padding-right: 50rpx;
+  margin-bottom: 10rpx;
+  margin-left: 5rpx;
+  font-size: 40rpx;
+  width: 80%;
+}
+.title{
+  background-color: #FFc1c1;
+  border-radius: 30rpx;
+  padding-left: 20rpx;
+  padding-right: 10rpx;
+  margin-bottom: 10rpx;
+  margin-right: 5rpx;
+  font-size: 40rpx;
+  font-weight: 900;
+}
+.item{
+  display: flex;
+}
+.item p{
+  margin-bottom: 10rpx;
 }
 </style>
