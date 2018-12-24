@@ -43,7 +43,8 @@ export default {
     ...mapState([
       'count',
       'todos',
-      'sessionKey'
+      'sessionKey',
+      'myinvitations'
     ])
   },
 
@@ -51,7 +52,6 @@ export default {
     date (newVal, oldVal) {
       if (newVal !== '请选择日期' && this.time !== '请选择时间') {
         this.disabled = false
-        console.log('invite_add.watch.date: ' + this.disabled)
       }
     },
     time (newVal, oldVal) {
@@ -77,13 +77,22 @@ export default {
       }).then(d => {
         if (d.data.state === 'success') {
           console.log('添加成功' + d.data.state)
+          this.myinvitations[this.date.split('-')[1]].push({
+            time: this.time,
+            date: this.date,
+            month: this.date.split('-')[1],
+            thing: this.thing,
+            place: this.place,
+            eventKey: '',
+            invitee: ''
+          })
           wx.showModal({
             title: '成功！',
             content: '已添加日程',
             success: function (res) {
               if (res.confirm) {
                 console.log('用户点击确定')
-                that.$router.replace({path: 'pages/inviter_index'})
+                that.$router.replace({path: '/pages/inviter_index'})
               }
             }
           })
@@ -96,7 +105,8 @@ export default {
               if (res.confirm) {
                 console.log('用户点击确定')
               } else {
-                that.$router.push({ path: '/pages/detail', query: { eventKey: d.eventKey } })
+                console.log(that.date)
+                that.$router.push({ path: '/pages/detail', query: { date: that.date, eventKey: d.data.eventKey } })
               }
             }
           })
@@ -111,7 +121,7 @@ export default {
     },
 
     DateChange (e) {
-      // console.log('选中的日期为：' + e.mp.detail.value)
+      // console.log('选中的日期为：' + e.mp.detail.value.split('-')[1])
       this.date = e.mp.detail.value
     }
   },
@@ -129,7 +139,7 @@ export default {
       title: this.thing,
       // the page to share
       // the parameters are to identify a specific event
-      path: '/pages/invite_accept?inviterID=' + this.userID + '&date=' + this.date + '&time=' + this.time,
+      path: '/pages/invite_accept?inviterID=' + this.sessionKey + '&date=' + this.date + '&time=' + this.time,
       success: function (res) {
         console.log('invite_add.onShareAppMessage: success')
         that.addInvitation()
@@ -156,12 +166,31 @@ button {
   letter-spacing: 0.01em;
   line-height: 100rpx;
   min-width: 176rpx;
-  background-color: rgb(250, 250, 250);
+  background-color: #FFc1c1;
   max-width: 100%;
   vertical-align: middle;
 }
 .pick {
   width: 700 rpx;
+}
+label.weui-cell__ft{
+  font-weight: 900;
+  color: #848484;
+  margin-left: 10rpx;
+}
+input{
+  font-weight: 550;
+  border-radius: 30rpx;
+  padding: 10rpx 10rpx;
+  font-size: 40rpx;
+}
+.weui-cell{
+  background-color: #FFc1c1;
+  border-radius: 30rpx;
+  padding: 20rpx 20rpx;
+  font-size: 40rpx;
+  font-weight: 900;
+  margin: 10rpx 20rpx;
 }
 
 </style>

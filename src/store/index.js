@@ -64,7 +64,6 @@ const store = new Vuex.Store({
     // getmyinvitations and store them
     //
     getInviterInvitations (state) {
-      state.myinvitations = {}
       state.sessionKey = wx.getStorageSync('sessionKey')
       // console.log(state.sessionKey)
       Vue.prototype.$http

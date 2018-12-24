@@ -35,12 +35,12 @@
                 <view class="content">
                   <view class="item">
                     <p>事件：</p>
-                    <span v-if="invitation.invitee!=''"> {{invitation.thing}} </span>
+                    <span v-if="invitation.thing!=''"> {{invitation.thing}} </span>
                     <span v-else> 无 </span>
                   </view>
                   <view class="item">
                     <p>地点：</p>
-                    <span v-if="invitation.invitee!=''"> {{invitation.place}} </span>
+                    <span v-if="invitation.place!=''"> {{invitation.place}} </span>
                     <span v-else> 无 </span>
                   </view>
                   <view class="item">
@@ -79,7 +79,7 @@
 
 <script>
 import './icon.css'
-import { mapState, mapMutations } from 'vuex'
+import {mapState, mapMutations} from 'vuex'
 
 export default {
   data () {
@@ -91,36 +91,35 @@ export default {
       year: 0,
       month: 0,
       monthText: '',
+      sessionKey: '',
       months: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月']
     }
+  },
+
+  computed: {
+    ...mapState([
+      'myinvitations'
+    ])
   },
 
   //
   // initialize systeminfo and date
   //
-  onLoad () {
-    var that = this
+  created () {
+    this.sessionKey = wx.getStorageSync('sessionKey')
+    // var that = this
     wx.getSystemInfo({
       success: function (res) {
-        that.isIos = (res.system.split(' ') || [])[0] === 'iOS'
+        // that.isIos = (res.system.split(' ') || [])[0] === 'iOS'
       }
     })
-    // this.getInviterInvitations()
+    this.getInviterInvitations()
     let now = new Date()
     this.year = now.getFullYear()
     this.month = now.getMonth()
     this.monthText = this.months[this.month]
 
-    this.myinvitations['12'] = [{ thing: '吃饭', date: '2018-12-16', time: '08:08', eventKey: '000', place: '北京', inviter: 'me' },
-      { thing: '学习', date: '2018-12-16', time: '08:08', eventKey: '001', place: '北京', inviter: 'me' }]
     console.log(this.myinvitations)
-  },
-
-  computed: {
-    ...mapState([
-      'userID',
-      'myinvitations'
-    ])
   },
 
   methods: {
@@ -141,6 +140,7 @@ export default {
       }
       this.monthText = this.months[this.month]
     },
+
     //
     // respond to "calendar-next"
     // update the month and year to the next month date

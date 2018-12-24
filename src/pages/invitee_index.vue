@@ -22,11 +22,11 @@
     <view class="body">
       <view v-if="hasData" class="notfound">
         <image src='/static/calendar.png'></image>
-        <p>还没有人邀请您</p>
+        <p>您还没有邀请</p>
       </view>
       <view v-else>
         ul
-          li(v-for='invitation in myinvitations[month+1]' :key="invitation.eventKey")
+          li(v-for='invitation in invitations[month+1]' :key="invitation.eventKey")
             <view class="item">
                 <view>
                   <p class="title">{{invitation.date}}</p>
@@ -35,12 +35,12 @@
                 <view class="content">
                   <view class="item">
                     <p>事件：</p>
-                    <span v-if="invitation.invitee!=''"> {{invitation.thing}} </span>
+                    <span v-if="invitation.thing!=''"> {{invitation.thing}} </span>
                     <span v-else> 无 </span>
                   </view>
                   <view class="item">
                     <p>地点：</p>
-                    <span v-if="invitation.invitee!=''"> {{invitation.place}} </span>
+                    <span v-if="invitation.place!=''"> {{invitation.place}} </span>
                     <span v-else> 无 </span>
                   </view>
                   <view class="item">
@@ -78,15 +78,9 @@
 
 <script>
 import './icon.css'
-import { mapState, mapMutations } from 'vuex'
+import Vue from 'vue'
 
 export default {
-  computed: {
-    ...mapState([
-      'userID',
-      'invitations'
-    ])
-  },
   data () {
     return {
       // store system info
@@ -96,6 +90,8 @@ export default {
       year: 0,
       month: 0,
       monthText: '',
+      sessionKey: '',
+      invitations: {},
       months: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月']
     }
   },
@@ -103,27 +99,63 @@ export default {
   //
   // initialize systeminfo and date
   //
-  onLoad () {
-    var that = this
+  created () {
+    this.sessionKey = wx.getStorageSync('sessionKey')
+    // var that = this
     wx.getSystemInfo({
       success: function (res) {
-        that.isIos = (res.system.split(' ') || [])[0] === 'iOS'
+        // that.isIos = (res.system.split(' ') || [])[0] === 'iOS'
       }
     })
+    this.getInviteeInvitations()
     let now = new Date()
     this.year = now.getFullYear()
     this.month = now.getMonth()
     this.monthText = this.months[this.month]
-    console.log(this.month)
-    // this.getInviteeInvitations()
 
-    // console.log(this.invitations)
+    console.log(this.invitations)
   },
 
   methods: {
-    ...mapMutations([
-      'getInviteeInvitations'
-    ]),
+    getInviteeInvitations () {
+      var that = this
+      Vue.prototype.$http
+        .get('invitation/getInviteeInvitations', { sessionKey: that.sessionKey })
+        .then(d => {
+          // console.log(d.data)
+          for (let eleArray in d.data) {
+            // console.log(eleArray)
+            d.data[eleArray].forEach(element => {
+              if (that.invitations.hasOwnProperty(element.month)) {
+                that.invitations[element.month].push({
+                  time: element.time,
+                  date: element.date,
+                  month: element.month,
+                  thing: element.thing,
+                  place: element.place,
+                  eventKey: element.eventKey,
+                  invitee: element.invitee
+                })
+              } else {
+                that.invitations[element.month] = [
+                  {
+                    time: element.time,
+                    date: element.date,
+                    month: element.month,
+                    thing: element.thing,
+                    place: element.place,
+                    eventKey: element.eventKey,
+                    invitee: element.invitee
+                  }
+                ]
+              }
+            })
+          }
+        })
+        .catch(err => {
+          console.log(err.status, err.message)
+        })
+    },
 
     //
     // respond to "calendar-prev"
@@ -230,25 +262,9 @@ export default {
     text-align: center;
 }
 ul {
-  &:before {
-    content: "";
-    position: absolute;
-    width: 100%;
-    display: block;
-    border-top:1rpx solid #d9d9d9; 
-  }
   li {
-    padding: 0 32rpx;
+    padding: 0 12rpx;
     display: block;
-    &:after {
-      border-top-width: 1rpx;
-      border-top-style: solid;
-      display: block;
-      content: "";
-      width: 100%;
-      position: absolute;
-      color: #d9d9d9;
-    }
     p {
       &.title {
         font-size: 45rpx;
