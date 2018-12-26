@@ -15,23 +15,24 @@
         <div class='userinfo-nickname'>
           <div class='weui-cell__bd'> {{userInfo.nickName}}</div>
         </div>
-      </div>
-      <div class='weui-cells__title'> 意见反馈</div>
-      <div class='weui-cells'>
-        <div class='weui-cell'>
-          <div class='weui-cell__bd'>
-            <p> 意见反馈</p>
+        <div class='weui-cells__title'> 意见反馈</div>
+        <div class='weui-cells'>
+          <div class='weui-cell'>
+            <div class='weui-cell__bd'>
+              <p> 意见反馈</p>
+            </div>
+            <div class='weui-cell__ft'>
+            </div>
           </div>
-          <div class='weui-cell__ft'>
-          </div>
-        </div>
-        <div class='weui-cell'>
-          <div class='weui-cell__bd'>
-            <p> 关于日历</p>
+          <div class='weui-cell'>
+            <div class='weui-cell__bd'>
+              <p> 关于日历</p>
+            </div>
           </div>
         </div>
       </div>
     </div>
+  </div>
 </template>
 
 <script>

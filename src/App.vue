@@ -19,7 +19,7 @@ export default {
           // 发送凭证
           // 发起网络请求
           wx.request({
-            url: 'http://39.96.33.101:80/login/',
+            url: 'https://39.96.33.101:443/login/',
             data: {
               code: res.code
             },

@@ -4,12 +4,12 @@
       v-if="isShow"
       class="start_img"
       :src="userInfo.avatarUrl"
-    >
+    ></img>
     <img
       v-else
       class="start_img"
       src="/static/icon.png"
-    >
+    ></img>
     <p class="text"> Hello! {{userInfo.nickName}}</p>
     <button
       class="btn"
