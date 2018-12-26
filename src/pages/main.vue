@@ -1,15 +1,15 @@
-<template lang="pug">
+<template>
 
-  .page
-    div.title 主页面
+  <div class='page'>
+    <div class='title'> 主页面</div>
 
-    button(@click="$router.replace({path:'/pages/index'})") 日程管理
+    <button @click="$router.replace({path:'/pages/index'})"> 日程管理</button>
 
-    button(@click="$router.replace({path:'/pages/setting'})") 用户中心 
-    
-    button(@click="$router.replace({path:'/pages/inviter_index'})") 日程邀请
+    <button @click="$router.replace({path:'/pages/setting'})"> 用户中心</button>
 
-    button() 时间统计
+    <button @click="$router.replace({path:'/pages/inviter_index'})"> 日程邀请</button>
+
+    <button> 时间统计</button>
 </template>
 
 <script>
@@ -36,7 +36,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 .title {
   text-align: center;
   padding: 48rpx 32rpx 32rpx;

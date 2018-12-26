@@ -1,10 +1,27 @@
-<template lang="pug">
-  .box
-    <img v-if="isShow" class="start_img" :src="userInfo.avatarUrl">
-    <img v-else class="start_img" src="/static/icon.png">
+<template>
+  <div class='box'>
+    <img
+      v-if="isShow"
+      class="start_img"
+      :src="userInfo.avatarUrl"
+    >
+    <img
+      v-else
+      class="start_img"
+      src="/static/icon.png"
+    >
     <p class="text"> Hello! {{userInfo.nickName}}</p>
-    <button class="btn" v-if="isShow" @click="redirect"> 开始探索 </button>
-    <button v-else class="btn" open-type="getUserInfo" @getuserinfo="getUserInfo"> 获取授权 </button>
+    <button
+      class="btn"
+      v-if="isShow"
+      @click="redirect"
+    > 开始探索 </button>
+    <button
+      v-else
+      class="btn"
+      open-type="getUserInfo"
+      @getuserinfo="getUserInfo"
+    > 获取授权 </button>
     <p v-show="textShow">我们需要您的授权！</p>
   </div>
 </template>
@@ -59,9 +76,9 @@ export default {
 
     redirect () {
       if (this.inviterID) {
-        this.$router.replace({path: '/pages/invite_accept?inviterID=' + this.inviterID + '&date=' + this.date + '&time=' + this.time})
+        this.$router.replace({ path: '/pages/invite_accept?inviterID=' + this.inviterID + '&date=' + this.date + '&time=' + this.time })
       } else {
-        this.$router.replace({path: '/pages/main'})
+        this.$router.replace({ path: '/pages/main' })
       }
     }
   }

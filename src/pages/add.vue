@@ -1,36 +1,63 @@
-<template lang="pug">
+<template>
   <div class='page'>
 
     <div class='weui-cells'>
 
       <div class='weui-cell'>
-        <picker class='pick' mode="time" v-bind:value="time" start="00:00" end="24:00" @change="TimeChange">
+        <picker
+          class='pick'
+          mode="time"
+          v-bind:value="time"
+          start="00:00"
+          end="24:00"
+          @change="TimeChange"
+        >
           <label class='weui-cell__bd'> 时间：</label>
           <label class='weui-cell__ft'> {{time}}</label>
         </picker>
       </div>
       <div class='weui-cell'>
-        <picker class='pick' mode="date" v-bind:value="date" start="1999-01-01" end="2099-01-01" @change="DateChange">
+        <picker
+          class='pick'
+          mode="date"
+          v-bind:value="date"
+          start="1999-01-01"
+          end="2099-01-01"
+          @change="DateChange"
+        >
           <label class='weui-cell__bd'> 日期：</label>
           <label class='weui-cell__ft'> {{date}}</label>
         </picker>
       </div>
       <div class='weui-cell'>
         <label> 事件：</label>
-        <input v-model="thing" placeholder="请输入日程"></input>
+        <input
+          v-model="thing"
+          placeholder="请输入日程"
+        ></input>
       </div>
       <div class='weui-cell'>
         <label> 地点：</label>
-        <input v-model="place" placeholder="请输入地点"></input>
+        <input
+          v-model="place"
+          placeholder="请输入地点"
+        ></input>
       </div>
       <div class='weui-cell.invite'>
         <label> 邀请好友：</label>
         <button class='invite-btn'> 邀请好友</button>
       </div>
     </div>
-    <button class='weui-btn' @click="addTodo" type="primary"> 添加日程</button>
+    <button
+      class='weui-btn'
+      @click="addTodo"
+      type="primary"
+    > 添加日程</button>
 
-    <button class='weui-btn' @click="$router.push({path:'/pages/index',isTab:true})"> 查看日程</button>
+    <button
+      class='weui-btn'
+      @click="$router.push({path:'/pages/index',isTab:true})"
+    > 查看日程</button>
   </div>
 </template>
 
@@ -158,26 +185,26 @@ button {
   letter-spacing: 0.01em;
   line-height: 100rpx;
   min-width: 176rpx;
-  background-color: #00BFFF;
+  background-color: #00bfff;
   max-width: 100%;
   vertical-align: middle;
 }
 .pick {
   width: 100%;
 }
-label.weui-cell__ft{
+label.weui-cell__ft {
   font-weight: 900;
   color: #848484;
   margin-left: 10rpx;
 }
-input{
+input {
   font-weight: 550;
   border-radius: 30rpx;
   padding: 10rpx 10rpx;
   font-size: 40rpx;
 }
-.weui-cell{
-  background-color: #00BFFF;
+.weui-cell {
+  background-color: #00bfff;
   border-radius: 30rpx;
   padding: 20rpx 20rpx;
   font-size: 40rpx;

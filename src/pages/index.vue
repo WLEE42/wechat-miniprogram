@@ -3,9 +3,9 @@
     <view class="body">
       <Calendar :events="events" @select="select" ref="calendar" @selectMonth="selectMonth" @selectYear="selectYear"></Calendar>
     
-    .weui-cells__title 日程
-    ul
-      li(v-for='todo in todos[todayDate]' :key="todo.eventKey" @click="toDetail($event,todo)")
+    <div class="weui-cells__title"> 日程</div>
+    <ul>
+      <li v-for='todo in todos[todayDate]' :key="todo.eventKey" @click="toDetail($event,todo)">
         <view class="item">
                 <view>
                   <p class="title">{{todo.time}}</p>
@@ -17,6 +17,8 @@
                   </view>
                 </view>
         </view>
+      </li>
+    </ul>
     </view>
 
     <view class="tabBar">
@@ -131,18 +133,18 @@ button {
   display: flex;
   justify-content: center;
 }
-.icon{
-  width:54rpx;
+.icon {
+  width: 54rpx;
   height: 54rpx;
 }
 .tabBar {
   width: 100%;
   position: fixed;
-  bottom:0;
-  padding:10rpx;
-  margin-left:-4rpx;
-  background:#F7F7FA;
-  font-size:20rpx;
+  bottom: 0;
+  padding: 10rpx;
+  margin-left: -4rpx;
+  background: #f7f7fa;
+  font-size: 20rpx;
   box-shadow: 6rpx 6rpx 6rpx 6rpx #aaa;
 }
 .tabBar-item {
@@ -159,14 +161,14 @@ button {
   width: 100%;
   margin-bottom: 150rpx;
 }
-.item{
+.item {
   display: flex;
 }
-.item p{
+.item p {
   margin-bottom: 10rpx;
 }
 .content {
-  background-color: #00BFFF;
+  background-color: #00bfff;
   border-radius: 30rpx;
   padding-left: 20rpx;
   padding-right: 50rpx;
@@ -175,8 +177,8 @@ button {
   font-size: 40rpx;
   width: 80%;
 }
-.title{
-  background-color: #00BFFF;
+.title {
+  background-color: #00bfff;
   border-radius: 30rpx;
   padding-left: 20rpx;
   padding-right: 10rpx;

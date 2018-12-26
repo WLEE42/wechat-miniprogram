@@ -5,12 +5,12 @@
     <div class='weui-cells'>
 
       <div class='weui-cell'>
-          <label class='weui-cell__bd'> 时间：</label>
-          <label class='weui-cell__ft'> {{todo.time}}</label>
+        <label class='weui-cell__bd'> 时间：</label>
+        <label class='weui-cell__ft'> {{todo.time}}</label>
       </div>
       <div class='.weui-cell'>
-          <label class='weui-cell__bd'> 日期：</label>
-          <label class='weui-cell__ft'> {{todo.date}}</label>
+        <label class='weui-cell__bd'> 日期：</label>
+        <label class='weui-cell__ft'> {{todo.date}}</label>
       </div>
       <div class='weui-cell'>
         <label> 地点：{{todo.place}}</label>
