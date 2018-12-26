@@ -14,11 +14,11 @@
         <p class="title">地点：</p> <p class="content">{{place}}</p>
       </view>
       <view>
-        <p class="title">邀请人：</p> <p class="content">{{inviterName}}</p>
+        <p class="title">邀请人：</p> <p class="content2">{{inviterName}}</p>
       </view>
     </view>
 
-    button.weui-btn(@click="addTodo" type="default") 接收邀请
+    button.weui-btn(@click="addTodo" type="default") 接受邀请
 </template>
 
 <script>
@@ -65,13 +65,16 @@ export default {
       success (res) {
         if (res.code) {
           wx.request({
-            url: 'http://39.96.33.101:80/login/checkUser',
+            url: 'http://localhost:8000/login/checkUser',
             data: {
               code: res.code
             },
             success (res) {
               wx.setStorageSync('sessionKey', res.data['sessionKey'])
               console.log('invite_accept.login 写入sessionKey' + res.data['sessionKey'])
+              if (res.data['state'] === false) {
+                that.$router.replace({path: '/pages/start?inviterID=' + that.inviterID + '&date=' + that.date + '&time=' + that.time})
+              }
             },
             fail (res) {
               console.log('访问服务器失败')
@@ -89,6 +92,7 @@ export default {
         that.inviterName = d.data.inviterName
         that.thing = d.data.thing
         that.place = d.data.place
+        console.log('invite_accept.onLoad: success')
       })
   },
   methods: {
@@ -107,7 +111,7 @@ export default {
         thing: this.thing,
         place: this.place,
         inviter: this.inviterID,
-        invitee: 123 // this.sessionKey
+        invitee: this.sessionKey
       }).then(d => {
         console.log(d)
         if (d.data.state === 'success') {
@@ -132,7 +136,7 @@ export default {
               if (res.confirm) {
                 console.log('用户点击确定')
               } else {
-                this.$router.push({ path: '/pages/detail', query: { eventKey: d.eventKey } })
+                that.$router.push({ path: '/pages/detail', query: { date: that.date, eventKey: d.eventKey } })
               }
             }
           })
@@ -160,12 +164,23 @@ export default {
   margin-left: 5rpx;
   margin-right: 20rpx;
   font-size: 40rpx;
-  width: 80%;
+  width: 63.5%;
+}
+.content2 {
+  background-color: #FFc1c1;
+  border-radius: 30rpx;
+  padding-left: 20rpx;
+  padding-right: 50rpx;
+  margin-bottom: 10rpx;
+  margin-left: 5rpx;
+  margin-right: 20rpx;
+  font-size: 40rpx;
+  width: 58%;
 }
 .title{
   background-color: #FFc1c1;
   border-radius: 30rpx;
-  padding-left: 20rpx;
+  padding-left: 30rpx;
   padding-right: 10rpx;
   margin-bottom: 10rpx;
   margin-left: 20rpx;

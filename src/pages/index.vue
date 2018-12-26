@@ -3,21 +3,22 @@
     <view class="body">
       <Calendar :events="events" @select="select" ref="calendar" @selectMonth="selectMonth" @selectYear="selectYear"></Calendar>
     
-      <div class='weui-cells__title'> 日程</div>
-      <ul>
-        <li v-for='todo in todos[todayDate]' :key="todo.eventKey" @click="toDetail($event,todo)">
-          <p class='title'>
-            <span> {{todo.date}}</span>
-            <span> {{todo.time}}</span>
-          </p>
-          <p>
-            <span> {{todo.thing}}</span>
-            <span> {{todo.place}}</span>
-          </p>
-        </li>
-      </ul>
+    .weui-cells__title 日程
+    ul
+      li(v-for='todo in todos[todayDate]' :key="todo.eventKey" @click="toDetail($event,todo)")
+        <view class="item">
+                <view>
+                  <p class="title">{{todo.time}}</p>
+                </view>
+                <view class="content">
+                  <view class="item">
+                    <span v-if="todo.thing!=''"> {{todo.thing}} </span>
+                    <span v-else> 没有事件描述 </span>
+                  </view>
+                </view>
+        </view>
     </view>
-    
+
     <view class="tabBar">
       <block>
         <view class="tabBar-item" @click="$router.replace({path:'/pages/main'})">
@@ -63,7 +64,7 @@ export default {
     ])
   },
 
-  mounted () {
+  created () {
     this.todayDate = formatDate(new Date())
     this.showTodos()
   },
@@ -112,12 +113,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.tit {
-  padding: 48rpx 32rpx 32rpx;
-  text-align: center;
-  color: rgba(0, 0, 0, 0.87);
-  font-size: 50rpx;
-}
 button {
   border: 0px 0px;
   padding: 0 32rpx;
@@ -136,52 +131,18 @@ button {
   display: flex;
   justify-content: center;
 }
-ul {
-  &:before {
-    content: "";
-    position: absolute;
-    width: 100%;
-    display: block;
-    border-top: 1rpx solid #d9d9d9;
-  }
-  li {
-    padding: 0 32rpx;
-    display: block;
-    &:after {
-      border-top-width: 1rpx;
-      border-top-style: solid;
-      display: block;
-      content: "";
-      width: 100%;
-      position: absolute;
-      color: #d9d9d9;
-    }
-    p {
-      &.title {
-        font-size: 45rpx;
-        color: #ea6151;
-      }
-      display: flex;
-      justify-content: space-between;
-      span {
-        display: inline;
-      }
-    }
-  }
-}
-.icon {
-  width: 54rpx;
+.icon{
+  width:54rpx;
   height: 54rpx;
 }
 .tabBar {
   width: 100%;
   position: fixed;
-  bottom: 0;
-  padding: 10rpx;
-  margin-left: -4rpx;
-  background: #f7f7fa;
-  font-size: 20rpx;
-  color: #8a8a8a;
+  bottom:0;
+  padding:10rpx;
+  margin-left:-4rpx;
+  background:#F7F7FA;
+  font-size:20rpx;
   box-shadow: 6rpx 6rpx 6rpx 6rpx #aaa;
 }
 .tabBar-item {
@@ -197,5 +158,31 @@ ul {
 .body {
   width: 100%;
   margin-bottom: 150rpx;
+}
+.item{
+  display: flex;
+}
+.item p{
+  margin-bottom: 10rpx;
+}
+.content {
+  background-color: #00BFFF;
+  border-radius: 30rpx;
+  padding-left: 20rpx;
+  padding-right: 50rpx;
+  margin-bottom: 10rpx;
+  margin-left: 5rpx;
+  font-size: 40rpx;
+  width: 80%;
+}
+.title{
+  background-color: #00BFFF;
+  border-radius: 30rpx;
+  padding-left: 20rpx;
+  padding-right: 10rpx;
+  margin-bottom: 10rpx;
+  margin-right: 5rpx;
+  font-size: 40rpx;
+  font-weight: 900;
 }
 </style>
