@@ -7,10 +7,14 @@
     "pages/setting",
     "pages/dayView",
     "pages/detail",
-    "pages/inviter_index",
-    "pages/invitee_index",
-    "pages/invite_accept",
-    "pages/invite_add"
+    "invite/inviter_index",
+    "invite/invitee_index",
+    "invite/invite_accept",
+    "invite/invite_add",
+    "invite/invite_detail",
+    "stat/statistic_add",
+    "stat/statistic_index",
+    "stat/statistic_detail"
   ],
   "window": {
     "backgroundTextStyle": "light",

@@ -15,8 +15,7 @@
       .weui-cell
         label 事件：{{todo.thing}}
       .weui-cell
-        label 参与人: {{todo.people}}
-    button(open-type="share") 分享统计
+        label 被邀人: {{todo.invitee}}
     button(@click="deleteEvents") 删除事件
     button(@click="modifyEvents") 修改事件
 </template>
@@ -38,7 +37,7 @@ export default {
   },
   computed: {
     ...mapState([
-      'statistics',
+      'myinvitations',
       'sessionKey'
     ])
   },
@@ -47,7 +46,7 @@ export default {
 
     modifyEvents () {
       console.log('modify')
-      this.$http.get('event/modifyEvent', { sessionKey: this.sessionKey, time: this.todo.time, date: this.todo.date, thing: this.todo.thing, place: this.todo.place, eventKey: this.todo.eventKey }).then(
+      this.$http.get('invite/modifyInvitation', { sessionKey: this.sessionKey, time: this.todo.time, date: this.todo.date, thing: this.todo.thing, place: this.todo.place, eventKey: this.todo.eventKey }).then(
         d => {
           this.todos[this.$route.query.date].forEach((todo, index, object) => {
             if (todo.eventKey === this.$route.query.eventKey) {
@@ -62,7 +61,7 @@ export default {
       if (this.todo.thing === '今日无事件') {
         return
       }
-      this.$http.get('statistics/deleteStatistic', { sessionKey: this.sessionKey, eventKey: this.todo.eventKey }).then(
+      this.$http.get('invite/deleteInvitation', { sessionKey: this.sessionKey, eventKey: this.todo.eventKey }).then(
         d => {
           this.todos[this.$route.query.date].forEach((todo, index, object) => {
             if (todo.eventKey === this.$route.query.eventKey) {
@@ -75,8 +74,8 @@ export default {
     }
   },
   mounted () {
-    if (this.statistics[this.$route.query.date].length !== 0) {
-      this.statistics[this.$route.query.date].forEach(todo => {
+    if (this.myinvitations[this.$route.query.date].length !== 0) {
+      this.myinvitations[this.$route.query.date].forEach(todo => {
         if (todo.eventKey === this.$route.query.eventKey) {
           this.todo = todo
           console.log(this.todo.date)
@@ -97,7 +96,7 @@ export default {
       title: this.todo.thing,
       // the page to share
       // the parameters are to identify a specific event
-      path: '/pages/invite_accept?inviterID=' + this.sessionKey + '&date=' + this.todo.date + '&time=' + this.todo.time,
+      path: '/invite/invite_accept?inviterID=' + this.sessionKey + '&date=' + this.todo.date + '&time=' + this.todo.time,
       success: function (res) {
         console.log('invite_add.onShareAppMessage: success')
         // that.addInvitation()

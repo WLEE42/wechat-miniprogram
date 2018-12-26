@@ -97,7 +97,7 @@ export default {
             success: function (res) {
               if (res.confirm) {
                 console.log('用户点击确定')
-                that.$router.replace({path: '/pages/inviter_index'})
+                that.$router.replace({path: '/invite/inviter_index'})
               }
             }
           })
@@ -111,7 +111,7 @@ export default {
                 console.log('用户点击确定')
               } else {
                 console.log(that.date)
-                that.$router.push({ path: '/pages/detail', query: { date: that.date, eventKey: d.data.eventKey } })
+                that.$router.push({ path: '/invite/detail', query: { date: that.date, eventKey: d.data.eventKey } })
               }
             }
           })
