@@ -61,10 +61,13 @@ button {
     background-color: #ff6347;
   }
   &.btn3 {
-    background-color: rgba(79,132,196, 0.87);
+    background-color: rgba(79, 132, 196, 0.87);
   }
   &.btn2 {
-    background-color:  rgba(0, 88, 94, 0.87);
+    background-color: #6c5ce7;
+  }
+  &.btn4 {
+    background-color: #b2bec3;
   }
   border: 0px 0px;
   padding: 0 32rpx;

@@ -31,11 +31,11 @@
                 <view class="content">
                   <view class="item">
                     <p>时间：</p>
-                    <span> {{statistic.date + ' ' + statistic.time}} </span>
+                    <span> {{statistic.deadDate + ' ' + statistic.deadTime}} </span>
                   </view>
                   <view class="item">
                     <p>事件：</p>
-                    <span v-if="statistic.thing!=''"> {{statistic.thing}} </span>
+                    <span v-if="statistic.thing!=''"> {{statistic.title}} </span>
                     <span v-else> 无 </span>
                   </view>
                   <view class="item">
@@ -44,8 +44,8 @@
                     <span v-else> 无 </span>
                   </view>
                   <view class="item">
-                    <p>参与者：</p>
-                    <span v-if="statistic.people.length!=0"> {{statistic.people}} </span>
+                    <p>参与者人数：</p>
+                    <span v-if="statistic.people.length!=0"> {{statistic.people.length}} </span>
                     <span v-else> 暂无 </span>
                   </view>
                 </view>
@@ -168,7 +168,7 @@ export default {
 
     toDetail (e, statistic) {
       console.log(statistic.date)
-      this.$router.push({ path: '/stat/statistic_detail', query: { date: statistic.date.split('-')[1], eventKey: statistic.eventKey } })
+      this.$router.push({ path: '/stat/statistic_detail', query: { date: statistic.deadDate.split('-')[1], eventKey: statistic.eventKey } })
     }
   }
 }
@@ -293,7 +293,7 @@ ul {
   margin-bottom:150rpx;
 }
 .content {
-  background-color: #9F79EE;
+  background-color: #b2bec3;
   border-radius: 30rpx;
   padding-left: 20rpx;
   padding-right: 50rpx;

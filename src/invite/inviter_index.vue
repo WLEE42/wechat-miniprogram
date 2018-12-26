@@ -291,7 +291,7 @@ ul {
   margin-bottom:150rpx;
 }
 .content {
-  background-color: #FFc1c1;
+  background-color: rgba(79, 132, 196, 0.87);
   border-radius: 30rpx;
   padding-left: 20rpx;
   padding-right: 50rpx;
@@ -301,7 +301,7 @@ ul {
   width: 80%;
 }
 .title{
-  background-color: #FFc1c1;
+  background-color: rgba(79, 132, 196, 0.87);
   border-radius: 30rpx;
   padding-left: 20rpx;
   padding-right: 10rpx;

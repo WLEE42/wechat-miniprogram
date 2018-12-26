@@ -166,7 +166,7 @@ button {
   letter-spacing: 0.01em;
   line-height: 100rpx;
   min-width: 176rpx;
-  background-color: #FFc1c1;
+  background-color: rgba(79, 132, 196, 0.87);
   max-width: 100%;
   vertical-align: middle;
 }
@@ -185,7 +185,7 @@ input{
   font-size: 40rpx;
 }
 .weui-cell{
-  background-color: #FFc1c1;
+  background-color: rgba(79, 132, 196, 0.87);
   border-radius: 30rpx;
   padding: 20rpx 20rpx;
   font-size: 40rpx;

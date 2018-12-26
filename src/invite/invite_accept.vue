@@ -156,7 +156,7 @@ export default {
   display: flex;
 }
 .content {
-  background-color: #FFc1c1;
+  background-color:rgba(79, 132, 196, 0.87);
   border-radius: 30rpx;
   padding-left: 20rpx;
   padding-right: 50rpx;
@@ -167,7 +167,7 @@ export default {
   width: 63.5%;
 }
 .content2 {
-  background-color: #FFc1c1;
+  background-color: rgba(79, 132, 196, 0.87);
   border-radius: 30rpx;
   padding-left: 20rpx;
   padding-right: 50rpx;
@@ -178,7 +178,7 @@ export default {
   width: 58%;
 }
 .title{
-  background-color: #FFc1c1;
+  background-color: rgba(79, 132, 196, 0.87);
   border-radius: 30rpx;
   padding-left: 30rpx;
   padding-right: 10rpx;
@@ -201,7 +201,7 @@ button {
   background-color: rgb(250, 250, 250);
   max-width: 100%;
   vertical-align: middle;
-  background-color: #FFc1c1;
+  background-color: rgba(79, 132, 196, 0.87)
 }
 .pick {
   width: 700 rpx;

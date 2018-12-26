@@ -5,17 +5,15 @@
     .weui-cells
 
       .weui-cell
-          label.weui-cell__bd 时间：
-          label.weui-cell__ft {{todo.time}}
+          label.weui-cell__bd 截止时间：
+          label.weui-cell__ft {{stat.deadDate+' '+stat.deadTime}}
       .weui-cell
-          label.weui-cell__bd 日期：
-          label.weui-cell__ft {{todo.date}}
+        label 地点：{{stat.place}}
       .weui-cell
-        label 地点：{{todo.place}}
+        label 事件：{{stat.thing}}
       .weui-cell
-        label 事件：{{todo.thing}}
-      .weui-cell
-        label 参与人: {{todo.people}}
+        label 参与人数: {{stat.people.length}}
+    
     button(open-type="share") 分享统计
     button(@click="deleteEvents") 删除事件
     button(@click="modifyEvents") 修改事件
@@ -27,11 +25,14 @@ import { mapState, mapMutations } from 'vuex'
 export default {
   data () {
     return {
-      todo: {
-        time: '请选择时间',
-        date: '请选择日期',
-        thing: '',
-        place: '',
+      stat: {
+        title: '我爱学习',
+        thing: '预定在本周进行学习',
+        deadTime: '08:08',
+        deadDate: '2018-12-03',
+        choices: [{ date: '2018-12-26', time: '20:20', number: '0' }],
+        people: [{ openid: '111', choice: 0 }],
+        place: '北京',
         eventKey: ''
       }
     }
@@ -76,25 +77,24 @@ export default {
   },
   mounted () {
     if (this.statistics[this.$route.query.date].length !== 0) {
-      this.statistics[this.$route.query.date].forEach(todo => {
-        if (todo.eventKey === this.$route.query.eventKey) {
-          this.todo = todo
-          console.log(this.todo.date)
+      this.statistics[this.$route.query.date].forEach(stat => {
+        if (stat.eventKey === this.$route.query.eventKey) {
+          this.stat = stat
         }
       })
     } else {
-      this.todo.thing = '今日无事件'
+      this.stat.thing = '今日无事件'
     }
   },
 
   onShareAppMessage: function (res) {
-  //
-  // Triggered when the invite button is pressed
-  // enter the friend list and locate the page to share
-  //
+    //
+    // Triggered when the invite button is pressed
+    // enter the friend list and locate the page to share
+    //
     // var that = this
     return {
-      title: this.todo.thing,
+      title: this.todo.title,
       // the page to share
       // the parameters are to identify a specific event
       path: '/invite/invite_accept?inviterID=' + this.sessionKey + '&date=' + this.todo.date + '&time=' + this.todo.time,
