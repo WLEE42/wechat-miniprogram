@@ -1,11 +1,9 @@
 <template lang="pug">
   .box
     <img v-if="isShow" class="start_img" :src="userInfo.avatarUrl">
-    <img v-else class="start_img" src="/static/calendar.png">
-    <p> Hello! {{userInfo.nickName}}</p>
-    <navigator v-if="isShow" open-type="redirect" url="/pages/main">
-      <button class="btn"> 开始探索 </button>
-    </navigator>
+    <img v-else class="start_img" src="/static/icon.png">
+    <p class="text"> Hello! {{userInfo.nickName}}</p>
+    <button class="btn" v-if="isShow" @click="redirect"> 开始探索 </button>
     <button v-else class="btn" open-type="getUserInfo" @getuserinfo="getUserInfo"> 获取授权 </button>
     <p v-show="textShow">我们需要您的授权！</p>
 </template>
@@ -17,7 +15,10 @@ export default {
   data () {
     return {
       isShow: false,
-      textShow: false
+      textShow: false,
+      inviterID: '',
+      date: '',
+      time: ''
     }
   },
 
@@ -29,6 +30,15 @@ export default {
       'userInfo'
     ])
   },
+
+  onLoad: function (res) {
+    if (res) {
+      this.inviterID = res.inviterID
+      this.date = res.date
+      this.time = res.time
+    }
+  },
+
   methods: {
     ...mapMutations([
       'setUserInfo'
@@ -44,6 +54,14 @@ export default {
       } else {
         this.textShow = true
       }
+    },
+
+    redirect () {
+      if (this.inviterID) {
+        this.$router.replace({path: '/pages/invite_accept?inviterID=' + this.inviterID + '&date=' + this.date + '&time=' + this.time})
+      } else {
+        this.$router.replace({path: '/pages/main'})
+      }
     }
   }
 }
@@ -52,6 +70,7 @@ export default {
 <style scoped>
 .text {
   text-align: center;
+  margin-top: 200rpx;
 }
 .box {
   position: relative;
@@ -67,5 +86,8 @@ export default {
   height: 200rpx;
   border-radius:100rpx;
   margin: 100rpx 0;
+}
+.btn {
+  width: 100%;
 }
 </style>

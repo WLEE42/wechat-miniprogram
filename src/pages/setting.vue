@@ -1,6 +1,6 @@
 <template lang="pug">
   .page
-    .weui-cell 我是设置
+    .weui-cell 设置
     .weui-cell.userinfo
       .userinfo(@click="bindViewTap")
         img.userinfo-avatar(v-if="userInfo.avatarUrl" :src="userInfo.avatarUrl" background-size="cover")
