@@ -19,7 +19,7 @@ export default {
           // 发送凭证
           // 发起网络请求
           wx.request({
-            url: 'https://39.96.33.101:443/login/',
+            url: 'https://www.giveteamaname.top/login/',
             data: {
               code: res.code
             },

@@ -27,10 +27,22 @@ module.exports = [
     path: 'pages/invitee_index'
   },
   {
+    path: 'pages/invite_detail'
+  },
+  {
     path: 'pages/invite_add'
   },
   {
     path: 'pages/invite_accept'
+  },
+  {
+    path: 'pages/statistic_index'
+  },
+  {
+    path: 'pages/statistic_detail'
+  },
+  {
+    path: 'pages/statistic_add'
   },
   {
     path: 'packageA/logs',

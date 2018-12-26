@@ -9,8 +9,12 @@
     "pages/detail",
     "pages/inviter_index",
     "pages/invitee_index",
+    "pages/invite_detail",
     "pages/invite_accept",
-    "pages/invite_add"
+    "pages/invite_add",
+    "pages/statistic_index",
+    "pages/statistic_detail",
+    "pages/statistic_add"
   ],
   "window": {
     "backgroundTextStyle": "light",
