@@ -18,9 +18,6 @@ module.exports = [
     path: 'pages/main'
   },
   {
-    path: 'pages/invite_index'
-  },
-  {
     path: 'pages/detail'
   },
   {

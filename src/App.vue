@@ -1,11 +1,5 @@
 <script>
-import { mapState } from 'vuex'
 export default {
-  computed: {
-    ...mapState([
-      'sessionKey'
-    ])
-  },
   created () {
     // 调用API从本地缓存中获取数据
     const logs = wx.getStorageSync('logs') || []
