@@ -18,7 +18,10 @@
       @click="$router.replace({path:'/pages/inviter_index'})"
     > 日程邀请</button>
 
-    <button> 时间统计</button>
+    <button
+      class='btn4'
+      @click="$router.replace({path:'/pages/statistic_index'})"
+    > 时间统计</button>
   </div>
 </template>
 
