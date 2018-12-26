@@ -53,7 +53,7 @@ export default {
   // get invitation info from database
   //
   onLoad: function (res) {
-    // this.$router.replace({path: '/pages/start'})
+    // this.$router.replace({path: '/invite/start'})
     console.log('invite_accept.onload: ' + res.inviterID + res.date)
     var that = this
     that.time = res.time
@@ -73,7 +73,7 @@ export default {
               wx.setStorageSync('sessionKey', res.data['sessionKey'])
               console.log('invite_accept.login 写入sessionKey' + res.data['sessionKey'])
               if (res.data['state'] === false) {
-                that.$router.replace({path: '/pages/start?inviterID=' + that.inviterID + '&date=' + that.date + '&time=' + that.time})
+                that.$router.replace({path: '/invite/start?inviterID=' + that.inviterID + '&date=' + that.date + '&time=' + that.time})
               }
             },
             fail (res) {
@@ -123,7 +123,7 @@ export default {
             success: function (res) {
               if (res.confirm) {
                 console.log('用户点击确定')
-                that.$router.replace({ path: '/pages/inviter_index' })
+                that.$router.replace({ path: '/invite/inviter_index' })
               }
             }
           })
@@ -136,7 +136,7 @@ export default {
               if (res.confirm) {
                 console.log('用户点击确定')
               } else {
-                that.$router.push({ path: '/pages/detail', query: { date: that.date, eventKey: d.eventKey } })
+                that.$router.push({ path: '/invite/detail', query: { date: that.date, eventKey: d.eventKey } })
               }
             }
           })

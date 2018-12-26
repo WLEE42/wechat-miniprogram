@@ -59,15 +59,15 @@
           <view><image class="icon" src='/static/settings.png'></image></view>
           <view class="tabBartext">主页</view>
         </view>
-        <view class="tabBar-item" @click="$router.replace({path:'/pages/inviter_index'})">
+        <view class="tabBar-item" @click="$router.replace({path:'/invite/inviter_index'})">
           <view><image class="icon" src='/static/calendar.png'></image></view>
           <view class="tabBartext">我的邀请</view>
         </view>
-        <view class="tabBar-item" @click="$router.replace({path:'/pages/invitee_index'})">
+        <view class="tabBar-item" @click="$router.replace({path:'/invite/invitee_index'})">
           <view><image class="icon" src='/static/calendar.png'></image></view>
           <view class="tabBartext">邀请我的</view>
         </view>
-        <view class="tabBar-item" @click="$router.push({path:'/pages/invite_add'})">
+        <view class="tabBar-item" @click="$router.push({path:'/invite/invite_add'})">
           <view><image class="icon" src='/static/add.png'></image></view>
           <view class="tabBartext">添加邀请</view>
         </view>

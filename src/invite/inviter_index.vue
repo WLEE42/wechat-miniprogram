@@ -22,31 +22,31 @@
     <view class="body">
       <view v-if="!hasData" class="notfound">
         <image src='/static/rocket.png'></image>
-        <p>您还没有统计</p>
+        <p>您还没有邀请</p>
       </view>
       <view v-else>
         ul
-          li(v-for='statistic in statistics[month+1]' :key="statistic.eventKey" @click="toDetail($event,statistic)")
+          li(v-for='invitation in myinvitations[month+1]' :key="invitation.eventKey" @click="toDetail($event,invitation)")
             <view class="item">
+                <view>
+                  <p class="title">{{invitation.date}}</p>
+                  <p class="title">{{invitation.time}}</p>
+                </view>
                 <view class="content">
                   <view class="item">
-                    <p>时间：</p>
-                    <span> {{statistic.date + ' ' + statistic.time}} </span>
-                  </view>
-                  <view class="item">
                     <p>事件：</p>
-                    <span v-if="statistic.thing!=''"> {{statistic.thing}} </span>
+                    <span v-if="invitation.thing!=''"> {{invitation.thing}} </span>
                     <span v-else> 无 </span>
                   </view>
                   <view class="item">
                     <p>地点：</p>
-                    <span v-if="statistic.place!=''"> {{statistic.place}} </span>
+                    <span v-if="invitation.place!=''"> {{invitation.place}} </span>
                     <span v-else> 无 </span>
                   </view>
                   <view class="item">
-                    <p>参与者：</p>
-                    <span v-if="statistic.people.length!=0"> {{statistic.people}} </span>
-                    <span v-else> 暂无 </span>
+                    <p>受邀人：</p>
+                    <span v-if="invitation.invitee!=''"> {{invitation.invitee}} </span>
+                    <span v-else> 暂未应邀 </span>
                   </view>
                 </view>
             </view>
@@ -60,13 +60,17 @@
           <view><image class="icon" src='/static/settings.png'></image></view>
           <view class="tabBartext">主页</view>
         </view>
-        <view class="tabBar-item">
+        <view class="tabBar-item" @click="$router.replace({path:'/invite/inviter_index'})">
           <view><image class="icon" src='/static/calendar.png'></image></view>
-          <view class="tabBartext">时间统计</view>
+          <view class="tabBartext">我的邀请</view>
         </view>
-        <view class="tabBar-item" @click="$router.push({path:'/pages/statistic_add'})">
+        <view class="tabBar-item" @click="$router.replace({path:'/invite/invitee_index'})">
+          <view><image class="icon" src='/static/calendar.png'></image></view>
+          <view class="tabBartext">邀请我的</view>
+        </view>
+        <view class="tabBar-item" @click="$router.push({path:'/invite/invite_add'})">
           <view><image class="icon" src='/static/add.png'></image></view>
-          <view class="tabBartext">添加统计</view>
+          <view class="tabBartext">添加邀请</view>
         </view>
       </block>
     </view>
@@ -82,6 +86,7 @@ export default {
     return {
       // store system info
       isIos: false,
+      // determine which page to display
       hasData: false,
       year: 0,
       month: 0,
@@ -93,7 +98,7 @@ export default {
 
   watch: {
     month: function () {
-      if (this.month + 1 in this.statistics) {
+      if (this.month + 1 in this.myinvitations) {
         this.hasData = true
       } else {
         this.hasData = false
@@ -103,7 +108,7 @@ export default {
 
   computed: {
     ...mapState([
-      'statistics'
+      'myinvitations'
     ])
   },
 
@@ -112,13 +117,7 @@ export default {
   // initialize systeminfo and date
   //
     this.sessionKey = wx.getStorageSync('sessionKey')
-    // var that = this
-    wx.getSystemInfo({
-      success: function (res) {
-        // that.isIos = (res.system.split(' ') || [])[0] === 'iOS'
-      }
-    })
-    this.getStatistics()
+    this.getInviterInvitations()
     let now = new Date()
     this.year = now.getFullYear()
     this.month = now.getMonth()
@@ -126,7 +125,7 @@ export default {
   },
 
   onLoad () {
-    if (this.month + 1 in this.statistics) {
+    if (this.month + 1 in this.myinvitations) {
       this.hasData = true
     } else {
       this.hasData = false
@@ -135,7 +134,7 @@ export default {
 
   methods: {
     ...mapMutations([
-      'getStatistics'
+      'getInviterInvitations'
     ]),
 
     prev (e) {
@@ -166,9 +165,8 @@ export default {
       this.monthText = this.months[this.month]
     },
 
-    toDetail (e, statistic) {
-      console.log(statistic.date)
-      this.$router.push({ path: '/pages/statistic_detail', query: { date: statistic.date.split('-')[1], eventKey: statistic.eventKey } })
+    toDetail (e, invitation) {
+      this.$router.push({ path: '/invite/invite_detail', query: { date: invitation.date.split('-')[1], eventKey: invitation.eventKey } })
     }
   }
 }
@@ -281,7 +279,7 @@ ul {
 }
 .tabBar-item{
   float:left;
-  width:33%;
+  width:25%;
   text-align: center;
   overflow: hidden;
 }
@@ -293,21 +291,29 @@ ul {
   margin-bottom:150rpx;
 }
 .content {
-  background-color: #9F79EE;
+  background-color: #FFc1c1;
   border-radius: 30rpx;
   padding-left: 20rpx;
   padding-right: 50rpx;
   margin-bottom: 10rpx;
   margin-left: 5rpx;
+  font-size: 40rpx;
+  width: 80%;
+}
+.title{
+  background-color: #FFc1c1;
+  border-radius: 30rpx;
+  padding-left: 20rpx;
+  padding-right: 10rpx;
+  margin-bottom: 10rpx;
   margin-right: 5rpx;
   font-size: 40rpx;
-  width: 100%;
+  font-weight: 900;
 }
 .item{
   display: flex;
 }
 .item p{
   margin-bottom: 10rpx;
-  font-weight: 900;
 }
 </style>
