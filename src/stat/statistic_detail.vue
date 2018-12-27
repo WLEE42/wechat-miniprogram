@@ -14,7 +14,8 @@
       .weui-cell
         label 参与人数: {{stat.people.length}}
     <div class="echarts-wrap">
-      <mpvue-echarts :echarts="echarts" :onInit="onInit" canvasId="demo-canvas" />
+      <button @click="initChart">查看统计结果</button>
+      <mpvue-echarts lazyLoad :echarts="echarts" :onInit="handleInit" ref="echarts" />
     </div>
     button(open-type="share") 分享统计
 </template>
@@ -26,116 +27,6 @@ import mpvueEcharts from 'mpvue-echarts'
 
 let chart = null
 
-function initChart (canvas, width, height) {
-  chart = echarts.init(canvas, null, {
-    width: width,
-    height: height
-  })
-  canvas.setChart(chart)
-
-  var option = {
-    color: ['#37a2da', '#32c5e9', '#67e0e3'],
-    tooltip: {
-      trigger: 'axis',
-      axisPointer: { // 坐标轴指示器，坐标轴触发有效
-        type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
-      }
-    },
-    legend: {
-      data: ['热度', '正面', '负面']
-    },
-    grid: {
-      left: 20,
-      right: 20,
-      bottom: 15,
-      top: 40,
-      containLabel: true
-    },
-    xAxis: [
-      {
-        type: 'value',
-        axisLine: {
-          lineStyle: {
-            color: '#999'
-          }
-        },
-        axisLabel: {
-          color: '#666'
-        }
-      }
-    ],
-    yAxis: [
-      {
-        type: 'category',
-        axisTick: { show: false },
-        data: ['汽车之家', '今日头条', '百度贴吧', '一点资讯', '微信', '微博', '知乎'],
-        axisLine: {
-          lineStyle: {
-            color: '#999'
-          }
-        },
-        axisLabel: {
-          color: '#666'
-        }
-      }
-    ],
-    series: [
-      {
-        name: '热度',
-        type: 'bar',
-        label: {
-          normal: {
-            show: true,
-            position: 'inside'
-          }
-        },
-        data: [300, 270, 340, 344, 300, 320, 310],
-        itemStyle: {
-          emphasis: {
-            color: '#37a2da'
-          }
-        }
-      },
-      {
-        name: '正面',
-        type: 'bar',
-        stack: '总量',
-        label: {
-          normal: {
-            show: true
-          }
-        },
-        data: [120, 102, 141, 174, 190, 250, 220],
-        itemStyle: {
-          emphasis: {
-            color: '#32c5e9'
-          }
-        }
-      },
-      {
-        name: '负面',
-        type: 'bar',
-        stack: '总量',
-        label: {
-          normal: {
-            show: true,
-            position: 'left'
-          }
-        },
-        data: [-20, -32, -21, -34, -90, -130, -110],
-        itemStyle: {
-          emphasis: {
-            color: '#67e0e3'
-          }
-        }
-      }
-    ]
-  }
-  chart.setOption(option)
-
-  return chart // 返回 chart 后可以自动绑定触摸操作
-}
-
 export default {
   components: {
     mpvueEcharts
@@ -143,17 +34,10 @@ export default {
   data () {
     return {
       echarts,
-      onInit: initChart,
+      option: null,
       stat: {
-        title: '我爱学习',
-        thing: '预定在本周进行学习',
-        deadTime: '08:08',
-        deadDate: '2018-12-03',
-        choices: [{ date: '2018-12-26', time: '20:20', number: '0' }],
-        people: [{ openid: '111', choice: 0 }],
-        place: '北京',
-        eventKey: ''
-      }
+      },
+      result: {}
     }
   },
   computed: {
@@ -202,14 +86,96 @@ export default {
         }
       )
       this.$router.back()
+    },
+    initChart () {
+      this.option = {
+        title: { text: '时间统计' },
+        color: ['#37a2da', '#32c5e9', '#67e0e3'],
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: { // 坐标轴指示器，坐标轴触发有效
+            type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
+          }
+        },
+        legend: {
+          data: ['人数']
+        },
+        grid: {
+          left: 20,
+          right: 20,
+          bottom: 15,
+          top: 40,
+          containLabel: true
+        },
+        xAxis: [
+          {
+            type: 'value',
+            axisLabel: {
+              color: '#666'
+            }
+          }
+        ],
+        yAxis: [
+          {
+            type: 'category',
+            axisTick: { show: false },
+            data: Object.keys(this.result),
+            axisLine: {
+              lineStyle: {
+                color: '#999'
+              }
+            },
+            axisLabel: {
+              color: '#666'
+            }
+          }
+        ],
+        series: [
+          {
+            name: '人数',
+            type: 'bar',
+            label: {
+              normal: {
+                show: true,
+                position: 'inside'
+              }
+            },
+            data: Object.values(this.result),
+            itemStyle: {
+              emphasis: {
+                color: '#37a2da'
+              }
+            }
+          }
+        ]
+      }
+      this.$refs.echarts.init()
+    },
+    handleInit (canvas, width, height) {
+      chart = echarts.init(canvas, null, {
+        width: width,
+        height: height
+      })
+      canvas.setChart(chart)
+      chart.setOption(this.option)
+      return chart
     }
   },
-  mounted () {
+  onLoad () {
     this.statistics.forEach(stat => {
       if (stat.eventKey === this.$route.query.eventKey) {
         this.stat = stat
+        stat.choices.forEach((choice) => {
+          this.result[choice.date + ' ' + choice.time] = 0
+        })
+        stat.people.forEach((person) => {
+          person.choice.forEach((cho) => {
+            this.result[stat.choices[cho].date + ' ' + stat.choices[cho].time] += 1
+          })
+        })
       }
     })
+    this.initChart()
   },
 
   onShareAppMessage: function (res) {
