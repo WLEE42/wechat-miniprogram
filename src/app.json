@@ -14,7 +14,9 @@
     "invite/invite_detail",
     "stat/statistic_add",
     "stat/statistic_index",
-    "stat/statistic_detail"
+    "stat/statistic_detail",
+    "stat/statistic_accept"
+
   ],
   "window": {
     "backgroundTextStyle": "light",

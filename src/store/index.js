@@ -12,20 +12,19 @@ const store = new Vuex.Store({
     userID: '',
     myinvitations: {},
     invitations: {},
-    statistics: {
-      12: [
-        {
-          title: '我爱学习',
-          thing: '预定在本周进行学习',
-          deadTime: '08:08',
-          deadDate: '2018-12-03',
-          choices: [{ date: '2018-12-26', time: '20:20', number: '0' }],
-          people: [{ openid: '111', choice: 0 }],
-          place: '北京',
-          eventKey: '001'
-        }
-      ]
-    }
+    statistics: [
+      {
+        title: '我爱学习',
+        thing: '预定在本周进行学习',
+        deadTime: '08:08',
+        deadDate: '2018-12-30',
+        choices: [{ date: '2018-12-26', time: '20:20', number: '0' }],
+        people: [{ openid: '111', choice: 0 }],
+        place: '北京',
+        eventKey: '001',
+        createDate: '2018-12-20'
+      }
+    ]
   },
   mutations: {
     showTodos (state) {
@@ -110,39 +109,13 @@ const store = new Vuex.Store({
         })
         .then(d => {
           // console.log(d.data)
-          for (let eleArray in d.data) {
-            // console.log(eleArray)
-            d.data[eleArray].forEach(element => {
-              if (state.statistics.hasOwnProperty(element.month)) {
-                state.statistics[element.month].push({
-                  title: element.title,
-                  thing: element.thing,
-                  deadTime: element.deadTime,
-                  deadDate: element.deadDate,
-                  choices: element.choices,
-                  place: element.place,
-                  eventKey: element.eventKey
-                })
-              } else {
-                state.statistics[element.month] = [
-                  {
-                    title: element.title,
-                    thing: element.thing,
-                    deadTime: element.deadTime,
-                    deadDate: element.deadDate,
-                    choices: element.choices,
-                    place: element.place,
-                    eventKey: element.eventKey
-                  }
-                ]
-              }
-            })
-          }
+          state.statistics = d.data.statistics
         })
         .catch(err => {
           console.log(err.status, err.message)
         })
     },
+
     //
     // getmyinvitations and store them
     //

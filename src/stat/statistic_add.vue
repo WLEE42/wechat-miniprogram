@@ -4,15 +4,15 @@
       .weui-cell
         label 标题：
         input(v-model="title" placeholder="请输入标题")
-      .weui-cell 
+      .weui-cell
         label 事件：
         input(v-model="thing" placeholder="请输入日程")
     ul.weui-cells
-      li.weui-cell(v-for='choice in choices' :key="choice.number") 
+      li.weui-cell(v-for='choice in choices' :key="choice.number")
         div
           picker.pick(mode="date" v-bind:value="choice.date" start="1999-01-01" end="2099-01-01" @change="DateChange($event,choice)")
             label {{choice.date}}
-        div 
+        div
           picker.pick(mode="time" v-bind:value="choice.time" start="00:00" end="24:00" @change="TimeChange($event,choice)")
             label {{choice.time}}
       .weui-cell
@@ -55,7 +55,8 @@ export default {
       deadDate: '请选择日期',
       disabled: true,
       thing: '',
-      place: ''
+      place: '',
+      month: ''
     }
   },
 
@@ -79,6 +80,7 @@ export default {
   },
 
   mounted () {
+    this.month = new Date().getMonth() + 1
     this.choices.push({
       date: formatDate(new Date()),
       time: formatTime(new Date()),
@@ -88,8 +90,7 @@ export default {
   },
 
   methods: {
-    ...mapMutations([
-    ]),
+    ...mapMutations([]),
 
     addStatistic () {
       //
@@ -103,41 +104,35 @@ export default {
         deadTime: this.deadTime,
         deadDate: this.deadDate,
         choices: [{ date: '2018-12-26', time: '20:20', number: '0' }],
-        place: this.place
+        place: this.place,
+        createDate: formatDate(new Date())
       }).then(d => {
         if (d.data.state === 'success') {
           console.log('添加时间统计成功' + d.data.state)
-          that.statistics[that.date.split('-')[1]].push({
+          that.statistics.push({
             title: this.title,
             thing: this.thing,
             deadTime: this.deadTime,
             deadDate: this.deadDate,
             choices: [{ date: '2018-12-26', time: '20:20', number: '0' }],
-            place: this.place
+            place: this.place,
+            eventKey: d.data.eventKey,
+            createDate: formatDate(new Date())
           })
-          wx.showModal({
+          wx.showToast({
             title: '成功！',
             content: '已添加日程',
+            duration: 1000,
             success: function (res) {
-              if (res.confirm) {
-                console.log('用户点击确定')
-                that.$router.replace({ path: '/invite/inviter_index' })
-              }
+              that.$router.replace({ path: '/stat/statistic_index' })
             }
           })
         } else if (d.data.state === 'fail') {
           console.log('添加失败' + d.data.state)
-          wx.showModal({
-            title: '时间冲突',
-            content: '与原有日程时间冲突\n[确定]继续编辑当前日程\n[取消]跳转至原有日程',
-            success: function (res) {
-              if (res.confirm) {
-                console.log('用户点击确定')
-              } else {
-                console.log(that.date)
-                that.$router.push({ path: '/invite/detail', query: { date: that.date, eventKey: d.data.eventKey } })
-              }
-            }
+          wx.showToast({
+            title: '添加失败',
+            duration: 2000,
+            icon: 'success'
           })
         }
       })
@@ -160,7 +155,6 @@ export default {
     DateChange2 (e) {
       this.newDate = e.mp.detail.value
     },
-
     TimeChange3 (e) {
       console.log(e.mp.detail.time)
       this.deadTime = e.mp.detail.value
@@ -175,7 +169,6 @@ export default {
         }
       }
     },
-
     DateChange (e, choice) {
       for (let i = 0; i < this.choices.length; i++) {
         if (this.choices[i].number === choice.number) {
@@ -193,19 +186,19 @@ export default {
     //
     var that = this
     if (res.from === 'button') {
-      console.log('invite_add: ' + res.target)
+      console.log('stat_add: ' + res.target)
     }
     return {
       title: this.thing,
       // the page to share
       // the parameters are to identify a specific event
-      path: '/pages/invite_accept?inviterID=' + this.sessionKey + '&date=' + this.date + '&time=' + this.time,
+      path: '/stat/statistic_accept?inviterID=' + this.sessionKey + '&eventKey=' + this.eventKey,
       success: function (res) {
-        console.log('invite_add.onShareAppMessage: success')
+        console.log('stat_add.onShareAppMessage: success')
         that.addInvitation()
       },
       fail: function (res) {
-        console.log('invite_add: share failed')
+        console.log('stat_add: share failed')
       }
     }
   }
@@ -230,9 +223,11 @@ ul {
     }
   }
 }
+
 .weui-cells {
   margin-bottom: 100rpx;
 }
+
 button {
   border: 0px 0px;
   padding: 0 32rpx;
@@ -247,21 +242,25 @@ button {
   max-width: 100%;
   vertical-align: middle;
 }
+
 .pick {
-  width: 700 rpx;
+  width: 700rpx;
   display: block;
 }
+
 label.weui-cell__ft {
   font-weight: 900;
   margin-left: 10rpx;
   color: #797979;
 }
+
 input {
   font-weight: 550;
   border-radius: 30rpx;
   padding: 10rpx 10rpx;
   font-size: 40rpx;
 }
+
 .weui-cell {
   background-color: #b2bec3;
   border-radius: 30rpx;

@@ -1,5 +1,5 @@
 <template lang="pug">
-  .page
+  div.page
     <div class="calendar-tools">
       <div class="calendar-prev" @click="prev">
         <img :src="arrowLeft" v-if="!!arrowLeft">
@@ -51,9 +51,9 @@
                 </view>
             </view>
       </view>
-      
+
     </view>
-    
+
     <view class="tabBar">
       <block>
         <view class="tabBar-item" @click="$router.replace({path:'/pages/main'})">

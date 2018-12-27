@@ -34,14 +34,14 @@
         <input
           v-model="thing"
           placeholder="请输入日程"
-        ></input>
+        />
       </div>
       <div class='weui-cell'>
         <label> 地点：</label>
         <input
           v-model="place"
           placeholder="请输入地点"
-        ></input>
+        />
       </div>
       <div class='weui-cell.invite'>
         <label> 邀请好友：</label>
