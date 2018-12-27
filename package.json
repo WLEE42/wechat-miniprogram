@@ -12,6 +12,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "echarts": "^4.2.0-rc.2",
     "flyio": "^0.6.2",
     "mpvue": "^1.0.0",
     "mpvue-calendar": "^2.0.2",

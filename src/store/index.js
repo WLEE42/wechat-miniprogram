@@ -19,7 +19,7 @@ const store = new Vuex.Store({
         deadTime: '08:08',
         deadDate: '2018-12-30',
         choices: [{ date: '2018-12-26', time: '20:20', number: '0' }],
-        people: [{ openid: '111', choice: 0 }],
+        people: [{ openid: '111', choice: [0, 1] }],
         place: '北京',
         eventKey: '001',
         createDate: '2018-12-20'
