@@ -107,4 +107,12 @@ button {
   max-width: 100%;
   vertical-align: middle;
 }
+.weui-cell {
+  background-color: #ff6347;
+  border-radius: 30rpx;
+  padding: 20rpx 20rpx;
+  font-size: 40rpx;
+  font-weight: 900;
+  margin: 10rpx 20rpx;
+}
 </style>

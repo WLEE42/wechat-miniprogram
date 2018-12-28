@@ -77,7 +77,6 @@
 <script>
 import { mapState, mapMutations } from 'vuex'
 import Calendar from 'mpvue-calendar'
-import mpButton from 'mpvue-weui/src/button'
 import 'mpvue-calendar/src/style.css'
 import { formatDate } from '../utils'
 
@@ -90,7 +89,6 @@ export default {
   },
 
   components: {
-    mpButton,
     Calendar
   },
 
@@ -201,7 +199,7 @@ button {
   margin-bottom: 10rpx;
 }
 .content {
-  background-color: rgba(234, 97, 81, 1);
+  background-color: #ff6347;
   border-radius: 30rpx;
   padding-left: 20rpx;
   padding-right: 50rpx;
@@ -211,7 +209,7 @@ button {
   width: 80%;
 }
 .title {
-  background-color: rgba(234, 97, 81, 1);
+  background-color: #ff6347;
   border-radius: 30rpx;
   padding-left: 20rpx;
   padding-right: 10rpx;

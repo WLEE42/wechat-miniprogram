@@ -5,35 +5,39 @@
     .weui-cells
 
       .weui-cell
-          label.weui-cell__bd 时间：
-          label.weui-cell__ft {{todo.time}}
+        label.weui-cell__bd 截止时间：
+        label.weui-cell__ft {{stat.deadDate+' '+stat.deadTime}}
       .weui-cell
-          label.weui-cell__bd 日期：
-          label.weui-cell__ft {{todo.date}}
+        label 地点：{{stat.place}}
       .weui-cell
-        label 地点：{{todo.place}}
+        label 事件：{{stat.thing}}
       .weui-cell
-        label 事件：{{todo.thing}}
-      .weui-cell
-        label 参与人: {{todo.people}}
+        label 参与人数: {{stat.people.length}}
+    <div class="echarts-wrap">
+      <button @click="initChart">查看统计结果</button>
+      <mpvue-echarts lazyLoad :echarts="echarts" :onInit="handleInit" ref="echarts" />
+    </div>
     button(open-type="share") 分享统计
-    button(@click="deleteEvents") 删除事件
-    button(@click="modifyEvents") 修改事件
 </template>
 
 <script>
 import { mapState, mapMutations } from 'vuex'
+import * as echarts from 'echarts/dist/echarts.simple.min'
+import mpvueEcharts from 'mpvue-echarts'
+
+let chart = null
 
 export default {
+  components: {
+    mpvueEcharts
+  },
   data () {
     return {
-      todo: {
-        time: '请选择时间',
-        date: '请选择日期',
-        thing: '',
-        place: '',
-        eventKey: ''
-      }
+      echarts,
+      option: null,
+      stat: {
+      },
+      result: {}
     }
   },
   computed: {
@@ -47,7 +51,14 @@ export default {
 
     modifyEvents () {
       console.log('modify')
-      this.$http.get('event/modifyEvent', { sessionKey: this.sessionKey, time: this.todo.time, date: this.todo.date, thing: this.todo.thing, place: this.todo.place, eventKey: this.todo.eventKey }).then(
+      this.$http.get('statistics/modifyStatistic', {
+        sessionKey: this.sessionKey,
+        time: this.todo.time,
+        date: this.todo.date,
+        thing: this.todo.thing,
+        place: this.todo.place,
+        eventKey: this.todo.eventKey
+      }).then(
         d => {
           this.todos[this.$route.query.date].forEach((todo, index, object) => {
             if (todo.eventKey === this.$route.query.eventKey) {
@@ -62,7 +73,10 @@ export default {
       if (this.todo.thing === '今日无事件') {
         return
       }
-      this.$http.get('statistics/deleteStatistic', { sessionKey: this.sessionKey, eventKey: this.todo.eventKey }).then(
+      this.$http.get('statistics/deleteStatistic', {
+        sessionKey: this.sessionKey,
+        eventKey: this.todo.eventKey
+      }).then(
         d => {
           this.todos[this.$route.query.date].forEach((todo, index, object) => {
             if (todo.eventKey === this.$route.query.eventKey) {
@@ -72,29 +86,106 @@ export default {
         }
       )
       this.$router.back()
+    },
+    initChart () {
+      this.option = {
+        title: { text: '时间统计' },
+        color: ['#37a2da', '#32c5e9', '#67e0e3'],
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: { // 坐标轴指示器，坐标轴触发有效
+            type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
+          }
+        },
+        legend: {
+          data: ['人数']
+        },
+        grid: {
+          left: 20,
+          right: 20,
+          bottom: 15,
+          top: 40,
+          containLabel: true
+        },
+        xAxis: [
+          {
+            type: 'value',
+            axisLabel: {
+              color: '#666'
+            }
+          }
+        ],
+        yAxis: [
+          {
+            type: 'category',
+            axisTick: { show: false },
+            data: Object.keys(this.result),
+            axisLine: {
+              lineStyle: {
+                color: '#999'
+              }
+            },
+            axisLabel: {
+              color: '#666'
+            }
+          }
+        ],
+        series: [
+          {
+            name: '人数',
+            type: 'bar',
+            label: {
+              normal: {
+                show: true,
+                position: 'inside'
+              }
+            },
+            data: Object.values(this.result),
+            itemStyle: {
+              emphasis: {
+                color: '#37a2da'
+              }
+            }
+          }
+        ]
+      }
+      this.$refs.echarts.init()
+    },
+    handleInit (canvas, width, height) {
+      chart = echarts.init(canvas, null, {
+        width: width,
+        height: height
+      })
+      canvas.setChart(chart)
+      chart.setOption(this.option)
+      return chart
     }
   },
-  mounted () {
-    if (this.statistics[this.$route.query.date].length !== 0) {
-      this.statistics[this.$route.query.date].forEach(todo => {
-        if (todo.eventKey === this.$route.query.eventKey) {
-          this.todo = todo
-          console.log(this.todo.date)
-        }
-      })
-    } else {
-      this.todo.thing = '今日无事件'
-    }
+  onLoad () {
+    this.statistics.forEach(stat => {
+      if (stat.eventKey === this.$route.query.eventKey) {
+        this.stat = stat
+        stat.choices.forEach((choice) => {
+          this.result[choice.date + ' ' + choice.time] = 0
+        })
+        stat.people.forEach((person) => {
+          person.choice.forEach((cho) => {
+            this.result[stat.choices[cho].date + ' ' + stat.choices[cho].time] += 1
+          })
+        })
+      }
+    })
+    this.initChart()
   },
 
   onShareAppMessage: function (res) {
-  //
-  // Triggered when the invite button is pressed
-  // enter the friend list and locate the page to share
-  //
+    //
+    // Triggered when the invite button is pressed
+    // enter the friend list and locate the page to share
+    //
     // var that = this
     return {
-      title: this.todo.thing,
+      title: this.todo.title,
       // the page to share
       // the parameters are to identify a specific event
       path: '/invite/invite_accept?inviterID=' + this.sessionKey + '&date=' + this.todo.date + '&time=' + this.todo.time,
@@ -124,5 +215,9 @@ button {
   background-color: rgb(250, 250, 250);
   max-width: 100%;
   vertical-align: middle;
+}
+.echarts-wrap {
+  width: 100%;
+  height: 300px;
 }
 </style>

@@ -12,17 +12,53 @@ const store = new Vuex.Store({
     userID: '',
     myinvitations: {},
     invitations: {},
-    statistics: {}
+    statistics: [
+      {
+        title: '我爱学习',
+        thing: '预定在本周进行学习',
+        deadTime: '08:08',
+        deadDate: '2018-12-30',
+        choices: [{ date: '2018-12-25', time: '20:20', number: '0' }, { date: '2018-12-27', time: '20:20', number: '0' }, { date: '2018-12-26', time: '20:20', number: '0' }],
+        people: [{ openid: '111', choice: [0, 1] }],
+        place: '北京',
+        eventKey: '001',
+        createDate: '2018-12-20'
+      }
+    ]
   },
   mutations: {
     showTodos (state) {
       state.todos['2018-12-26'] = [
-        { thing: '吃饭', date: '2018-12-26', time: '08:08', eventKey: '000', place: '北京' },
-        { thing: '学习', date: '2018-12-26', time: '08:08', eventKey: '001', place: '北京' }
+        {
+          thing: '吃饭',
+          date: '2018-12-26',
+          time: '08:08',
+          eventKey: '000',
+          place: '北京'
+        },
+        {
+          thing: '学习',
+          date: '2018-12-26',
+          time: '08:08',
+          eventKey: '001',
+          place: '北京'
+        }
       ]
       state.todos['2018-12-27'] = [
-        { thing: '吃饭', date: '2018-12-27', time: '08:08', eventKey: '000', place: '北京' },
-        { thing: '学习', date: '2018-12-27', time: '08:08', eventKey: '001', place: '北京' }
+        {
+          thing: '吃饭',
+          date: '2018-12-27',
+          time: '08:08',
+          eventKey: '000',
+          place: '北京'
+        },
+        {
+          thing: '学习',
+          date: '2018-12-27',
+          time: '08:08',
+          eventKey: '001',
+          place: '北京'
+        }
       ]
       state.sessionKey = wx.getStorageSync('sessionKey')
       // console.log(state.sessionKey)
@@ -64,6 +100,21 @@ const store = new Vuex.Store({
           console.log(err.status, err.message)
         })
     },
+    getStatistics (state) {
+      state.sessionKey = wx.getStorageSync('sessionKey')
+      // console.log(state.sessionKey)
+      Vue.prototype.$http
+        .get('statistics/getStatistics', {
+          sessionKey: state.sessionKey
+        })
+        .then(d => {
+          // console.log(d.data)
+          state.statistics = d.data.statistics
+        })
+        .catch(err => {
+          console.log(err.status, err.message)
+        })
+    },
 
     getInviterInvitations (state) {
     //
@@ -72,7 +123,9 @@ const store = new Vuex.Store({
       state.sessionKey = wx.getStorageSync('sessionKey')
       // console.log(state.sessionKey)
       Vue.prototype.$http
-        .get('invitation/getInviterInvitations', { sessionKey: state.sessionKey })
+        .get('invitation/getInviterInvitations', {
+          sessionKey: state.sessionKey
+        })
         .then(d => {
           // console.log(d.data)
           for (let eleArray in d.data) {
@@ -117,7 +170,9 @@ const store = new Vuex.Store({
       state.sessionKey = wx.getStorageSync('sessionKey')
       // console.log(state.sessionKey)
       Vue.prototype.$http
-        .get('invitation/getInviteeInvitations', { sessionKey: state.sessionKey })
+        .get('invitation/getInviteeInvitations', {
+          sessionKey: state.sessionKey
+        })
         .then(d => {
           // console.log(d.data)
           for (let eleArray in d.data) {

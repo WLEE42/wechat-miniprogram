@@ -1,5 +1,5 @@
 <template lang="pug">
-  .page
+  div.page
     <div class="calendar-tools">
       <div class="calendar-prev" @click="prev">
         <img :src="arrowLeft" v-if="!!arrowLeft">
@@ -51,9 +51,9 @@
                 </view>
             </view>
       </view>
-      
+
     </view>
-    
+
     <view class="tabBar">
       <block>
         <view class="tabBar-item" @click="$router.replace({path:'/pages/main'})">
@@ -291,7 +291,7 @@ ul {
   margin-bottom:150rpx;
 }
 .content {
-  background-color: #FFc1c1;
+  background-color: rgba(79, 132, 196, 0.87);
   border-radius: 30rpx;
   padding-left: 20rpx;
   padding-right: 50rpx;
@@ -301,7 +301,7 @@ ul {
   width: 80%;
 }
 .title{
-  background-color: #FFc1c1;
+  background-color: rgba(79, 132, 196, 0.87);
   border-radius: 30rpx;
   padding-left: 20rpx;
   padding-right: 10rpx;

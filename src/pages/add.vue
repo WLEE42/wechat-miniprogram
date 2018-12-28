@@ -34,14 +34,14 @@
         <input
           v-model="thing"
           placeholder="请输入日程"
-        ></input>
+        />
       </div>
       <div class='weui-cell'>
         <label> 地点：</label>
         <input
           v-model="place"
           placeholder="请输入地点"
-        ></input>
+        />
       </div>
       <div class='weui-cell.invite'>
         <label> 邀请好友：</label>
@@ -185,7 +185,7 @@ button {
   letter-spacing: 0.01em;
   line-height: 100rpx;
   min-width: 176rpx;
-  background-color: #00bfff;
+  background-color: #ff6347;
   max-width: 100%;
   vertical-align: middle;
 }
@@ -204,7 +204,7 @@ input {
   font-size: 40rpx;
 }
 .weui-cell {
-  background-color: #00bfff;
+  background-color: #ff6347;
   border-radius: 30rpx;
   padding: 20rpx 20rpx;
   font-size: 40rpx;

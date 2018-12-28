@@ -32,6 +32,22 @@
         </div>
       </div>
     </div>
+    <view class="tabBar">
+      <block>
+        <view
+          class="tabBar-item"
+          @click="$router.replace({path:'/pages/main'})"
+        >
+          <view>
+            <image
+              class="icon"
+              src='/static/settings.png'
+            ></image>
+          </view>
+          <view class="tabBartext">主页</view>
+        </view>
+      </block>
+    </view>
   </div>
 </template>
 
@@ -93,7 +109,15 @@ export default {
   display: inline-block;
   margin: 10px auto;
   padding: 5px 10px;
-  color: blue;
+  background-color: #6c5ce7;
   border: 1px solid blue;
+}
+.weui-cell {
+  background-color: #6c5ce7;
+  border-radius: 30rpx;
+  padding: 20rpx 20rpx;
+  font-size: 40rpx;
+  font-weight: 900;
+  margin: 10rpx 20rpx;
 }
 </style>
