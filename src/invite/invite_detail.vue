@@ -17,7 +17,8 @@
       .weui-cell
         label 被邀人: {{todo.invitee}}
     button(@click="deleteEvents") 删除事件
-    button(@click="modifyEvents") 修改事件
+    // button(@click="modifyEvents") 修改事件
+    button(@click="$router.replace({path:'/invite/inviter_index'})") 返回主页面
 </template>
 
 <script>
@@ -77,14 +78,11 @@ export default {
           })
         }
       )
-      this.$router.back()
+      this.$router.replace({path: '/invite/inviter_index'})
     }
   },
   mounted () {
     this.myinvitations[this.$route.query.month].forEach(todo => {
-      console.log(todo.eventKey)
-      console.log(this.$route.query.eventKey)
-      console.log(todo.eventKey === this.$route.query.eventKey)
       if (todo.eventKey === this.$route.query.eventKey) {
         this.todo = todo
       }

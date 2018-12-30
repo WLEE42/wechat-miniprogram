@@ -237,6 +237,11 @@ const store = new Vuex.Store({
     },
     setUserInfo (state, data) {
       state.userInfo = data
+      Vue.prototype.$http
+        .get('login/setName', {
+          sessionKey: state.sessionKey,
+          name: state.userInfo.nickName
+        })
     }
   }
 })

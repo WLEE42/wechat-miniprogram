@@ -18,6 +18,7 @@
         input(v-model="place" placeholder="请输入地点")
 
     button.weui-btn(@click="addInvitation" type="default" open-type="share" :disabled = "disabled") 邀请好友
+    button(@click="$router.replace({path:'/invite/inviter_index'})") 返回主页面
 </template>
 
 <script>
@@ -64,6 +65,14 @@ export default {
     }
   },
 
+  mounted () {
+    this.time = '请选择时间'
+    this.date = '请选择日期'
+    this.thing = ''
+    this.place = ''
+    this.disabled = true
+  },
+
   methods: {
     ...mapMutations([
       'addTodos'
@@ -84,8 +93,6 @@ export default {
       }).then(d => {
         if (d.data.state === 'success') {
           console.log('添加成功' + d.data.eventKey)
-          var pages = getCurrentPages()
-          console.log(pages)
           if (this.date.split('-')[1] in this.myinvitations) {
             this.myinvitations[this.date.split('-')[1]].push({
               time: this.time,
@@ -128,7 +135,7 @@ export default {
             success: function (res) {
               if (res.confirm) {
                 console.log('用户点击确定')
-                that.$router.back()
+                that.$router.replace({path: '/invite/inviter_index'})
               }
             }
           })

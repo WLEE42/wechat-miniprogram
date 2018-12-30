@@ -76,7 +76,7 @@ export default {
 
     redirect () {
       if (this.inviterID) {
-        this.$router.replace({ path: '/pages/invite_accept?inviterID=' + this.inviterID + '&date=' + this.date + '&time=' + this.time })
+        this.$router.replace({ path: '/invite/invite_accept?inviterID=' + this.inviterID + '&date=' + this.date + '&time=' + this.time })
       } else {
         this.$router.replace({ path: '/pages/main' })
       }

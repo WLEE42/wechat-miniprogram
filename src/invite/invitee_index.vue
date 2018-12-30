@@ -80,6 +80,7 @@
 
 <script>
 import './icon.css'
+import { mapState } from 'vuex'
 
 export default {
   data () {
@@ -91,10 +92,15 @@ export default {
       year: 0,
       month: 0,
       monthText: '',
-      sessionKey: '',
-      invitations: {},
       months: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月']
     }
+  },
+
+  computed: {
+    ...mapState([
+      'invitations',
+      'sessionKey'
+    ])
   },
 
   watch: {

@@ -69,7 +69,7 @@
           <view><image class="icon" src='/static/calendar.png'></image></view>
           <view class="tabBartext">邀请我的</view>
         </view>
-        <view class="tabBar-item" @click="$router.push({path:'/invite/invite_add'})">
+        <view class="tabBar-item" @click="$router.replace({path:'/invite/invite_add'})">
           <view><image class="icon" src='/static/add.png'></image></view>
           <view class="tabBartext">添加邀请</view>
         </view>
@@ -140,6 +140,18 @@ export default {
     }
   },
 
+  onShow () {
+    if (this.month + 1 in this.myinvitations) {
+      if (this.myinvitations[this.month + 1].length !== 0) {
+        this.hasData = true
+      } else {
+        this.hasData = false
+      }
+    } else {
+      this.hasData = false
+    }
+  },
+
   methods: {
     prev (e) {
     //
@@ -173,7 +185,7 @@ export default {
     //
     // go to the detail of one invitation
     //
-      this.$router.push({ path: '/invite/invite_detail', query: { month: invitation.date.split('-')[1], eventKey: invitation.eventKey } })
+      this.$router.replace({ path: '/invite/invite_detail', query: { month: invitation.date.split('-')[1], eventKey: invitation.eventKey } })
     }
   }
 }
