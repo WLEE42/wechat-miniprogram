@@ -19,11 +19,13 @@
       <div class="mc-year">{{year}}</div>
       </div>
     </div>
+
     <view class="body">
       <view v-if="!hasData" class="notfound">
         <image src='/static/rocket.png'></image>
         <p>您还没有邀请</p>
       </view>
+
       <view v-else>
         ul
           li(v-for='invitation in myinvitations[month+1]' :key="invitation.eventKey" @click="toDetail($event,invitation)")
@@ -51,7 +53,6 @@
                 </view>
             </view>
       </view>
-
     </view>
 
     <view class="tabBar">
@@ -79,7 +80,7 @@
 
 <script>
 import './icon.css'
-import {mapState, mapMutations} from 'vuex'
+import {mapState} from 'vuex'
 
 export default {
   data () {
@@ -97,6 +98,10 @@ export default {
   },
 
   watch: {
+  //
+  // change the variable 'hasData' when the month changes
+  // it will controll the display content
+  //
     month: function () {
       if (this.month + 1 in this.myinvitations) {
         this.hasData = true
@@ -114,10 +119,9 @@ export default {
 
   created () {
   //
-  // initialize systeminfo and date
+  // initialize date and get storage from server
   //
     this.sessionKey = wx.getStorageSync('sessionKey')
-    this.getInviterInvitations()
     let now = new Date()
     this.year = now.getFullYear()
     this.month = now.getMonth()
@@ -125,6 +129,10 @@ export default {
   },
 
   onLoad () {
+  //
+  // determine the value of 'hasData'
+  // it will determine the display content
+  //
     if (this.month + 1 in this.myinvitations) {
       this.hasData = true
     } else {
@@ -133,10 +141,6 @@ export default {
   },
 
   methods: {
-    ...mapMutations([
-      'getInviterInvitations'
-    ]),
-
     prev (e) {
     //
     // respond to "calendar-prev"
@@ -166,7 +170,10 @@ export default {
     },
 
     toDetail (e, invitation) {
-      this.$router.push({ path: '/invite/invite_detail', query: { date: invitation.date.split('-')[1], eventKey: invitation.eventKey } })
+    //
+    // go to the detail of one invitation
+    //
+      this.$router.push({ path: '/invite/invite_detail', query: { month: invitation.date.split('-')[1], eventKey: invitation.eventKey } })
     }
   }
 }
@@ -291,7 +298,7 @@ ul {
   margin-bottom:150rpx;
 }
 .content {
-  background-color: rgba(79, 132, 196, 0.87);
+  background-color: #7B68EE;
   border-radius: 30rpx;
   padding-left: 20rpx;
   padding-right: 50rpx;
@@ -301,7 +308,7 @@ ul {
   width: 80%;
 }
 .title{
-  background-color: rgba(79, 132, 196, 0.87);
+  background-color: #7B68EE;
   border-radius: 30rpx;
   padding-left: 20rpx;
   padding-right: 10rpx;

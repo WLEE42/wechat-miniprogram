@@ -49,11 +49,10 @@ export default {
     ])
   },
 
+  onLoad: function (res) {
   //
   // get invitation info from database
   //
-  onLoad: function (res) {
-    // this.$router.replace({path: '/invite/start'})
     console.log('invite_accept.onload: ' + res.inviterID + res.date)
     var that = this
     that.time = res.time
@@ -100,10 +99,10 @@ export default {
       'addTodos'
     ]),
 
+    addTodo () {
     //
     // accept invitation
     //
-    addTodo () {
       var that = this
       this.$http.get('invitation/acceptInvitation', {
         time: this.time,
@@ -136,7 +135,7 @@ export default {
               if (res.confirm) {
                 console.log('用户点击确定')
               } else {
-                that.$router.push({ path: '/invite/detail', query: { date: that.date, eventKey: d.eventKey } })
+                that.$router.push({ path: '/invite/invite_detail', query: { date: that.date, eventKey: d.eventKey } })
               }
             }
           })

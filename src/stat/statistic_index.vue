@@ -362,7 +362,7 @@ ul {
 }
 
 .content {
-  background-color: #b2bec3;
+  background-color: #FFA000;
   border-radius: 30rpx;
   padding-left: 20rpx;
   padding-right: 50rpx;

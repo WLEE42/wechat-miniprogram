@@ -19,11 +19,13 @@
       <div class="mc-year">{{year}}</div>
       </div>
     </div>
+
     <view class="body">
-      <view v-if="hasData" class="notfound">
-        <image src='/static/calendar.png'></image>
+      <view v-if="!hasData" class="notfound">
+        <image src='/static/rocket.png'></image>
         <p>您还没有邀请</p>
       </view>
+
       <view v-else>
         ul
           li(v-for='invitation in invitations[month+1]' :key="invitation.eventKey")
@@ -78,7 +80,6 @@
 
 <script>
 import './icon.css'
-import Vue from 'vue'
 
 export default {
   data () {
@@ -96,72 +97,49 @@ export default {
     }
   },
 
+  watch: {
+  //
+  // change the variable 'hasData' when the month changes
+  // it will controll the display content
+  //
+    month: function () {
+      if (this.month + 1 in this.invitations) {
+        this.hasData = true
+      } else {
+        this.hasData = false
+      }
+    }
+  },
+
+  created () {
   //
   // initialize systeminfo and date
   //
-  created () {
     this.sessionKey = wx.getStorageSync('sessionKey')
-    // var that = this
-    wx.getSystemInfo({
-      success: function (res) {
-        // that.isIos = (res.system.split(' ') || [])[0] === 'iOS'
-      }
-    })
-    this.getInviteeInvitations()
     let now = new Date()
     this.year = now.getFullYear()
     this.month = now.getMonth()
     this.monthText = this.months[this.month]
+  },
 
-    console.log(this.invitations)
+  onLoad () {
+  //
+  // determine the value of 'hasData'
+  // it will determine the display content
+  //
+    if (this.month + 1 in this.invitations) {
+      this.hasData = true
+    } else {
+      this.hasData = false
+    }
   },
 
   methods: {
-    getInviteeInvitations () {
-      var that = this
-      Vue.prototype.$http
-        .get('invitation/getInviteeInvitations', { sessionKey: that.sessionKey })
-        .then(d => {
-          // console.log(d.data)
-          for (let eleArray in d.data) {
-            // console.log(eleArray)
-            d.data[eleArray].forEach(element => {
-              if (that.invitations.hasOwnProperty(element.month)) {
-                that.invitations[element.month].push({
-                  time: element.time,
-                  date: element.date,
-                  month: element.month,
-                  thing: element.thing,
-                  place: element.place,
-                  eventKey: element.eventKey,
-                  invitee: element.invitee
-                })
-              } else {
-                that.invitations[element.month] = [
-                  {
-                    time: element.time,
-                    date: element.date,
-                    month: element.month,
-                    thing: element.thing,
-                    place: element.place,
-                    eventKey: element.eventKey,
-                    invitee: element.invitee
-                  }
-                ]
-              }
-            })
-          }
-        })
-        .catch(err => {
-          console.log(err.status, err.message)
-        })
-    },
-
+    prev (e) {
     //
     // respond to "calendar-prev"
     // update the month and year to the previous month date
     //
-    prev (e) {
       if (this.month === 0) {
         this.month = 11
         this.year = parseInt(this.year) - 1
@@ -171,11 +149,11 @@ export default {
       this.monthText = this.months[this.month]
     },
 
+    next (e) {
     //
     // respond to "calendar-next"
     // update the month and year to the next month date
     //
-    next (e) {
       if (this.month === 11) {
         this.month = 0
         this.year = parseInt(this.year) + 1
@@ -307,7 +285,7 @@ ul {
   margin-bottom:150rpx;
 }
 .content {
-  background-color: rgba(79, 132, 196, 0.87);
+  background-color: #7B68EE;
   border-radius: 30rpx;
   padding-left: 20rpx;
   padding-right: 50rpx;
@@ -317,7 +295,7 @@ ul {
   width: 80%;
 }
 .title{
-  background-color: rgba(79, 132, 196, 0.87);
+  background-color: #7B68EE;
   border-radius: 30rpx;
   padding-left: 20rpx;
   padding-right: 10rpx;

@@ -1,7 +1,7 @@
 {
 	"description": "项目配置文件。",
 	"setting": {
-		"urlCheck": true,
+		"urlCheck": false,
 		"es6": false,
 		"postcss": true,
 		"minified": true,
@@ -29,12 +29,12 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 4,
+			"current": 7,
 			"list": [
 				{
 					"id": 0,
 					"name": "inviter",
-					"pathName": "pages/inviter_index",
+					"pathName": "invite/inviter_index",
 					"query": ""
 				},
 				{
@@ -62,6 +62,24 @@
 					"pathName": "pages/add",
 					"query": "time=00:00&date=2018-12-18&inviterID=123",
 					"scene": "1007"
+				},
+				{
+					"id": -1,
+					"name": "main",
+					"pathName": "pages/main",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "setting",
+					"pathName": "pages/setting",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "stat_index",
+					"pathName": "stat/statistic_index",
+					"query": ""
 				}
 			]
 		}

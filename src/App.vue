@@ -19,7 +19,8 @@ export default {
           // 发送凭证
           // 发起网络请求
           wx.request({
-            url: 'https://www.giveteamaname.top/login/',
+            // url: 'https://www.giveteamaname.top/login/',
+            url: 'http://localhost:8000/login/',
             data: {
               code: res.code
             },

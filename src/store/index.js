@@ -118,7 +118,7 @@ const store = new Vuex.Store({
 
     getInviterInvitations (state) {
     //
-    // getmyinvitations and store them
+    // get my invitations and store them
     //
       state.sessionKey = wx.getStorageSync('sessionKey')
       // console.log(state.sessionKey)
@@ -191,52 +191,6 @@ const store = new Vuex.Store({
               } else {
                 // console.log(element.month)
                 state.invitations[element.month] = [
-                  {
-                    time: element.time,
-                    date: element.date,
-                    month: element.month,
-                    thing: element.thing,
-                    place: element.place,
-                    eventKey: element.eventKey,
-                    inviter: element.inviter
-                  }
-                ]
-              }
-            })
-          }
-        })
-        .catch(err => {
-          console.log(err.status, err.message)
-        })
-    },
-
-    getStatistics (state) {
-    //
-    // get statistics and store them
-    //
-      state.statistics['12'] = [
-        { thing: '吃饭', date: '2018-12-26', time: '08:08', eventKey: '000', place: '北京', people: ['tt', 'cc'] },
-        { thing: '学习', date: '2018-12-26', time: '08:08', eventKey: '001', place: '北京', people: [] }
-      ]
-      state.sessionKey = wx.getStorageSync('sessionKey')
-      // console.log(state.sessionKey)
-      Vue.prototype.$http
-        .get('statistics/getStatistics', { sessionKey: state.sessionKey })
-        .then(d => {
-          for (let eleArray in d.data) {
-            d.data[eleArray].forEach(element => {
-              if (state.statistics.hasOwnProperty(element.month)) {
-                state.statistics[element.month].push({
-                  time: element.time,
-                  date: element.date,
-                  month: element.month,
-                  thing: element.thing,
-                  place: element.place,
-                  eventKey: element.eventKey,
-                  inviter: element.inviter
-                })
-              } else {
-                state.statistics[element.month] = [
                   {
                     time: element.time,
                     date: element.date,

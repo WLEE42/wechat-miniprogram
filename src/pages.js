@@ -73,15 +73,6 @@ module.exports = [
     }
   },
   {
-    path: 'pages/statistic_index'
-  },
-  {
-    path: 'pages/statistic_detail'
-  },
-  {
-    path: 'pages/statistic_add'
-  },
-  {
     path: 'packageA/logs',
     subPackage: true,
     config: {

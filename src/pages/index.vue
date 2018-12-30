@@ -103,11 +103,15 @@ export default {
     this.todayDate = formatDate(new Date())
     this.currentDate = this.todayDate
     this.showTodos()
+    this.getInviterInvitations()
+    this.getInviteeInvitations()
   },
 
   methods: {
     ...mapMutations([
-      'showTodos'
+      'showTodos',
+      'getInviterInvitations',
+      'getInviteeInvitations'
     ]),
     select (val, val2) {
       console.log(val)
@@ -118,29 +122,6 @@ export default {
     toDetail (e, todo) {
       this.$router.push({ path: '/pages/detail', query: { date: this.currentDate, eventKey: todo.eventKey } })
     }
-    // touchStart (e) {
-    //   // 获取移动距离，可以通过打印出e，然后分析e的值得出
-    //   this.startX = e.mp.changedTouches[0].clientX
-    // },
-    // // 滑动结束
-    // touchEnd (e, index) {
-    //   // 获取移动距离
-    //   this.endX = e.mp.changedTouches[0].clientX
-    //   if (this.startX - this.endX > 10) {
-    //     for (let i = 0; i < this.commitInfo.length; i++) {
-    //       this.commitInfo[i].type = 0
-    //     }
-    //     this.commitInfo[index].type = 1
-    //   } else if (this.startX - this.endX < -10) {
-    //     for (let i = 0; i < this.commitInfo.length; i++) {
-    //       this.commitInfo[i].type = 0
-    //     }
-    //   }
-    // },
-    // // 点击回复原状
-    // recover (index) {
-    //   this.commitInfo[index].type = 0
-    // }
   }
 }
 </script>
@@ -184,7 +165,6 @@ button {
   text-align: center;
   overflow: hidden;
 }
-/*当前字体颜色*/
 .tabBartext {
   color: grey;
 }
@@ -199,7 +179,7 @@ button {
   margin-bottom: 10rpx;
 }
 .content {
-  background-color: #ff6347;
+  background-color: #00BFFF;
   border-radius: 30rpx;
   padding-left: 20rpx;
   padding-right: 50rpx;
@@ -209,7 +189,7 @@ button {
   width: 80%;
 }
 .title {
-  background-color: #ff6347;
+  background-color: #00BFFF;
   border-radius: 30rpx;
   padding-left: 20rpx;
   padding-right: 10rpx;

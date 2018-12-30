@@ -7,6 +7,9 @@
       .weui-cell
         label 事件：
         input(v-model="thing" placeholder="请输入日程")
+      .weui-cell
+        label 地点：
+        input(v-model="place" placeholder="请输入地点")
     ul.weui-cells
       li.weui-cell(v-for='choice in choices' :key="choice.number")
         div
@@ -16,12 +19,12 @@
           picker.pick(mode="time" v-bind:value="choice.time" start="00:00" end="24:00" @change="TimeChange($event,choice)")
             label {{choice.time}}
       .weui-cell
-        picker.pick(mode="time" v-bind:value="time" start="00:00" end="24:00" @change="TimeChange2")
+        picker.pick(mode="time" v-bind:value="time" start="00:00" end="24:00" @change="TimeChange2" class="choose")
           label() 时间
-          label {{newTime}}
+          label.weui-cell__ft {{newTime}}
         picker.pick(mode="date" v-bind:value="date" start="1999-01-01" end="2099-01-01" @change="DateChange2")
           label() 日期
-          label {{newDate}}
+          label.weui-cell__ft {{newDate}}
         button(@click="addChoices") 添加选项
 
     .weui-cells
@@ -33,22 +36,19 @@
         picker.pick(mode="date" v-bind:value="date" start="1999-01-01" end="2099-01-01" @change="DateChange3")
           label.weui-cell__bd 截止日期：
           label.weui-cell__ft {{deadDate}}
-      .weui-cell
-        label 地点：
-        input(v-model="place" placeholder="请输入地点")
 
     button.weui-btn(@click="addStatistic" type="default" open-type="share" :disabled = "disabled") 发起统计
 </template>
 
 <script>
 import { mapState, mapMutations } from 'vuex'
-import { formatTime, formatDate } from '../utils'
+import { formatDate } from '../utils'
 
 export default {
   data () {
     return {
-      title: '标题',
-      choices: [{ date: '2018-12-26', time: '20:20', number: '0' }],
+      title: '',
+      choices: [],
       newTime: '请选择时间',
       newDate: '请选择日期',
       deadTime: '请选择时间',
@@ -81,12 +81,6 @@ export default {
 
   mounted () {
     this.month = new Date().getMonth() + 1
-    this.choices.push({
-      date: formatDate(new Date()),
-      time: formatTime(new Date()),
-      number: 0
-    })
-    console.log(this.choices[0])
   },
 
   methods: {
@@ -238,14 +232,14 @@ button {
   letter-spacing: 0.01em;
   line-height: 100rpx;
   min-width: 176rpx;
-  background-color: #b2bec3;
+  background-color: #FF7F24;
   max-width: 100%;
   vertical-align: middle;
 }
 
 .pick {
   width: 700rpx;
-  display: block;
+  display: flex;
 }
 
 label.weui-cell__ft {
@@ -262,11 +256,15 @@ input {
 }
 
 .weui-cell {
-  background-color: #b2bec3;
+  background-color: #FFA000;
   border-radius: 30rpx;
   padding: 20rpx 20rpx;
   font-size: 40rpx;
   font-weight: 900;
   margin: 10rpx 20rpx;
+}
+.choose {
+  display: flex;
+  flex-direction: row;
 }
 </style>

@@ -17,7 +17,7 @@
         label 地点：
         input(v-model="place" placeholder="请输入地点")
 
-    button.weui-btn(type="default" open-type="share" :disabled = "disabled") 邀请好友
+    button.weui-btn(@click="addInvitation" type="default" open-type="share" :disabled = "disabled") 邀请好友
 </template>
 
 <script>
@@ -49,6 +49,9 @@ export default {
   },
 
   watch: {
+  //
+  // will change the value of 'disabled' when the date and time are not null
+  //
     date (newVal, oldVal) {
       if (newVal !== '请选择日期' && this.time !== '请选择时间') {
         this.disabled = false
@@ -67,6 +70,10 @@ export default {
     ]),
 
     addInvitation () {
+    //
+    // triggered in the 'onShareAppMessage' function
+    // add invitation after a friend is chosen
+    //
       var that = this
       this.$http.get('invitation/addInvitation', {
         time: this.time,
@@ -76,23 +83,52 @@ export default {
         inviter: this.sessionKey
       }).then(d => {
         if (d.data.state === 'success') {
-          console.log('添加成功' + d.data.state)
-          this.myinvitations[this.date.split('-')[1]].push({
-            time: this.time,
-            date: this.date,
-            month: this.date.split('-')[1],
-            thing: this.thing,
-            place: this.place,
-            eventKey: '',
-            invitee: ''
-          })
+          console.log('添加成功' + d.data.eventKey)
+          var pages = getCurrentPages()
+          console.log(pages)
+          if (this.date.split('-')[1] in this.myinvitations) {
+            this.myinvitations[this.date.split('-')[1]].push({
+              time: this.time,
+              date: this.date,
+              month: this.date.split('-')[1],
+              thing: this.thing,
+              place: this.place,
+              eventKey: d.data.eventKey,
+              invitee: ''
+            })
+            this.todos[this.date].push({
+              time: this.time,
+              date: this.date,
+              thing: this.thing,
+              place: this.place,
+              eventKey: d.data.eventKey
+            })
+          } else {
+            this.myinvitations[this.date.split('-')[1]] = [{
+              time: this.time,
+              date: this.date,
+              month: this.date.split('-')[1],
+              thing: this.thing,
+              place: this.place,
+              eventKey: d.data.eventKey,
+              invitee: ''
+            }]
+            this.todos[this.date] = [{
+              time: this.time,
+              date: this.date,
+              thing: this.thing,
+              place: this.place,
+              eventKey: d.data.eventKey
+            }]
+          }
+
           wx.showModal({
             title: '成功！',
             content: '已添加日程',
             success: function (res) {
               if (res.confirm) {
                 console.log('用户点击确定')
-                that.$router.replace({path: '/invite/inviter_index'})
+                that.$router.back()
               }
             }
           })
@@ -106,7 +142,11 @@ export default {
                 console.log('用户点击确定')
               } else {
                 console.log(that.date)
-                that.$router.push({ path: '/invite/detail', query: { date: that.date, eventKey: d.data.eventKey } })
+                if (d.data.type === 2) {
+                  that.$router.push({ path: '/invite/invite_detail', query: { month: that.date.split('-')[1], eventKey: d.data.eventKey } })
+                } else if (d.data.type === 1) {
+                  that.$router.push({ path: '/pages/detail', query: { date: that.date, eventKey: d.data.eventKey } })
+                }
               }
             }
           })
@@ -115,38 +155,28 @@ export default {
     },
 
     TimeChange (e) {
-      // console.log('选中的时间为：' + e.mp.detail.value)
-      // console.log(this.time)
+      // change the time to the one chosen
       this.time = e.mp.detail.value
     },
 
     DateChange (e) {
-      // console.log('选中的日期为：' + e.mp.detail.value.split('-')[1])
+      // change the date to the one chosen
       this.date = e.mp.detail.value
     }
   },
 
+  onShareAppMessage: function (res) {
   //
   // Triggered when the invite button is pressed
   // enter the friend list and locate the page to share
   //
-  onShareAppMessage: function (res) {
+    console.log('share begins')
     var that = this
-    if (res.from === 'button') {
-      console.log('invite_add: ' + res.target)
-    }
     return {
-      title: this.thing,
+      title: that.thing,
       // the page to share
       // the parameters are to identify a specific event
-      path: '/invite/invite_accept?inviterID=' + this.sessionKey + '&date=' + this.date + '&time=' + this.time,
-      success: function (res) {
-        console.log('invite_add.onShareAppMessage: success')
-        that.addInvitation()
-      },
-      fail: function (res) {
-        console.log('invite_add: share failed')
-      }
+      path: '/invite/invite_accept?inviterID=' + that.sessionKey + '&date=' + that.date + '&time=' + that.time
     }
   }
 }
@@ -166,7 +196,7 @@ button {
   letter-spacing: 0.01em;
   line-height: 100rpx;
   min-width: 176rpx;
-  background-color: rgba(79, 132, 196, 0.87);
+  background-color: #7B68EE;
   max-width: 100%;
   vertical-align: middle;
 }
@@ -185,7 +215,7 @@ input{
   font-size: 40rpx;
 }
 .weui-cell{
-  background-color: rgba(79, 132, 196, 0.87);
+  background-color: #7B68EE;
   border-radius: 30rpx;
   padding: 20rpx 20rpx;
   font-size: 40rpx;
