@@ -1,5 +1,5 @@
 <template lang="pug">
-  div.page
+  .page
     <div class="calendar-tools">
       <div class="calendar-prev" @click="prev">
         <img :src="arrowLeft" v-if="!!arrowLeft">
@@ -80,7 +80,8 @@
 
 <script>
 import './icon.css'
-import {mapState, mapMutations} from 'vuex'
+import { mapState } from 'vuex'
+import Vue from 'vue'
 
 export default {
   data () {
@@ -127,28 +128,73 @@ export default {
   },
 
   onShow () {
-    console.log(this.month + 1 in this.myinvitations)
     if (this.month + 1 in this.myinvitations) {
       if (this.myinvitations[this.month + 1].length !== 0) {
         this.hasData = true
       } else {
-        this.hasData = true
+        this.hasData = false
       }
     } else {
-      this.hasData = true
+      this.hasData = false
     }
   },
 
   onPullDownRefresh: function () {
     this.getInviterInvitations()
+    console.log(this.myinvitations)
     this.$router.replace({path: '/invite/inviter_index'})
     wx.stopPullDownRefresh()
   },
 
   methods: {
-    ...mapMutations([
-      'getInviterInvitations'
-    ]),
+    getInviterInvitations () {
+    //
+    // get my invitations and store them
+    //
+      for (let month in this.myinvitations) {
+        this.myinvitations[month] = []
+      }
+      this.sessionKey = wx.getStorageSync('sessionKey')
+      Vue.prototype.$http
+        .get('invitation/getInviterInvitations', {
+          sessionKey: this.sessionKey
+        })
+        .then(d => {
+          // console.log(d.data)
+          for (let eleArray in d.data) {
+            // console.log(eleArray)
+            d.data[eleArray].forEach(element => {
+              if (this.myinvitations.hasOwnProperty(element.month)) {
+                this.myinvitations[element.month].push({
+                  time: element.time,
+                  date: element.date,
+                  month: element.month,
+                  thing: element.thing,
+                  place: element.place,
+                  eventKey: element.eventKey,
+                  invitee: element.invitee
+                })
+              } else {
+                this.myinvitations[element.month] = [
+                  {
+                    time: element.time,
+                    date: element.date,
+                    month: element.month,
+                    thing: element.thing,
+                    place: element.place,
+                    eventKey: element.eventKey,
+                    invitee: element.invitee
+                  }
+                ]
+              }
+              this.hasData = true
+            })
+          }
+        })
+        .catch(err => {
+          console.log(err.status, err.message)
+        })
+    },
 
     prev (e) {
     //

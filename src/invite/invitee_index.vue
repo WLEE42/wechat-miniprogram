@@ -80,7 +80,8 @@
 
 <script>
 import './icon.css'
-import { mapState, mapMutations } from 'vuex'
+import { mapState } from 'vuex'
+import Vue from 'vue'
 
 export default {
   data () {
@@ -138,10 +139,60 @@ export default {
     }
   },
 
+  onPullDownRefresh: function () {
+    this.getInviteeInvitations()
+    this.$router.replace({path: '/invite/invitee_index'})
+    wx.stopPullDownRefresh()
+  },
+
   methods: {
-    ...mapMutations([
-      'getInviteeInvitations'
-    ]),
+    getInviteeInvitations () {
+    //
+    // getinvitations and store them
+    //
+      this.invitations = {}
+      this.sessionKey = wx.getStorageSync('sessionKey')
+      Vue.prototype.$http
+        .get('invitation/getInviteeInvitations', {
+          sessionKey: this.sessionKey
+        })
+        .then(d => {
+          // console.log(d.data)
+          for (let eleArray in d.data) {
+            // console.log(eleArray)
+            d.data[eleArray].forEach(element => {
+              if (this.invitations.hasOwnProperty(element.month)) {
+                this.invitations[element.month].push({
+                  time: element.time,
+                  date: element.date,
+                  month: element.month,
+                  thing: element.thing,
+                  place: element.place,
+                  eventKey: element.eventKey,
+                  inviter: element.inviter
+                })
+              } else {
+                // console.log(element.month)
+                this.invitations[element.month] = [
+                  {
+                    time: element.time,
+                    date: element.date,
+                    month: element.month,
+                    thing: element.thing,
+                    place: element.place,
+                    eventKey: element.eventKey,
+                    inviter: element.inviter
+                  }
+                ]
+              }
+              this.hasData = true
+            })
+          }
+        })
+        .catch(err => {
+          console.log(err.status, err.message)
+        })
+    },
 
     prev (e) {
     //
