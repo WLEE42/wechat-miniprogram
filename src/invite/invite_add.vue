@@ -135,7 +135,7 @@ export default {
             success: function (res) {
               if (res.confirm) {
                 console.log('用户点击确定')
-                that.$router.replace({path: '/invite/inviter_index'})
+                that.$router.back()
               }
             }
           })
@@ -183,7 +183,7 @@ export default {
       title: that.thing,
       // the page to share
       // the parameters are to identify a specific event
-      path: '/invite/invite_accept?inviterID=' + that.sessionKey + '&date=' + that.date + '&time=' + that.time
+      path: '/pages/start?inviterID=' + that.sessionKey + '&date=' + that.date + '&time=' + that.time
     }
   }
 }

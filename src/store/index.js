@@ -26,40 +26,10 @@ const store = new Vuex.Store({
       }
     ]
   },
+
   mutations: {
     showTodos (state) {
-      state.todos['2018-12-26'] = [
-        {
-          thing: '吃饭',
-          date: '2018-12-26',
-          time: '08:08',
-          eventKey: '000',
-          place: '北京'
-        },
-        {
-          thing: '学习',
-          date: '2018-12-26',
-          time: '08:08',
-          eventKey: '001',
-          place: '北京'
-        }
-      ]
-      state.todos['2018-12-27'] = [
-        {
-          thing: '吃饭',
-          date: '2018-12-27',
-          time: '08:08',
-          eventKey: '000',
-          place: '北京'
-        },
-        {
-          thing: '学习',
-          date: '2018-12-27',
-          time: '08:08',
-          eventKey: '001',
-          place: '北京'
-        }
-      ]
+      state.todos = {}
       state.sessionKey = wx.getStorageSync('sessionKey')
       // console.log(state.sessionKey)
       Vue.prototype.$http
@@ -100,6 +70,7 @@ const store = new Vuex.Store({
           console.log(err.status, err.message)
         })
     },
+
     getStatistics (state) {
       state.sessionKey = wx.getStorageSync('sessionKey')
       // console.log(state.sessionKey)
@@ -120,6 +91,7 @@ const store = new Vuex.Store({
     //
     // get my invitations and store them
     //
+      state.myinvitations = {}
       state.sessionKey = wx.getStorageSync('sessionKey')
       // console.log(state.sessionKey)
       Vue.prototype.$http
@@ -235,7 +207,9 @@ const store = new Vuex.Store({
         state.events[element.date] = element.thing
       }
     },
+
     setUserInfo (state, data) {
+      state.sessionKey = wx.getStorageSync('sessionKey')
       state.userInfo = data
       Vue.prototype.$http
         .get('login/setName', {

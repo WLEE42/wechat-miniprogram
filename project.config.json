@@ -1,7 +1,7 @@
 {
 	"description": "项目配置文件。",
 	"setting": {
-		"urlCheck": false,
+		"urlCheck": true,
 		"es6": false,
 		"postcss": true,
 		"minified": true,
@@ -9,7 +9,7 @@
 	},
 	"miniprogramRoot": "dist/",
 	"compileType": "miniprogram",
-	"appid": "wxe6e1b5630f5d504a",
+	"appid": "wx11517929be41cb58",
 	"projectname": "Socially",
 	"condition": {
 		"search": {
@@ -51,9 +51,9 @@
 				},
 				{
 					"id": 3,
-					"name": "accept",
-					"pathName": "invite/invite_accept",
-					"query": "time=00:00&date=2018-12-30&inviterID=123",
+					"name": "start",
+					"pathName": "pages/start",
+					"query": "time=00:00&date=2018-12-31&inviterID=oaSTc4mmsrY5LFncZexK4Zczzg0I",
 					"scene": "1007"
 				},
 				{

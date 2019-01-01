@@ -47,7 +47,6 @@
         </view>
         <view
           class="tabBar-item"
-          @click="$router.replace({path:'/pages/index'})"
         >
           <view>
             <image
@@ -75,7 +74,7 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex'
+import { mapState } from 'vuex'
 import Calendar from 'mpvue-calendar'
 import 'mpvue-calendar/src/style.css'
 import { formatDate } from '../utils'
@@ -99,25 +98,14 @@ export default {
     ])
   },
 
-  created () {
+  mounted () {
     this.todayDate = formatDate(new Date())
     this.currentDate = this.todayDate
-    this.showTodos()
-    this.getInviterInvitations()
-    this.getInviteeInvitations()
   },
 
   methods: {
-    ...mapMutations([
-      'showTodos',
-      'getInviterInvitations',
-      'getInviteeInvitations'
-    ]),
     select (val, val2) {
-      console.log(val)
-      console.log(val2)
       this.currentDate = val.join('-')
-      // this.$router.push({ path: '/pages/dayView', query: { date: val[2], year: val[0], month: val[1] } })
     },
     toDetail (e, todo) {
       this.$router.push({ path: '/pages/detail', query: { date: this.currentDate, eventKey: todo.eventKey } })

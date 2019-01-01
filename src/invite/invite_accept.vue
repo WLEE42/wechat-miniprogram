@@ -56,46 +56,10 @@ export default {
   // get invitation info from database
   //
     console.log('invite_accept.onload: ' + res.inviterID + res.date)
-    var that = this
-    that.time = res.time
-    that.date = res.date
-    that.inviterID = res.inviterID
-
-    // get sessionKey
-    wx.login({
-      success (res) {
-        if (res.code) {
-          wx.request({
-            url: 'http://localhost:8000/login/checkUser',
-            data: {
-              code: res.code
-            },
-            success (res) {
-              wx.setStorageSync('sessionKey', res.data['sessionKey'])
-              console.log('invite_accept.login 写入sessionKey' + res.data['sessionKey'])
-              if (res.data['state'] === false) {
-                that.$router.replace({path: '/pages/start?inviterID=' + that.inviterID + '&date=' + that.date + '&time=' + that.time})
-              }
-            },
-            fail (res) {
-              console.log('访问服务器失败')
-            }
-          })
-        } else {
-          console.log('登录失败！' + res.errMsg)
-        }
-      }
-    })
-
-    Vue.prototype.$http
-      .get('invitation/getSingleInvitation', { inviterID: this.inviterID, date: this.date, time: this.time })
-      .then(d => {
-        that.inviterName = d.data.inviter
-        that.thing = d.data.thing
-        that.place = d.data.place
-        that.eventKey = d.data.eventKey
-        console.log('invite_accept.onLoad: success')
-      })
+    this.time = res.time
+    this.date = res.date
+    this.inviterID = res.inviterID
+    this.getSingleInvitation()
   },
   methods: {
     addTodo () {
@@ -147,7 +111,6 @@ export default {
     //
     // add invitation to local storage
     //
-      console.log(this.todos)
       if (this.date.split('-')[1] in this.invitations) {
         this.invitations[this.date.split('-')[1]].push({
           time: this.time,
@@ -183,6 +146,23 @@ export default {
           eventKey: this.eventKey
         }]
       }
+    },
+
+    getSingleInvitation () {
+    //
+    // get the content of this invitation
+    // triggered when the user is logged in
+    //
+      var that = this
+      Vue.prototype.$http
+        .get('invitation/getSingleInvitation', { inviterID: this.inviterID, date: this.date, time: this.time })
+        .then(d => {
+          that.inviterName = d.data.inviter
+          that.thing = d.data.thing
+          that.place = d.data.place
+          that.eventKey = d.data.eventKey
+          console.log('invite_accept.onLoad: success')
+        })
     }
   }
 }

@@ -18,7 +18,7 @@
         label 被邀人: {{todo.invitee}}
     button(@click="deleteEvents") 删除事件
     // button(@click="modifyEvents") 修改事件
-    button(@click="$router.replace({path:'/invite/inviter_index'})") 返回主页面
+    // button(@click="$router.replace({path:'/invite/inviter_index'})") 返回主页面
 </template>
 
 <script>
@@ -78,7 +78,7 @@ export default {
           })
         }
       )
-      this.$router.replace({path: '/invite/inviter_index'})
+      this.$router.back()
     }
   },
   mounted () {

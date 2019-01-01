@@ -61,7 +61,7 @@
           <view><image class="icon" src='/static/settings.png'></image></view>
           <view class="tabBartext">主页</view>
         </view>
-        <view class="tabBar-item" @click="$router.replace({path:'/invite/inviter_index'})">
+        <view class="tabBar-item">
           <view><image class="icon" src='/static/calendar.png'></image></view>
           <view class="tabBartext">我的邀请</view>
         </view>
@@ -69,7 +69,7 @@
           <view><image class="icon" src='/static/calendar.png'></image></view>
           <view class="tabBartext">邀请我的</view>
         </view>
-        <view class="tabBar-item" @click="$router.replace({path:'/invite/invite_add'})">
+        <view class="tabBar-item" @click="$router.push({path:'/invite/invite_add'})">
           <view><image class="icon" src='/static/add.png'></image></view>
           <view class="tabBartext">添加邀请</view>
         </view>
@@ -80,7 +80,7 @@
 
 <script>
 import './icon.css'
-import {mapState} from 'vuex'
+import {mapState, mapMutations} from 'vuex'
 
 export default {
   data () {
@@ -118,41 +118,38 @@ export default {
   },
 
   created () {
-  //
-  // initialize date and get storage from server
-  //
     this.sessionKey = wx.getStorageSync('sessionKey')
     let now = new Date()
     this.year = now.getFullYear()
     this.month = now.getMonth()
     this.monthText = this.months[this.month]
-  },
-
-  onLoad () {
-  //
-  // determine the value of 'hasData'
-  // it will determine the display content
-  //
-    if (this.month + 1 in this.myinvitations) {
-      this.hasData = true
-    } else {
-      this.hasData = false
-    }
+    this.getInviterInvitations()
   },
 
   onShow () {
+    console.log(this.month + 1 in this.myinvitations)
     if (this.month + 1 in this.myinvitations) {
       if (this.myinvitations[this.month + 1].length !== 0) {
         this.hasData = true
       } else {
-        this.hasData = false
+        this.hasData = true
       }
     } else {
-      this.hasData = false
+      this.hasData = true
     }
   },
 
+  onPullDownRefresh: function () {
+    this.getInviterInvitations()
+    this.$router.replace({path: '/invite/inviter_index'})
+    wx.stopPullDownRefresh()
+  },
+
   methods: {
+    ...mapMutations([
+      'getInviterInvitations'
+    ]),
+
     prev (e) {
     //
     // respond to "calendar-prev"
@@ -185,7 +182,7 @@ export default {
     //
     // go to the detail of one invitation
     //
-      this.$router.replace({ path: '/invite/invite_detail', query: { month: invitation.date.split('-')[1], eventKey: invitation.eventKey } })
+      this.$router.push({ path: '/invite/invite_detail', query: { month: invitation.month, eventKey: invitation.eventKey } })
     }
   }
 }
