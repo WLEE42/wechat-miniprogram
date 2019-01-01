@@ -12,12 +12,12 @@
       .weui-cell
         label 事件：{{stat.thing}}
       .weui-cell
-        label 参与人数: {{stat.people.length}}
+        label 参与人数: {{stat.people}}
     <div class="echarts-wrap">
       <button @click="initChart">查看统计结果</button>
       <mpvue-echarts lazyLoad :echarts="echarts" :onInit="handleInit" ref="echarts" />
     </div>
-    button(open-type="share") 分享统计
+    button(open-type="share" class="share") 分享统计
 </template>
 
 <script>
@@ -163,19 +163,18 @@ export default {
   },
   onLoad () {
     this.statistics.forEach(stat => {
-      if (stat.eventKey === this.$route.query.eventKey) {
+      if (String(stat.eventKey) === this.$route.query.eventKey) {
         this.stat = stat
         stat.choices.forEach((choice) => {
-          this.result[choice.date + ' ' + choice.time] = 0
-        })
-        stat.people.forEach((person) => {
-          person.choice.forEach((cho) => {
-            this.result[stat.choices[cho].date + ' ' + stat.choices[cho].time] += 1
-          })
+          this.result[choice.date + ' ' + choice.time] = choice.number
         })
       }
     })
     this.initChart()
+  },
+
+  onUnload () {
+    this.result = {}
   },
 
   onShareAppMessage: function (res) {
@@ -183,18 +182,21 @@ export default {
     // Triggered when the invite button is pressed
     // enter the friend list and locate the page to share
     //
-    // var that = this
+    var that = this
+    if (res.from === 'button') {
+      console.log('stat_add: ' + res.target)
+    }
     return {
-      title: this.todo.title,
+      title: this.thing,
       // the page to share
       // the parameters are to identify a specific event
-      path: '/invite/invite_accept?inviterID=' + this.sessionKey + '&date=' + this.todo.date + '&time=' + this.todo.time,
+      path: '/pages/start?statID=' + this.sessionKey + '&eventKey=' + this.eventKey,
       success: function (res) {
-        console.log('invite_add.onShareAppMessage: success')
-        // that.addInvitation()
+        console.log('stat_add.onShareAppMessage: success')
+        that.addInvitation()
       },
       fail: function (res) {
-        console.log('invite_add: share failed')
+        console.log('stat_add: share failed')
       }
     }
   }
@@ -205,7 +207,7 @@ export default {
 button {
   border: 0px 0px;
   padding: 0 32rpx;
-  margin: 32rpx 16rpx;
+  margin: 20rpx 16rpx;
   border-radius: 4rpx;
   box-shadow: 0 4rpx 10rpx 0 rgba(0, 0, 0, 0.26);
   color: rgb(33, 33, 33);
@@ -218,6 +220,9 @@ button {
 }
 .echarts-wrap {
   width: 100%;
-  height: 300px;
+  height: 250px;
+}
+.share {
+  margin-top: 200rpx;
 }
 </style>

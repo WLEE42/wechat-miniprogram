@@ -12,19 +12,7 @@ const store = new Vuex.Store({
     userID: '',
     myinvitations: {},
     invitations: {},
-    statistics: [
-      {
-        title: '我爱学习',
-        thing: '预定在本周进行学习',
-        deadTime: '08:08',
-        deadDate: '2018-12-30',
-        choices: [{ date: '2018-12-25', time: '20:20', number: '0' }, { date: '2018-12-27', time: '20:20', number: '0' }, { date: '2018-12-26', time: '20:20', number: '0' }],
-        people: [{ openid: '111', choice: [0, 1] }],
-        place: '北京',
-        eventKey: '001',
-        createDate: '2018-12-20'
-      }
-    ]
+    statistics: []
   },
 
   mutations: {
@@ -65,22 +53,6 @@ const store = new Vuex.Store({
               }
             })
           }
-        })
-        .catch(err => {
-          console.log(err.status, err.message)
-        })
-    },
-
-    getStatistics (state) {
-      state.sessionKey = wx.getStorageSync('sessionKey')
-      // console.log(state.sessionKey)
-      Vue.prototype.$http
-        .get('statistics/getStatistics', {
-          sessionKey: state.sessionKey
-        })
-        .then(d => {
-          // console.log(d.data)
-          state.statistics = d.data.statistics
         })
         .catch(err => {
           console.log(err.status, err.message)

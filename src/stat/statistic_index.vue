@@ -77,7 +77,7 @@
                 </view>
                 <view class="item">
                   <p>参与者人数：</p>
-                  <span v-if="statistic.people.length!=0"> {{statistic.people.length}} </span>
+                  <span v-if="statistic.people!=0"> {{statistic.people}} </span>
                   <span v-else> 暂无 </span>
                 </view>
               </view>
@@ -130,7 +130,8 @@
 
 <script>
 import './icon.css'
-import { mapState, mapMutations } from 'vuex'
+import { mapState } from 'vuex'
+import Vue from 'vue'
 
 export default {
   data () {
@@ -174,7 +175,7 @@ export default {
     this.monthText = this.months[this.month]
   },
 
-  onLoad () {
+  onShow () {
     if (this.statistics.length > 0) {
       this.hasData = true
     } else {
@@ -182,10 +183,33 @@ export default {
     }
   },
 
+  onPullDownRefresh: function () {
+    this.getStatistics()
+    this.$mp.page.onShow()
+    wx.stopPullDownRefresh()
+  },
+
   methods: {
-    ...mapMutations([
-      'getStatistics'
-    ]),
+    getStatistics () {
+    //
+    // initialize statistic.Get and store the info.
+    //
+      this.statistics.splice(0, this.statistics.length)
+      this.sessionKey = wx.getStorageSync('sessionKey')
+      Vue.prototype.$http
+        .get('statistics/getStatistics', {
+          sessionKey: this.sessionKey
+        })
+        .then(d => {
+          for (let statistic in d.data.statistics) {
+            this.statistics.push(d.data.statistics[statistic])
+            this.hasData = true
+          }
+        })
+        .catch(err => {
+          console.log(err.status, err.message)
+        })
+    },
 
     prev (e) {
       //
