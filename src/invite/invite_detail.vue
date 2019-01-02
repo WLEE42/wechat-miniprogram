@@ -1,6 +1,6 @@
 <template lang="pug">
   .page
-    div 日程详情
+    div 邀请详情
 
     .weui-cells
 
@@ -17,7 +17,8 @@
       .weui-cell
         label 被邀人: {{todo.invitee}}
     button(@click="deleteEvents") 删除事件
-    button(@click="modifyEvents") 修改事件
+    // button(@click="modifyEvents") 修改事件
+    // button(@click="$router.replace({path:'/invite/inviter_index'})") 返回主页面
 </template>
 
 <script>
@@ -31,12 +32,14 @@ export default {
         date: '请选择日期',
         thing: '',
         place: '',
-        eventKey: ''
+        eventKey: '',
+        invitee: ''
       }
     }
   },
   computed: {
     ...mapState([
+      'todos',
       'myinvitations',
       'sessionKey'
     ])
@@ -61,10 +64,15 @@ export default {
       if (this.todo.thing === '今日无事件') {
         return
       }
-      this.$http.get('invite/deleteInvitation', { sessionKey: this.sessionKey, eventKey: this.todo.eventKey }).then(
+      this.$http.get('invitation/deleteInvitation', { sessionKey: this.sessionKey, eventKey: this.todo.eventKey }).then(
         d => {
-          this.todos[this.$route.query.date].forEach((todo, index, object) => {
-            if (todo.eventKey === this.$route.query.eventKey) {
+          this.todos[this.todo.date].forEach((todo, index, object) => {
+            if (todo.eventKey === this.todo.eventKey) {
+              object.splice(index, 1)
+            }
+          })
+          this.myinvitations[this.todo.date.split('-')[1]].forEach((todo, index, object) => {
+            if (todo.eventKey === this.todo.eventKey) {
               object.splice(index, 1)
             }
           })
@@ -74,37 +82,11 @@ export default {
     }
   },
   mounted () {
-    if (this.myinvitations[this.$route.query.date].length !== 0) {
-      this.myinvitations[this.$route.query.date].forEach(todo => {
-        if (todo.eventKey === this.$route.query.eventKey) {
-          this.todo = todo
-          console.log(this.todo.date)
-        }
-      })
-    } else {
-      this.todo.thing = '今日无事件'
-    }
-  },
-
-  onShareAppMessage: function (res) {
-  //
-  // Triggered when the invite button is pressed
-  // enter the friend list and locate the page to share
-  //
-    // var that = this
-    return {
-      title: this.todo.thing,
-      // the page to share
-      // the parameters are to identify a specific event
-      path: '/invite/invite_accept?inviterID=' + this.sessionKey + '&date=' + this.todo.date + '&time=' + this.todo.time,
-      success: function (res) {
-        console.log('invite_add.onShareAppMessage: success')
-        // that.addInvitation()
-      },
-      fail: function (res) {
-        console.log('invite_add: share failed')
+    this.myinvitations[this.$route.query.month].forEach(todo => {
+      if (todo.eventKey === this.$route.query.eventKey) {
+        this.todo = todo
       }
-    }
+    })
   }
 }
 </script>

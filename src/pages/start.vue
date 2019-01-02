@@ -35,6 +35,8 @@ export default {
       isShow: false,
       textShow: false,
       inviterID: '',
+      statID: '',
+      eventKey: '',
       date: '',
       time: ''
     }
@@ -51,6 +53,8 @@ export default {
 
   onLoad: function (res) {
     if (res) {
+      this.statID = res.statID
+      this.eventKey = res.eventKey
       this.inviterID = res.inviterID
       this.date = res.date
       this.time = res.time
@@ -76,9 +80,11 @@ export default {
 
     redirect () {
       if (this.inviterID) {
-        this.$router.replace({ path: '/pages/invite_accept?inviterID=' + this.inviterID + '&date=' + this.date + '&time=' + this.time })
+        this.$router.replace({ path: '/invite/invite_accept?inviterID=' + this.inviterID + '&date=' + this.date + '&time=' + this.time })
+      } else if (this.statID) {
+        this.$router.replace({ path: '/stat/statistic_accept?statID=' + this.statID + '&eventKey=' + this.eventKey })
       } else {
-        this.$router.replace({ path: '/pages/main' })
+        this.$router.replace({path: '/pages/main'})
       }
     }
   }

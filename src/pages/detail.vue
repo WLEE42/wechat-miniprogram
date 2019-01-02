@@ -1,6 +1,6 @@
 <template>
   <div class='page'>
-    <div> 添加日程</div>
+    <div> 日程详情</div>
 
     <div class='weui-cells'>
 
@@ -49,6 +49,9 @@ export default {
     ...mapMutations([]),
 
     modifyEvents () {
+    //
+    // modify the event detail
+    //
       console.log('modify')
       this.$http.get('event/modifyEvent', { sessionKey: this.sessionKey, time: this.todo.time, date: this.todo.date, thing: this.todo.thing, place: this.todo.place, eventKey: this.todo.eventKey }).then(
         d => {
@@ -60,7 +63,11 @@ export default {
         }
       )
     },
+
     deleteEvents () {
+    //
+    // delete event and jump back
+    //
       console.log('delete')
       if (this.todo.thing === '今日无事件') {
         return
@@ -74,6 +81,7 @@ export default {
           })
         }
       )
+      this.$router.back()
     }
   },
   mounted () {
@@ -106,13 +114,5 @@ button {
   background-color: rgb(250, 250, 250);
   max-width: 100%;
   vertical-align: middle;
-}
-.weui-cell {
-  background-color: #ff6347;
-  border-radius: 30rpx;
-  padding: 20rpx 20rpx;
-  font-size: 40rpx;
-  font-weight: 900;
-  margin: 10rpx 20rpx;
 }
 </style>

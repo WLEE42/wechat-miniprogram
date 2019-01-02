@@ -19,9 +19,10 @@
 
   ],
   "window": {
-    "backgroundTextStyle": "light",
+    "backgroundTextStyle": "black",
     "navigationBarBackgroundColor": "#fff",
     "navigationBarTitleText": "Socially",
-    "navigationBarTextStyle": "black"
+    "navigationBarTextStyle": "black",
+    "enablePullDownRefresh": true
   }
 }

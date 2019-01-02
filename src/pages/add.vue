@@ -43,21 +43,13 @@
           placeholder="请输入地点"
         />
       </div>
-      <div class='weui-cell.invite'>
-        <label> 邀请好友：</label>
-        <button class='invite-btn'> 邀请好友</button>
-      </div>
     </div>
+
     <button
       class='weui-btn'
       @click="addTodo"
       type="primary"
     > 添加日程</button>
-
-    <button
-      class='weui-btn'
-      @click="$router.push({path:'/pages/index',isTab:true})"
-    > 查看日程</button>
   </div>
 </template>
 
@@ -74,6 +66,7 @@ export default {
       place: ''
     }
   },
+
   computed: {
     ...mapState([
       'count',
@@ -81,11 +74,17 @@ export default {
       'sessionKey'
     ])
   },
+
   methods: {
     ...mapMutations([
       'addTodos'
     ]),
+
     addTodo () {
+    //
+    // triggered when the button is pressed
+    // add event into calendar
+    //
       if (this.date === '请选择日期' || this.time === '请选择时间') {
         wx.showModal({
           title: '提示',
@@ -98,7 +97,6 @@ export default {
         })
         return
       }
-      // console.log(this.todos)
       var that = this
       this.$http.get('event/addEvent', {
         time: this.time,
@@ -116,7 +114,11 @@ export default {
             content: '已添加日程',
             success: function (res) {
               if (res.confirm) {
-                console.log('用户点击确定')
+                that.time = '请选择时间'
+                that.date = '请选择日期'
+                that.thing = ''
+                that.place = ''
+                that.$router.back()
               }
             }
           })
@@ -178,14 +180,14 @@ export default {
 button {
   border: 0px 0px;
   padding: 0 32rpx;
-  margin: 200rpx 16rpx;
+  margin: 150rpx 16rpx;
   border-radius: 4rpx;
   box-shadow: 0 4rpx 10rpx 0 rgba(0, 0, 0, 0.26);
   color: rgb(33, 33, 33);
   letter-spacing: 0.01em;
   line-height: 100rpx;
   min-width: 176rpx;
-  background-color: #ff6347;
+  background-color: #00BFFF;
   max-width: 100%;
   vertical-align: middle;
 }
@@ -204,7 +206,7 @@ input {
   font-size: 40rpx;
 }
 .weui-cell {
-  background-color: #ff6347;
+  background-color: #00BFFF;
   border-radius: 30rpx;
   padding: 20rpx 20rpx;
   font-size: 40rpx;

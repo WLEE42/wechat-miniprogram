@@ -1,14 +1,32 @@
 <template lang="pug">
   .page
-    label 标题 {{title}}
-    label 事件：{{thing}}}
-    label 地点：{{place}}
+    <view>
+    <label> 标题: </label>
+    <span> {{title}} </span>
+    </view>
+    <view>
+    <label> 事件: </label>
+    <span> {{thing}} </span>
+    </view>
+    <view>
+    <label> 地点: </label>
+    <span> {{place}} </span>
+    </view>
     label.weui-cell__bd 截止时间：
     label.weui-cell__ft {{deadDate+' '+deadTime}}
-    div
-      label {{date}}
-      label {{time}}
-      image(v-if='reply[number]' src="'/static/choose.png")
+
+    <ul>
+      <li v-for='choice in choices':key="choice.rank" @click="choose($event, choice)">
+        <view>
+          image(v-if='reply[choice.rank]' src="/static/check.png" class="check")
+          image(v-if='!reply[choice.rank]' src="/static/cross.png" class="check")
+          <label> 日期: </label>
+          <span> {{choice.date}} </span>
+          <label> 时间: </label>
+          <span> {{choice.time}} </span>
+        </view>
+      </li>
+    </ul>
 
     button(@click="addReply") 提交问卷
 </template>
@@ -22,12 +40,12 @@ export default {
     return {
       month: '',
       reply: {},
-      inviterID: '',
+      statID: '',
       eventKey: '',
       title: '',
       deadTime: '',
       deadDate: '',
-      choices: '',
+      choices: {},
       people: '',
       thing: '',
       place: '',
@@ -42,42 +60,15 @@ export default {
     ])
   },
 
-  mounted (res) {
+  onLoad (res) {
     this.month = new Date().getMonth() + 1
-    // this.$router.replace({path: '/invite/start'})
-    console.log('statistic_accept.onload: ' + res.inviterID + res.eventKey)
+    console.log('statistic_accept.onload: ' + res.statID + res.eventKey)
     const that = this
     that.eventKey = res.eventKey
-    that.inviterID = res.inviterID
-
-    // get sessionKey
-    wx.login({
-      success (res) {
-        if (res.code) {
-          wx.request({
-            url: 'http://www.giveteamaname.top/login/checkUser',
-            data: {
-              code: res.code
-            },
-            success (res) {
-              wx.setStorageSync('sessionKey', res.data['sessionKey'])
-              console.log('invite_accept.login 写入sessionKey' + res.data['sessionKey'])
-              if (res.data['state'] === false) {
-                that.$router.replace({ path: '/invite/start?inviterID=' + that.inviterID + '&date=' + that.date + '&time=' + that.time })
-              }
-            },
-            fail (res) {
-              console.log('访问服务器失败')
-            }
-          })
-        } else {
-          console.log('登录失败！' + res.errMsg)
-        }
-      }
-    })
+    that.statID = res.statID
 
     this.$http
-      .get('statistics/getSingleStatistic', { inviterID: this.inviterID, eventKey: this.eventKey })
+      .get('statistics/getSingleStatistic', { statID: this.statID, eventKey: this.eventKey })
       .then(d => {
         if (new Date(d.data.deadDate) < new Date()) {
           wx.showToast({
@@ -85,29 +76,26 @@ export default {
             duration: 2000,
             icon: 'fail'
           })
-          this.$router.push({ page: '/pages/main' })
+          this.$router.replace({ path: '/pages/main' })
         } else if (+(new Date(d.data.deadDate)) === +(new Date()) && compareTime(d.data.deadTime)) {
           wx.showToast({
             title: '已过期',
             duration: 2000,
             icon: 'fail'
           })
-          this.$router.push({ page: '/pages/main' })
+          this.$router.replace({ path: '/pages/main' })
         }
         that.title = d.data.title
         that.deadTime = d.data.deadTime
         that.deadDate = d.data.deadDate
-        that.choices = d.data.choices
         that.people = d.data.people
         that.eventKey = d.data.eventKey
         that.thing = d.data.thing
         that.place = d.data.place
-        that.createDate = d.data.createDate
-        that.choices.forEach(
-          (choice) => {
-            that.reply[choice.number] = false
-          }
-        )
+        for (let i in d.data.choices) {
+          this.choices[d.data.choices[i].rank] = d.data.choices[i]
+          this.reply[d.data.choices[i].rank] = false
+        }
         console.log('invite_accept.onLoad: success')
       })
   },
@@ -122,8 +110,8 @@ export default {
       //
       this.$http.get('statistics/addReply', {
         sessionKey: this.sessionKey,
-        eventKey: this.thing,
-        reply: this.reply
+        eventKey: this.eventKey,
+        reply: JSON.stringify(this.reply)
       }).then(d => {
         if (d.data.state === 'success') {
           console.log('回复成功' + d.data.state)
@@ -132,7 +120,7 @@ export default {
             duration: 2000,
             content: '回复成功',
             success: () => {
-              this.$router.push('/pages/main')
+              this.$router.replace('/pages/main')
             }
           })
         } else if (d.data.state === 'fail') {
@@ -145,32 +133,9 @@ export default {
       })
     },
 
-    click ($event, choice) {
-      this.reply[choice.number] = !this.reply[choice.number]
-    }
-  },
-
-  onShareAppMessage: function (res) {
-    //
-    // Triggered when the invite button is pressed
-    // enter the friend list and locate the page to share
-    //
-    var that = this
-    if (res.from === 'button') {
-      console.log('invite_add: ' + res.target)
-    }
-    return {
-      title: this.thing,
-      // the page to share
-      // the parameters are to identify a specific event
-      path: '/pages/invite_accept?inviterID=' + this.sessionKey + '&date=' + this.date + '&time=' + this.time,
-      success: function (res) {
-        console.log('invite_add.onShareAppMessage: success')
-        that.addInvitation()
-      },
-      fail: function (res) {
-        console.log('invite_add: share failed')
-      }
+    choose ($event, choice) {
+      this.reply[choice.rank] = !this.reply[choice.rank]
+      this.$mp.page.onShow()
     }
   }
 }
@@ -179,7 +144,7 @@ export default {
 <style lang="scss" scoped>
 ul {
   &:before {
-    content: "before";
+    content: "选项：";
     display: table;
   }
   li {
@@ -239,5 +204,9 @@ input {
   font-size: 40rpx;
   font-weight: 900;
   margin: 10rpx 20rpx;
+}
+.check {
+  width: 50rpx;
+  height: 50rpx;
 }
 </style>

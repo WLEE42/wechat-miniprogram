@@ -23,7 +23,7 @@
 
 <script>
 import Vue from 'vue'
-import { mapState, mapMutations } from 'vuex'
+import { mapState } from 'vuex'
 import mpButton from 'mpvue-weui/src/button'
 
 export default {
@@ -35,7 +35,8 @@ export default {
       place: '',
       inviterID: '',
       code: '',
-      inviterName: ''
+      inviterName: '',
+      eventKey: ''
     }
   },
   components: {
@@ -45,66 +46,28 @@ export default {
     ...mapState([
       'count',
       'todos',
-      'sessionKey'
+      'sessionKey',
+      'invitations'
     ])
   },
 
+  onLoad: function (res) {
   //
   // get invitation info from database
   //
-  onLoad: function (res) {
-    // this.$router.replace({path: '/invite/start'})
     console.log('invite_accept.onload: ' + res.inviterID + res.date)
-    var that = this
-    that.time = res.time
-    that.date = res.date
-    that.inviterID = res.inviterID
-
-    // get sessionKey
-    wx.login({
-      success (res) {
-        if (res.code) {
-          wx.request({
-            url: 'http://localhost:8000/login/checkUser',
-            data: {
-              code: res.code
-            },
-            success (res) {
-              wx.setStorageSync('sessionKey', res.data['sessionKey'])
-              console.log('invite_accept.login 写入sessionKey' + res.data['sessionKey'])
-              if (res.data['state'] === false) {
-                that.$router.replace({path: '/invite/start?inviterID=' + that.inviterID + '&date=' + that.date + '&time=' + that.time})
-              }
-            },
-            fail (res) {
-              console.log('访问服务器失败')
-            }
-          })
-        } else {
-          console.log('登录失败！' + res.errMsg)
-        }
-      }
-    })
-
-    Vue.prototype.$http
-      .get('invitation/getSingleInvitation', { inviterID: this.inviterID, date: this.date, time: this.time })
-      .then(d => {
-        that.inviterName = d.data.inviterName
-        that.thing = d.data.thing
-        that.place = d.data.place
-        console.log('invite_accept.onLoad: success')
-      })
+    this.time = res.time
+    this.date = res.date
+    this.inviterID = res.inviterID
+    this.getSingleInvitation()
   },
   methods: {
-    ...mapMutations([
-      'addTodos'
-    ]),
-
+    addTodo () {
     //
     // accept invitation
     //
-    addTodo () {
       var that = this
+      console.log(this.sessionKey)
       this.$http.get('invitation/acceptInvitation', {
         time: this.time,
         date: this.date,
@@ -116,7 +79,7 @@ export default {
         console.log(d)
         if (d.data.state === 'success') {
           console.log('添加成功' + d.data.state)
-          this.addTodos({ time: this.time, date: this.date, thing: this.thing, place: this.place, eventKey: d.data.eventKey })
+          this.addLocal()
           wx.showModal({
             title: '成功！',
             content: '已添加日程',
@@ -136,12 +99,70 @@ export default {
               if (res.confirm) {
                 console.log('用户点击确定')
               } else {
-                that.$router.push({ path: '/invite/detail', query: { date: that.date, eventKey: d.eventKey } })
+                that.$router.push({ path: '/invite/invite_detail', query: { date: that.date, eventKey: d.eventKey } })
               }
             }
           })
         }
       })
+    },
+
+    addLocal () {
+    //
+    // add invitation to local storage
+    //
+      if (this.date.split('-')[1] in this.invitations) {
+        this.invitations[this.date.split('-')[1]].push({
+          time: this.time,
+          date: this.date,
+          month: this.date.split('-')[1],
+          thing: this.thing,
+          place: this.place,
+          eventKey: this.eventKey,
+          inviter: this.inviterName
+        })
+        this.todos[this.date].push({
+          time: this.time,
+          date: this.date,
+          thing: this.thing,
+          place: this.place,
+          eventKey: this.eventKey
+        })
+      } else {
+        this.invitations[this.date.split('-')[1]] = [{
+          time: this.time,
+          date: this.date,
+          month: this.date.split('-')[1],
+          thing: this.thing,
+          place: this.place,
+          eventKey: this.eventKey,
+          inviter: this.inviterName
+        }]
+        this.invitations[this.date] = [{
+          time: this.time,
+          date: this.date,
+          thing: this.thing,
+          place: this.place,
+          eventKey: this.eventKey
+        }]
+      }
+    },
+
+    getSingleInvitation () {
+    //
+    // get the content of this invitation
+    // triggered when the user is logged in
+    //
+      var that = this
+      Vue.prototype.$http
+        .get('invitation/getSingleInvitation', { inviterID: this.inviterID, date: this.date, time: this.time })
+        .then(d => {
+          that.inviterName = d.data.inviter
+          that.thing = d.data.thing
+          that.place = d.data.place
+          that.eventKey = d.data.eventKey
+          console.log('invite_accept.onLoad: success')
+        })
     }
   }
 }
@@ -156,7 +177,7 @@ export default {
   display: flex;
 }
 .content {
-  background-color:rgba(79, 132, 196, 0.87);
+  background-color:#7B68EE;
   border-radius: 30rpx;
   padding-left: 20rpx;
   padding-right: 50rpx;
@@ -167,18 +188,18 @@ export default {
   width: 63.5%;
 }
 .content2 {
-  background-color: rgba(79, 132, 196, 0.87);
+  background-color: #7B68EE;
   border-radius: 30rpx;
   padding-left: 20rpx;
   padding-right: 50rpx;
   margin-bottom: 10rpx;
-  margin-left: 5rpx;
+  margin-left: 50rpx;
   margin-right: 20rpx;
   font-size: 40rpx;
-  width: 58%;
+  width: 52%;
 }
 .title{
-  background-color: rgba(79, 132, 196, 0.87);
+  background-color: #7B68EE;
   border-radius: 30rpx;
   padding-left: 30rpx;
   padding-right: 10rpx;
@@ -201,7 +222,7 @@ button {
   background-color: rgb(250, 250, 250);
   max-width: 100%;
   vertical-align: middle;
-  background-color: rgba(79, 132, 196, 0.87)
+  background-color: #7B68EE
 }
 .pick {
   width: 700 rpx;

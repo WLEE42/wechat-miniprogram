@@ -1,5 +1,5 @@
 <template lang="pug">
-  div.page
+  .page
     <div class="calendar-tools">
       <div class="calendar-prev" @click="prev">
         <img :src="arrowLeft" v-if="!!arrowLeft">
@@ -19,11 +19,13 @@
       <div class="mc-year">{{year}}</div>
       </div>
     </div>
+
     <view class="body">
       <view v-if="!hasData" class="notfound">
         <image src='/static/rocket.png'></image>
         <p>您还没有邀请</p>
       </view>
+
       <view v-else>
         ul
           li(v-for='invitation in myinvitations[month+1]' :key="invitation.eventKey" @click="toDetail($event,invitation)")
@@ -51,7 +53,6 @@
                 </view>
             </view>
       </view>
-
     </view>
 
     <view class="tabBar">
@@ -60,7 +61,7 @@
           <view><image class="icon" src='/static/settings.png'></image></view>
           <view class="tabBartext">主页</view>
         </view>
-        <view class="tabBar-item" @click="$router.replace({path:'/invite/inviter_index'})">
+        <view class="tabBar-item">
           <view><image class="icon" src='/static/calendar.png'></image></view>
           <view class="tabBartext">我的邀请</view>
         </view>
@@ -79,7 +80,8 @@
 
 <script>
 import './icon.css'
-import {mapState, mapMutations} from 'vuex'
+import { mapState } from 'vuex'
+import Vue from 'vue'
 
 export default {
   data () {
@@ -97,6 +99,10 @@ export default {
   },
 
   watch: {
+  //
+  // change the variable 'hasData' when the month changes
+  // it will controll the display content
+  //
     month: function () {
       if (this.month + 1 in this.myinvitations) {
         this.hasData = true
@@ -113,29 +119,82 @@ export default {
   },
 
   created () {
-  //
-  // initialize systeminfo and date
-  //
     this.sessionKey = wx.getStorageSync('sessionKey')
-    this.getInviterInvitations()
     let now = new Date()
     this.year = now.getFullYear()
     this.month = now.getMonth()
     this.monthText = this.months[this.month]
+    this.getInviterInvitations()
   },
 
-  onLoad () {
+  onShow () {
     if (this.month + 1 in this.myinvitations) {
-      this.hasData = true
+      if (this.myinvitations[this.month + 1].length !== 0) {
+        this.hasData = true
+      } else {
+        this.hasData = false
+      }
     } else {
       this.hasData = false
     }
   },
 
+  onPullDownRefresh: function () {
+    this.getInviterInvitations()
+    console.log(this.myinvitations)
+    this.$router.replace({path: '/invite/inviter_index'})
+    wx.stopPullDownRefresh()
+  },
+
   methods: {
-    ...mapMutations([
-      'getInviterInvitations'
-    ]),
+    getInviterInvitations () {
+    //
+    // get my invitations and store them
+    //
+      for (let month in this.myinvitations) {
+        this.myinvitations[month] = []
+      }
+      this.sessionKey = wx.getStorageSync('sessionKey')
+      Vue.prototype.$http
+        .get('invitation/getInviterInvitations', {
+          sessionKey: this.sessionKey
+        })
+        .then(d => {
+          // console.log(d.data)
+          for (let eleArray in d.data) {
+            // console.log(eleArray)
+            d.data[eleArray].forEach(element => {
+              if (this.myinvitations.hasOwnProperty(element.month)) {
+                this.myinvitations[element.month].push({
+                  time: element.time,
+                  date: element.date,
+                  month: element.month,
+                  thing: element.thing,
+                  place: element.place,
+                  eventKey: element.eventKey,
+                  invitee: element.invitee
+                })
+              } else {
+                this.myinvitations[element.month] = [
+                  {
+                    time: element.time,
+                    date: element.date,
+                    month: element.month,
+                    thing: element.thing,
+                    place: element.place,
+                    eventKey: element.eventKey,
+                    invitee: element.invitee
+                  }
+                ]
+              }
+              this.hasData = true
+            })
+          }
+        })
+        .catch(err => {
+          console.log(err.status, err.message)
+        })
+    },
 
     prev (e) {
     //
@@ -166,7 +225,10 @@ export default {
     },
 
     toDetail (e, invitation) {
-      this.$router.push({ path: '/invite/invite_detail', query: { date: invitation.date.split('-')[1], eventKey: invitation.eventKey } })
+    //
+    // go to the detail of one invitation
+    //
+      this.$router.push({ path: '/invite/invite_detail', query: { month: invitation.month, eventKey: invitation.eventKey } })
     }
   }
 }
@@ -291,7 +353,7 @@ ul {
   margin-bottom:150rpx;
 }
 .content {
-  background-color: rgba(79, 132, 196, 0.87);
+  background-color: #7B68EE;
   border-radius: 30rpx;
   padding-left: 20rpx;
   padding-right: 50rpx;
@@ -301,7 +363,7 @@ ul {
   width: 80%;
 }
 .title{
-  background-color: rgba(79, 132, 196, 0.87);
+  background-color: #7B68EE;
   border-radius: 30rpx;
   padding-left: 20rpx;
   padding-right: 10rpx;
