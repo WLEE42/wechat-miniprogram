@@ -45,9 +45,7 @@
           </view>
           <view class="tabBartext">主页</view>
         </view>
-        <view
-          class="tabBar-item"
-        >
+        <view class="tabBar-item">
           <view>
             <image
               class="icon"
@@ -77,7 +75,7 @@
 import { mapState } from 'vuex'
 import Calendar from 'mpvue-calendar'
 import 'mpvue-calendar/src/style.css'
-import { formatDate } from '../utils'
+import { formatDate, formatNumber } from '../utils'
 
 export default {
   data () {
@@ -105,6 +103,8 @@ export default {
 
   methods: {
     select (val, val2) {
+      val[1] = formatNumber(val[1])
+      val[2] = formatNumber(val[2])
       this.currentDate = val.join('-')
     },
     toDetail (e, todo) {
@@ -167,7 +167,7 @@ button {
   margin-bottom: 10rpx;
 }
 .content {
-  background-color: #00BFFF;
+  background-color: #00bfff;
   border-radius: 30rpx;
   padding-left: 20rpx;
   padding-right: 50rpx;
@@ -177,7 +177,7 @@ button {
   width: 80%;
 }
 .title {
-  background-color: #00BFFF;
+  background-color: #00bfff;
   border-radius: 30rpx;
   padding-left: 20rpx;
   padding-right: 10rpx;
