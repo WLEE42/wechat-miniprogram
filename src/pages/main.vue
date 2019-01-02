@@ -1,29 +1,37 @@
-<template lang="pug">
+<template>
+  <div class='page'>
+    <view class="line">
+      <button
+        class='btn1'
+        @click="$router.replace({path:'/pages/index'})"
+      > 日程管理</button>
 
-  .page
-    div.title 主页面
+      <button
+        class='btn2'
+        @click="$router.replace({path:'/invite/inviter_index'})"
+      > 日程邀请</button>
+    </view>
 
-    button(@click="$router.push({path:'/pages/index',isTab:true})") 日程管理
+    <view class="line">
+      <button
+        class='btn3'
+        @click="$router.replace({path:'/stat/statistic_index'})"
+      > 时间统计</button>
 
-    button(@click="$router.push({path:'/pages/setting'})") 用户中心 
-    
-    button() 日程邀请
-
-    button() 时间统计
-
+      <button
+        class='btn4'
+        @click="$router.push({path:'/pages/setting'})"
+      > 用户中心</button>
+    </view>
+  </div>
 </template>
 
 <script>
 import { mapState } from 'vuex'
-import mpButton from 'mpvue-weui/src/button'
 
 export default {
   data () {
     return {}
-  },
-
-  components: {
-    mpButton
   },
 
   computed: {
@@ -42,25 +50,31 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
-.title {
-  text-align: center;
-  padding: 48rpx 32rpx 32rpx;
-  color: rgba(0, 0, 0, 0.87);
-  font-size: 50rpx;
-}
 button {
+  &.btn1 {
+    background-color: #00BFFF;
+  }
+  &.btn2 {
+    background-color: #7B68EE;
+  }
+  &.btn4 {
+    background-color: #FF4500;
+  }
+  &.btn3 {
+    background-color: #F9F902;
+  }
   border: 0px 0px;
-  padding: 0 32rpx;
-  margin: 32rpx 16rpx;
-  border-radius: 4rpx;
-  box-shadow: 0 4rpx 10rpx 0 rgba(0, 0, 0, 0.26);
-  color: rgb(33, 33, 33);
-  letter-spacing: 0.01em;
-  line-height: 100rpx;
-  min-width: 176rpx;
-  background-color: rgb(250, 250, 250);
-  max-width: 100%;
-  vertical-align: middle;
+  padding: 200rpx 32rpx;
+  margin: 20rpx 10rpx;
+  border-radius: 20rpx;
+  width: 50%;
+  height: 100%;
+  font-weight: 900;
+  font-size: 60rpx;
+}
+.line {
+  display: flex;
+  height: 560rpx;
+  margin: 15rpx 0rpx;
 }
 </style>

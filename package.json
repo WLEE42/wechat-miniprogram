@@ -8,17 +8,22 @@
     "dev": "node build/dev-server.js",
     "start": "node build/dev-server.js",
     "build": "node build/build.js",
-    "lint": "eslint --ext .js,.vue src"
+    "lint": "eslint --ext .js,.vue src",
+    "test": "jest"
   },
   "dependencies": {
+    "echarts": "^4.2.0-rc.2",
     "flyio": "^0.6.2",
     "mpvue": "^1.0.0",
     "mpvue-calendar": "^2.0.2",
+    "mpvue-echarts": "^0.2.7",
     "mpvue-router-patch": "^0.2.1",
     "mpvue-weui": "^1.0.2",
+    "vue": "^2.4.4",
     "vuex": "^3.0.0"
   },
   "devDependencies": {
+    "@vue/test-utils": "^1.0.0-beta.27",
     "babel-core": "^6.26.0",
     "babel-eslint": "^8.2.0",
     "babel-loader": "^7.1.5",
@@ -39,9 +44,11 @@
     "eslint-plugin-node": "^6.0.0",
     "eslint-plugin-promise": "^3.4.0",
     "eslint-plugin-standard": "^3.0.0",
+    "expect": "^23.6.0",
     "extract-text-webpack-plugin": "^3.0.0",
     "file-loader": "^1.1.0",
     "friendly-errors-webpack-plugin": "^1.7.0",
+    "jest": "^23.6.0",
     "mpvue-entry": "^1.5.0",
     "mpvue-loader": "^1.1.2",
     "mpvue-template-compiler": "^1.0.0",
@@ -63,7 +70,9 @@
     "shelljs": "^0.8.0",
     "uglifyjs-webpack-plugin": "^1.2.0",
     "url-loader": "^1.0.0",
+    "vue-jest": "^2.6.0",
     "vue-style-loader": "^4.1.0",
+    "vue-template-compiler": "^2.4.4",
     "webpack": "^3.11.0",
     "webpack-bundle-analyzer": "^2.13.0",
     "webpack-dev-middleware-hard-disk": "^1.12.0",
@@ -73,6 +82,20 @@
   "engines": {
     "node": ">= 4.0.0",
     "npm": ">= 3.0.0"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "vue"
+    ],
+    "transform": {
+      "^.+\\.js$": "<rootDir>/node_modules/babel-jest",
+      ".*\\.(vue)$": "<rootDir>/node_modules/vue-jest"
+    },
+    "moduleNameMapper": {
+      "^@/(.*)$": "<rootDir>/src/$1"
+    }
   },
   "browserslist": [
     "> 1%",

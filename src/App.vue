@@ -1,11 +1,22 @@
 <script>
-import { mapState } from 'vuex'
+import { mapMutations } from 'vuex'
+
 export default {
-  computed: {
-    ...mapState([
-      'sessionKey'
+  config: {
+    window: {
+      backgroundTextStyle: 'light',
+      navigationBarBackgroundColor: '#fff',
+      navigationBarTitleText: 'WeChat',
+      navigationBarTextStyle: 'black'
+    }
+  },
+
+  methods: {
+    ...mapMutations([
+      'showTodos'
     ])
   },
+
   created () {
     // 调用API从本地缓存中获取数据
     const logs = wx.getStorageSync('logs') || []
@@ -16,6 +27,7 @@ export default {
     console.log('app created and cache logs by setStorageSync')
   },
   onLaunch: function () {
+    var that = this
     wx.login({
       success (res) {
         console.log(res)
@@ -25,7 +37,8 @@ export default {
           // 发送凭证
           // 发起网络请求
           wx.request({
-            url: 'http://39.96.33.101:80/login',
+            url: 'https://www.giveteamaname.top/login/',
+            // url: 'http://localhost:8000/login/',
             data: {
               code: res.code
             },
@@ -36,6 +49,7 @@ export default {
               wx.setStorageSync('sessionKey', res.data['sessionKey'])
               // this.sessionKey = res.data['sessionKey']
               console.log('写入sessionKey' + res.data['sessionKey'])
+              that.showTodos()
             },
             fail (res) {
               console.log('访问服务器失败')

@@ -1,7 +1,7 @@
 {
 	"description": "项目配置文件。",
 	"setting": {
-		"urlCheck": true,
+		"urlCheck": false,
 		"es6": false,
 		"postcss": true,
 		"minified": true,
@@ -9,8 +9,8 @@
 	},
 	"miniprogramRoot": "dist/",
 	"compileType": "miniprogram",
-	"appid": "touristappid",
-	"projectname": "my-project",
+	"appid": "wx11517929be41cb58",
+	"projectname": "Socially",
 	"condition": {
 		"search": {
 			"current": -1,
@@ -20,13 +20,82 @@
 			"current": -1,
 			"list": []
 		},
+		"plugin": {
+			"current": -1,
+			"list": []
+		},
 		"game": {
 			"currentL": -1,
 			"list": []
 		},
 		"miniprogram": {
-			"current": -1,
-			"list": []
+			"current": 9,
+			"list": [
+				{
+					"id": 0,
+					"name": "inviter",
+					"pathName": "invite/inviter_index",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "index",
+					"pathName": "pages/index",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "invite_add",
+					"pathName": "pages/invite_add",
+					"query": ""
+				},
+				{
+					"id": 3,
+					"name": "start",
+					"pathName": "pages/start",
+					"query": "eventKey=1&statID=oaSTc4mmsrY5LFncZexK4Zczzg0I",
+					"scene": "1007"
+				},
+				{
+					"id": -1,
+					"name": "add",
+					"pathName": "pages/add",
+					"query": "time=00:00&date=2018-12-18&inviterID=123",
+					"scene": "1007"
+				},
+				{
+					"id": -1,
+					"name": "main",
+					"pathName": "pages/main",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "setting",
+					"pathName": "pages/setting",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "stat_index",
+					"pathName": "stat/statistic_index",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "stat",
+					"pathName": "stat/statistic_index",
+					"query": "",
+					"scene": "1007"
+				},
+				{
+					"id": -1,
+					"name": "stat_accept",
+					"pathName": "stat/statistic_accept",
+					"query": "eventKey=1&statID=oaSTc4mmsrY5LFncZexK4Zczzg0I",
+					"scene": "1007"
+				}
+			]
 		}
 	}
 }

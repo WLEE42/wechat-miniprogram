@@ -1,36 +1,60 @@
-<template lang="pug">
-  .page
-    div.title 添加日程
+<template>
+  <div class='page'>
 
-    .weui-cells
+    <div class='weui-cells'>
 
-      .weui-cell
-        picker.pick(mode="time" v-bind:value="time" start="00:00" end="24:00" @change="TimeChange")
-          label.weui-cell__bd 时间：
-          label.weui-cell__ft {{time}}
-      .weui-cell
-        picker.pick(mode="date" v-bind:value="date" start="1999-01-01" end="2099-01-01" @change="DateChange")
-          label.weui-cell__bd 日期：
-          label.weui-cell__ft {{date}}
-      .weui-cell
-        label 事件：
-        input(v-model="thing" placeholder="请输入日程")
-      .weui-cell
-        label 地点：
-        input(v-model="place" placeholder="请输入地点")
-      
-      .weui-cell.invite
-        label 邀请好友：
-        button.invite-btn 邀请好友
+      <div class='weui-cell'>
+        <picker
+          class='pick'
+          mode="time"
+          v-bind:value="time"
+          start="00:00"
+          end="24:00"
+          @change="TimeChange"
+        >
+          <label class='weui-cell__bd'> 时间：</label>
+          <label class='weui-cell__ft'> {{time}}</label>
+        </picker>
+      </div>
+      <div class='weui-cell'>
+        <picker
+          class='pick'
+          mode="date"
+          v-bind:value="date"
+          start="1999-01-01"
+          end="2099-01-01"
+          @change="DateChange"
+        >
+          <label class='weui-cell__bd'> 日期：</label>
+          <label class='weui-cell__ft'> {{date}}</label>
+        </picker>
+      </div>
+      <div class='weui-cell'>
+        <label> 事件：</label>
+        <input
+          v-model="thing"
+          placeholder="请输入日程"
+        />
+      </div>
+      <div class='weui-cell'>
+        <label> 地点：</label>
+        <input
+          v-model="place"
+          placeholder="请输入地点"
+        />
+      </div>
+    </div>
 
-    button.weui-btn(@click="addTodo", type="primary") 添加日程
-
-    button.weui-btn(@click="$router.push({path:'/pages/index',isTab:true})") 查看日程
+    <button
+      class='weui-btn'
+      @click="addTodo"
+      type="primary"
+    > 添加日程</button>
+  </div>
 </template>
 
 <script>
 import { mapState, mapMutations } from 'vuex'
-import mpButton from 'mpvue-weui/src/button'
 
 export default {
   data () {
@@ -42,9 +66,7 @@ export default {
       place: ''
     }
   },
-  components: {
-    mpButton
-  },
+
   computed: {
     ...mapState([
       'count',
@@ -52,11 +74,17 @@ export default {
       'sessionKey'
     ])
   },
+
   methods: {
     ...mapMutations([
       'addTodos'
     ]),
+
     addTodo () {
+    //
+    // triggered when the button is pressed
+    // add event into calendar
+    //
       if (this.date === '请选择日期' || this.time === '请选择时间') {
         wx.showModal({
           title: '提示',
@@ -69,7 +97,7 @@ export default {
         })
         return
       }
-      // console.log(this.todos)
+      var that = this
       this.$http.get('event/addEvent', {
         time: this.time,
         date: this.date,
@@ -86,7 +114,11 @@ export default {
             content: '已添加日程',
             success: function (res) {
               if (res.confirm) {
-                console.log('用户点击确定')
+                that.time = '请选择时间'
+                that.date = '请选择日期'
+                that.thing = ''
+                that.place = ''
+                that.$router.back()
               }
             }
           })
@@ -99,7 +131,7 @@ export default {
               if (res.confirm) {
                 console.log('用户点击确定')
               } else {
-                this.$router.push({ path: '/pages/detail', query: { eventKey: d.eventKey } })
+                that.$router.push({ path: '/pages/detail', query: { date: that.date, eventKey: d.data.eventKey } })
               }
             }
           })
@@ -148,19 +180,37 @@ export default {
 button {
   border: 0px 0px;
   padding: 0 32rpx;
-  margin: 32rpx 16rpx;
+  margin: 150rpx 16rpx;
   border-radius: 4rpx;
   box-shadow: 0 4rpx 10rpx 0 rgba(0, 0, 0, 0.26);
   color: rgb(33, 33, 33);
   letter-spacing: 0.01em;
   line-height: 100rpx;
   min-width: 176rpx;
-  background-color: rgb(250, 250, 250);
+  background-color: #00BFFF;
   max-width: 100%;
   vertical-align: middle;
 }
 .pick {
-  width: 700 rpx;
+  width: 100%;
 }
-
+label.weui-cell__ft {
+  font-weight: 900;
+  color: #848484;
+  margin-left: 10rpx;
+}
+input {
+  font-weight: 550;
+  border-radius: 30rpx;
+  padding: 10rpx 10rpx;
+  font-size: 40rpx;
+}
+.weui-cell {
+  background-color: #00BFFF;
+  border-radius: 30rpx;
+  padding: 20rpx 20rpx;
+  font-size: 40rpx;
+  font-weight: 900;
+  margin: 10rpx 20rpx;
+}
 </style>

@@ -6,38 +6,23 @@
     "pages/add",
     "pages/setting",
     "pages/dayView",
-    "pages/detail"
+    "pages/detail",
+    "invite/inviter_index",
+    "invite/invitee_index",
+    "invite/invite_accept",
+    "invite/invite_add",
+    "invite/invite_detail",
+    "stat/statistic_add",
+    "stat/statistic_index",
+    "stat/statistic_detail",
+    "stat/statistic_accept"
+
   ],
   "window": {
-    "backgroundTextStyle": "light",
+    "backgroundTextStyle": "black",
     "navigationBarBackgroundColor": "#fff",
     "navigationBarTitleText": "Socially",
-    "navigationBarTextStyle": "black"
-  },
-  "tabBar": {
-    "color": "#a9b7b7",
-    "selectedColor": "#eb4f38",
-    "backgroundColor": "#fff",
-    "borderStyle": "#a8a8a8",
-    "list": [
-      {
-        "pagePath": "pages/main",
-        "text": "主界面",
-        "iconPath": "/static/settings.png",
-        "selectedIconPath": "/static/settings.png"
-      },
-      {
-        "pagePath": "pages/index",
-        "text": "日程",
-        "iconPath": "/static/calendar.png",
-        "selectedIconPath": "/static/calendar.png"
-      },
-      {
-        "pagePath": "pages/add",
-        "text": "添加日程",
-        "iconPath": "/static/add.png",
-        "selectedIconPath": "/static/add.png"
-      }
-    ]
+    "navigationBarTextStyle": "black",
+    "enablePullDownRefresh": true
   }
 }

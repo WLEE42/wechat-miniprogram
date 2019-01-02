@@ -7,6 +7,7 @@ fly.interceptors.request.use((config, promise) => {
   return config
 })
 // 配置请求基地址
-fly.config.baseURL = 'http://39.96.33.101:80/'
+fly.config.baseURL = 'https://www.giveteamaname.top/'
+// fly.config.baseURL = 'http://localhost:8000/'
 
 export default fly

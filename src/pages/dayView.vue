@@ -1,27 +1,29 @@
-<template lang="pug">
-  div
-    div.title 今日日程
+<template>
+  <div>
+    <div class='title'> 今日日程</div>
 
-    div.date
-      label {{date}}
+    <div class='date'>
+      <label> {{date}}</label>
+    </div>
 
-      //- .weui-cell
-      //-   label.weui-cell__bd 时间：
-      //-   label.weui-cell__ft {{time}}
-      //- .weui-cel
-      //-   label 事件：
-      //-   label.weui-cell__ft {{thing}}
-      //- .weui-cells__title 日程
-    ul(v-if="flag")
-      li(v-for="todo in thing" :key="todo.eventKey"  @click="toDetail($event,todo)") 
-        p 
-          span {{todo.date}}  
-          span {{todo.time}}
-        p 
-          span {{todo.thing}}  
-          span {{todo.place}}
-    div(v-else) 今日无事件
-      
+    <ul v-if="flag">
+      <li
+        v-for="todo in thing"
+        :key="todo.eventKey"
+        @click="toDetail($event,todo)"
+      >
+        <p>
+          span {{todo.date}} </span>
+          span {{todo.time}}</span>
+        </p>
+        <p>
+          <span> {{todo.thing}} </span>
+          <span> {{todo.place}}</span>
+        </p>
+      </li>
+    </ul>
+    <div v-else> 今日无事件</div>
+  </div>
 </template>
 
 <script>

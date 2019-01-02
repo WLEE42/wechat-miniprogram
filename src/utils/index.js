@@ -3,6 +3,10 @@ export function formatNumber (n) {
   return str[1] ? str : `0${str}`
 }
 
+export function compareTime (time1, time2) {
+  return time1.split(':')[0] * 60 + time1.split(':')[1] - time2.split(':')[0] * 60 - time2.split(':')[1]
+}
+
 export function formatTime (date) {
   const hour = date.getHours()
   const minute = date.getMinutes()
@@ -21,6 +25,7 @@ export function formatDate (date) {
 
   return `${t1}`
 }
+
 export default {
   formatNumber,
   formatTime,

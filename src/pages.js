@@ -21,6 +21,58 @@ module.exports = [
     path: 'pages/detail'
   },
   {
+    path: 'invite/inviter_index',
+    subPackage: true
+  },
+  {
+    path: 'invite/invitee_index',
+    subPackage: true
+  },
+  {
+    path: 'invite/invite_add',
+    subPackage: true
+  },
+  {
+    path: 'invite/invite_detail',
+    subPackage: true
+  },
+  {
+    path: 'invite/invite_accept',
+    subPackage: true
+  },
+  {
+    path: 'stat/statistic_index',
+    subPackage: true,
+    config: {
+      // 页面配置，即 page.json 的内容
+      navigationBarTitleText: '统计'
+    }
+  },
+  {
+    path: 'stat/statistic_detail',
+    subPackage: true,
+    config: {
+      // 页面配置，即 page.json 的内容
+      navigationBarTitleText: '统计'
+    }
+  },
+  {
+    path: 'stat/statistic_accept',
+    subPackage: true,
+    config: {
+      // 页面配置，即 page.json 的内容
+      navigationBarTitleText: '统计'
+    }
+  },
+  {
+    path: 'stat/statistic_add',
+    subPackage: true,
+    config: {
+      // 页面配置，即 page.json 的内容
+      navigationBarTitleText: '统计'
+    }
+  },
+  {
     path: 'packageA/logs',
     subPackage: true,
     config: {
