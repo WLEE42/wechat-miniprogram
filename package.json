@@ -12,7 +12,6 @@
     "test": "jest"
   },
   "dependencies": {
-    "echarts": "^4.2.0-rc.2",
     "flyio": "^0.6.2",
     "mpvue": "^1.0.0",
     "mpvue-calendar": "^2.0.2",
@@ -35,6 +34,7 @@
     "copy-webpack-plugin": "^4.5.0",
     "css-loader": "^0.28.0",
     "cssnano": "^3.10.0",
+    "echarts": "^4.2.0-rc.2",
     "eslint": "^4.19.0",
     "eslint-config-standard": "^11.0.0",
     "eslint-friendly-formatter": "^4.0.0",

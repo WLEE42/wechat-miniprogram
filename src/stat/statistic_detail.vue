@@ -22,7 +22,7 @@
 
 <script>
 import { mapState, mapMutations } from 'vuex'
-import * as echarts from 'echarts/dist/echarts.simple.min'
+import * as echarts from '../utils/echarts.simple.min'
 import mpvueEcharts from 'mpvue-echarts'
 
 let chart = null
@@ -149,7 +149,7 @@ export default {
           }
         ]
       }
-      this.$refs.echarts.init()
+      // this.$refs.echarts.init()
     },
     handleInit (canvas, width, height) {
       chart = echarts.init(canvas, null, {
