@@ -70,6 +70,10 @@ const store = new Vuex.Store({
       }
     },
 
+    setStatistics (state, data) {
+      state.statistics = data
+    },
+
     setUserInfo (state, data) {
       state.sessionKey = wx.getStorageSync('sessionKey')
       state.userInfo = data

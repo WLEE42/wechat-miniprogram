@@ -57,7 +57,8 @@ export default {
       thing: '',
       place: '',
       month: '',
-      count: 0
+      count: 0,
+      eventKey: ''
     }
   },
 
@@ -86,7 +87,9 @@ export default {
   },
 
   methods: {
-    ...mapMutations([]),
+    ...mapMutations([
+      'setStatistics'
+    ]),
 
     addStatistic () {
       //
@@ -106,6 +109,7 @@ export default {
       }).then(d => {
         if (d.data.state === 'success') {
           console.log('添加时间统计成功' + d.data.state)
+          this.eventKey = d.data.eventKey
           that.statistics.push({
             title: this.title,
             thing: this.thing,

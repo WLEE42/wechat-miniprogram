@@ -1,49 +1,5 @@
 <template>
   <div class="page">
-    <div class="calendar-tools">
-      <div
-        class="calendar-prev"
-        @click="prev"
-      >
-        <img
-          :src="arrowLeft"
-          v-if="!!arrowLeft"
-        >
-        <i class="iconfont icon-arrow-left"></i>
-      </div>
-      <div
-        class="calendar-next"
-        @click="next"
-      >
-        <img
-          :src="arrowRight"
-          v-if="!!arrowRight"
-        >
-        <i
-          class="iconfont icon-arrow-right"
-          v-else
-        ></i>
-      </div>
-      <div class="calendar-info">
-        <div class="mc-month">
-          <div
-            class="mc-month-inner"
-            :style="{'top': monthPosition + unit}"
-            v-if="isIos"
-          >
-            <span
-              v-for="m in months"
-              :key="m"
-            >{{m}}</span>
-          </div>
-          <div
-            class="mc-month-text"
-            v-else
-          >{{monthText}}</div>
-        </div>
-        <div class="mc-year">{{year}}</div>
-      </div>
-    </div>
     <view class="body">
       <view
         v-if="!hasData"
@@ -130,7 +86,7 @@
 
 <script>
 import './icon.css'
-import { mapState } from 'vuex'
+import { mapState, mapMutations } from 'vuex'
 import Vue from 'vue'
 
 export default {
@@ -190,6 +146,9 @@ export default {
   },
 
   methods: {
+    ...mapMutations([
+      'setStatistics'
+    ]),
     getStatistics () {
       //
       // initialize statistic.Get and store the info.
@@ -201,7 +160,8 @@ export default {
           sessionKey: this.sessionKey
         })
         .then(d => {
-          this.statistics = d.data.statistics
+          console.log(d.data.statistics)
+          this.setStatistics(d.data.statistics)
           this.hasData = true
         })
         .catch(err => {

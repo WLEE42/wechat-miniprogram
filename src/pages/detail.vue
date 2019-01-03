@@ -103,9 +103,7 @@ export default {
                 if (this.todos.hasOwnProperty(this.todo.date)) {
                   this.todos[this.todo.date].push(this.todo)
                 } else {
-                  this.todos[this.todo.date] = [
-                    this.todo
-                  ]
+                  this.todos[this.todo.date] = [ this.todo ]
                 }
               }
               this.$router.back()
