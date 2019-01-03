@@ -38,14 +38,6 @@ export default {
   background-size: 100% 100%
 }
 button {
-  &.btn1 {
-  }
-  &.btn2 {
-  }
-  &.btn4 {
-  }
-  &.btn3 {
-  }
   background-color: rgba(0,0,0,0);
   border: none;
   &::after{
