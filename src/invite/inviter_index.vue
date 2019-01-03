@@ -138,10 +138,10 @@ export default {
     } else {
       this.hasData = false
     }
+    this.getInviterInvitations()
   },
 
   onPullDownRefresh: function () {
-    this.getInviterInvitations()
     console.log(this.myinvitations)
     this.$router.replace({ path: '/invite/inviter_index' })
     wx.stopPullDownRefresh()

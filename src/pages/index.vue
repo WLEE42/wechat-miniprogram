@@ -72,7 +72,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 import Calendar from 'mpvue-calendar'
 import 'mpvue-calendar/src/style.css'
 import { formatDate, formatNumber } from '../utils'
@@ -83,6 +83,11 @@ export default {
       todayDate: '',
       currentDate: ''
     }
+  },
+
+  onPullDownRefresh: function () {
+    this.$mp.page.onShow()
+    wx.stopPullDownRefresh()
   },
 
   components: {
@@ -96,12 +101,16 @@ export default {
     ])
   },
 
-  mounted () {
+  onShow () {
     this.todayDate = formatDate(new Date())
     this.currentDate = this.todayDate
+    this.showTodosAction()
   },
 
   methods: {
+    ...mapActions([
+      'showTodosAction'
+    ]),
     select (val, val2) {
       val[1] = formatNumber(val[1])
       val[2] = formatNumber(val[2])

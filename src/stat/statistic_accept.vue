@@ -109,7 +109,7 @@ export default {
       // add invitation to server database and local storage
       //
       this.$http.get('statistics/addReply', {
-        sessionKey: this.sessionKey,
+        sessionKey: this.statID,
         eventKey: this.eventKey,
         reply: JSON.stringify(this.reply)
       }).then(d => {
@@ -117,7 +117,6 @@ export default {
           console.log('回复成功' + d.data.state)
           wx.showToast({
             title: '成功！',
-            duration: 2000,
             content: '回复成功',
             success: () => {
               this.$router.replace('/pages/main')
@@ -126,8 +125,7 @@ export default {
         } else if (d.data.state === 'fail') {
           console.log('添加失败' + d.data.state)
           wx.showToast({
-            title: '失败',
-            duration: 2000
+            title: '失败'
           })
         }
       })
