@@ -28,7 +28,7 @@
 
       <view v-else>
         ul
-          li(v-for='invitation in myinvitations[month+1]' :key="invitation.eventKey" @click="toDetail($event,invitation)")
+          li(v-for='invitation in myinvitations[month]' :key="invitation.eventKey" @click="toDetail($event,invitation)")
             <view class="item">
                 <view>
                   <p class="title">{{invitation.date}}</p>
@@ -80,6 +80,7 @@
 
 <script>
 import './icon.css'
+import { formatNumber } from '../utils'
 import { mapState } from 'vuex'
 import Vue from 'vue'
 
@@ -99,10 +100,10 @@ export default {
   },
 
   watch: {
-  //
-  // change the variable 'hasData' when the month changes
-  // it will controll the display content
-  //
+    //
+    // change the variable 'hasData' when the month changes
+    // it will controll the display content
+    //
     month: function () {
       if (this.month + 1 in this.myinvitations) {
         this.hasData = true
@@ -122,14 +123,14 @@ export default {
     this.sessionKey = wx.getStorageSync('sessionKey')
     let now = new Date()
     this.year = now.getFullYear()
-    this.month = now.getMonth()
-    this.monthText = this.months[this.month]
+    this.month = formatNumber(now.getMonth() + 1)
+    this.monthText = this.months[parseInt(this.month) - 1]
     this.getInviterInvitations()
   },
 
   onShow () {
-    if (this.month + 1 in this.myinvitations) {
-      if (this.myinvitations[this.month + 1].length !== 0) {
+    if (this.month in this.myinvitations) {
+      if (this.myinvitations[this.month].length !== 0) {
         this.hasData = true
       } else {
         this.hasData = false
@@ -142,15 +143,15 @@ export default {
   onPullDownRefresh: function () {
     this.getInviterInvitations()
     console.log(this.myinvitations)
-    this.$router.replace({path: '/invite/inviter_index'})
+    this.$router.replace({ path: '/invite/inviter_index' })
     wx.stopPullDownRefresh()
   },
 
   methods: {
     getInviterInvitations () {
-    //
-    // get my invitations and store them
-    //
+      //
+      // get my invitations and store them
+      //
       for (let month in this.myinvitations) {
         this.myinvitations[month] = []
       }
@@ -197,37 +198,37 @@ export default {
     },
 
     prev (e) {
-    //
-    // respond to "calendar-prev"
-    // update the month and year to the previous month date
-    //
-      if (this.month === 0) {
-        this.month = 11
+      //
+      // respond to "calendar-prev"
+      // update the month and year to the previous month date
+      //
+      if (this.month === '01') {
+        this.month = '12'
         this.year = parseInt(this.year) - 1
       } else {
-        this.month = parseInt(this.month) - 1
+        this.month = formatNumber(parseInt(this.month) - 1)
       }
-      this.monthText = this.months[this.month]
+      this.monthText = this.months[parseInt(this.month) - 1]
     },
 
     next (e) {
-    //
-    // respond to "calendar-next"
-    // update the month and year to the next month date
-    //
-      if (this.month === 11) {
-        this.month = 0
+      //
+      // respond to "calendar-next"
+      // update the month and year to the next month date
+      //
+      if (this.month === '12') {
+        this.month = '01'
         this.year = parseInt(this.year) + 1
       } else {
-        this.month = parseInt(this.month) + 1
+        this.month = formatNumber(parseInt(this.month) + 1)
       }
-      this.monthText = this.months[this.month]
+      this.monthText = this.months[parseInt(this.month) - 1]
     },
 
     toDetail (e, invitation) {
-    //
-    // go to the detail of one invitation
-    //
+      //
+      // go to the detail of one invitation
+      //
       this.$router.push({ path: '/invite/invite_detail', query: { month: invitation.month, eventKey: invitation.eventKey } })
     }
   }
@@ -235,77 +236,78 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.notfound{
-  margin-top:200rpx;
-  text-align:center;
+.notfound {
+  margin-top: 200rpx;
+  text-align: center;
 }
-.calendar-tools{
-    height:40px;
-    font-size: 20px;
-    line-height: 40px;
-    color:#5e7a88;
-    box-shadow: 0rpx 4rpx 8rpx rgba(25, 47, 89, 0.1);
-    margin-bottom: 30rpx;
-    border-top: 1px solid rgba(200, 200, 200, .1);
+.calendar-tools {
+  height: 40px;
+  font-size: 20px;
+  line-height: 40px;
+  color: #5e7a88;
+  box-shadow: 0rpx 4rpx 8rpx rgba(25, 47, 89, 0.1);
+  margin-bottom: 30rpx;
+  border-top: 1px solid rgba(200, 200, 200, 0.1);
 }
-.calendar-prev{
-    width: 14.28571429%;
-    float:left;
-    text-align: center;
+.calendar-prev {
+  width: 14.28571429%;
+  float: left;
+  text-align: center;
 }
-.calendar-prev img, .calendar-next img{
-    width: 34rpx;
-    height: 34rpx;
+.calendar-prev img,
+.calendar-next img {
+  width: 34rpx;
+  height: 34rpx;
 }
-.calendar-info{
-    padding-top: 3px;
-    font-size:16px;
-    line-height: 1.3;
-    text-align: center;
-    width: 220rpx;
-    margin: 0 auto;
+.calendar-info {
+  padding-top: 3px;
+  font-size: 16px;
+  line-height: 1.3;
+  text-align: center;
+  width: 220rpx;
+  margin: 0 auto;
 }
-.calendar-info>div.mc-month{
-    margin:auto;
-    height:40rpx;
-    width:100px;
-    text-align: center;
-    color:#5e7a88;
-    overflow: hidden;
-    position: relative;
+.calendar-info > div.mc-month {
+  margin: auto;
+  height: 40rpx;
+  width: 100px;
+  text-align: center;
+  color: #5e7a88;
+  overflow: hidden;
+  position: relative;
 }
-.calendar-info>div.mc-month .mc-month-inner{
-    position: absolute;
-    left:0;
-    top:0;
-    height:480rpx;
-    transition:top .5s cubic-bezier(0.075, 0.82, 0.165, 1);
+.calendar-info > div.mc-month .mc-month-inner {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 480rpx;
+  transition: top 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
 }
-.calendar-info .mc-month-text{
-    display:block;
-    font-size:28rpx;
-    height:40rpx;
-    width:200rpx;
-    overflow:hidden;
-    text-align:center;
+.calendar-info .mc-month-text {
+  display: block;
+  font-size: 28rpx;
+  height: 40rpx;
+  width: 200rpx;
+  overflow: hidden;
+  text-align: center;
 }
-.calendar-info>div.mc-month .mc-month-inner>span{
-    display: block;
-    font-size: 14px;
-    height:20px;
-    width:100px;
-    overflow: hidden;
-    text-align: center;
+.calendar-info > div.mc-month .mc-month-inner > span {
+  display: block;
+  font-size: 14px;
+  height: 20px;
+  width: 100px;
+  overflow: hidden;
+  text-align: center;
 }
-.calendar-info>div.mc-year{
-    font-size:10px;
-    line-height: 1;
-    color:#999;
+.calendar-info > div.mc-year {
+  font-size: 10px;
+  line-height: 1;
+  color: #999;
 }
-.calendar-next{
-    width: 14.28571429%;
-    float:right;
-    text-align: center;
+.calendar-next {
+  width: 14.28571429%;
+  float: right;
+  text-align: center;
 }
 ul {
   li {
@@ -314,7 +316,7 @@ ul {
     p {
       &.title {
         font-size: 45rpx;
-        color:#ea6151;
+        color: #ea6151;
       }
       display: flex;
       justify-content: space-between;
@@ -324,36 +326,36 @@ ul {
     }
   }
 }
-.icon{
-  width:54rpx;
+.icon {
+  width: 54rpx;
   height: 54rpx;
 }
-.tabBar{
-  width:100%;
+.tabBar {
+  width: 100%;
   position: fixed;
-  bottom:0;
-  padding:10rpx;
-  margin-left:-4rpx;
-  background:#F7F7FA;
-  font-size:20rpx;
-  color:#8A8A8A;
+  bottom: 0;
+  padding: 10rpx;
+  margin-left: -4rpx;
+  background: #f7f7fa;
+  font-size: 20rpx;
+  color: #8a8a8a;
   box-shadow: 6rpx 6rpx 6rpx 6rpx #aaa;
 }
-.tabBar-item{
-  float:left;
-  width:25%;
+.tabBar-item {
+  float: left;
+  width: 25%;
   text-align: center;
   overflow: hidden;
 }
-.tabBartext{
-  color:grey;
+.tabBartext {
+  color: grey;
 }
-.body{
-  width:100%;
-  margin-bottom:150rpx;
+.body {
+  width: 100%;
+  margin-bottom: 150rpx;
 }
 .content {
-  background-color: #7B68EE;
+  background-color: #7b68ee;
   border-radius: 30rpx;
   padding-left: 20rpx;
   padding-right: 50rpx;
@@ -362,8 +364,8 @@ ul {
   font-size: 40rpx;
   width: 80%;
 }
-.title{
-  background-color: #7B68EE;
+.title {
+  background-color: #7b68ee;
   border-radius: 30rpx;
   padding-left: 20rpx;
   padding-right: 10rpx;
@@ -372,10 +374,10 @@ ul {
   font-size: 40rpx;
   font-weight: 900;
 }
-.item{
+.item {
   display: flex;
 }
-.item p{
+.item p {
   margin-bottom: 10rpx;
 }
 </style>

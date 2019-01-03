@@ -14,15 +14,14 @@
       .weui-cell
         label 参与人数: {{stat.people}}
     <div class="echarts-wrap">
-      <button @click="initChart">查看统计结果</button>
-      <mpvue-echarts lazyLoad :echarts="echarts" :onInit="handleInit" ref="echarts" />
+      <mpvue-echarts :echarts="echarts" :onInit="handleInit" ref="echarts" />
     </div>
     button(open-type="share" class="share") 分享统计
 </template>
 
 <script>
 import { mapState, mapMutations } from 'vuex'
-import * as echarts from 'echarts/dist/echarts.simple.min'
+import * as echarts from 'echarts/dist/echarts.simple'
 import mpvueEcharts from 'mpvue-echarts'
 
 let chart = null
@@ -149,7 +148,7 @@ export default {
           }
         ]
       }
-      this.$refs.echarts.init()
+      // this.$refs.echarts.init()
     },
     handleInit (canvas, width, height) {
       chart = echarts.init(canvas, null, {

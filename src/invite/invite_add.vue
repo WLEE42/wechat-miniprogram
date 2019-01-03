@@ -23,7 +23,6 @@
 
 <script>
 import { mapState, mapMutations } from 'vuex'
-import mpButton from 'mpvue-weui/src/button'
 
 export default {
   data () {
@@ -34,10 +33,6 @@ export default {
       thing: '',
       place: ''
     }
-  },
-
-  components: {
-    mpButton
   },
 
   computed: {

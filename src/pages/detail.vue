@@ -5,18 +5,44 @@
     <div class='weui-cells'>
 
       <div class='weui-cell'>
-        <label class='weui-cell__bd'> 时间：</label>
-        <label class='weui-cell__ft'> {{todo.time}}</label>
-      </div>
-      <div class='.weui-cell'>
-        <label class='weui-cell__bd'> 日期：</label>
-        <label class='weui-cell__ft'> {{todo.date}}</label>
+        <picker
+          class='pick'
+          mode="time"
+          v-bind:value="todo.time"
+          start="00:00"
+          end="24:00"
+          @change="TimeChange"
+        >
+          <label class='weui-cell__bd'> 时间：</label>
+          <label class='weui-cell__ft'> {{todo.time}}</label>
+        </picker>
       </div>
       <div class='weui-cell'>
-        <label> 地点：{{todo.place}}</label>
+        <picker
+          class='pick'
+          mode="date"
+          v-bind:value="todo.date"
+          start="1999-01-01"
+          end="2099-01-01"
+          @change="DateChange"
+        >
+          <label class='weui-cell__bd'> 日期：</label>
+          <label class='weui-cell__ft'> {{todo.date}}</label>
+        </picker>
       </div>
       <div class='weui-cell'>
-        <label> 事件：{{todo.thing}}</label>
+        <label> 事件：</label>
+        <input
+          v-model="todo.thing"
+          placeholder="请输入日程"
+        />
+      </div>
+      <div class='weui-cell'>
+        <label> 地点：</label>
+        <input
+          v-model="todo.place"
+          placeholder="请输入地点"
+        />
       </div>
     </div>
     <button @click="deleteEvents"> 删除事件</button>
@@ -36,7 +62,8 @@ export default {
         thing: '',
         place: '',
         eventKey: ''
-      }
+      },
+      modifyDate: false
     }
   },
   computed: {
@@ -48,16 +75,38 @@ export default {
   methods: {
     ...mapMutations([]),
 
+    TimeChange (e) {
+      // console.log('选中的时间为：' + e.mp.detail.value)
+      // console.log(this.time)
+      this.todo.time = e.mp.detail.value
+    },
+    DateChange (e) {
+      // console.log('选中的日期为：' + e.mp.detail.value)
+      this.todo.date = e.mp.detail.value
+      this.modifyDate = true
+    },
+
     modifyEvents () {
-    //
-    // modify the event detail
-    //
+      //
+      // modify the event detail
+      //
       console.log('modify')
       this.$http.get('event/modifyEvent', { sessionKey: this.sessionKey, time: this.todo.time, date: this.todo.date, thing: this.todo.thing, place: this.todo.place, eventKey: this.todo.eventKey }).then(
         d => {
-          this.todos[this.$route.query.date].forEach((todo, index, object) => {
-            if (todo.eventKey === this.$route.query.eventKey) {
-              object.splice(index, 1, this.todo)
+          this.todos[this.$route.query.date].forEach((todo2, index, object) => {
+            if (todo2.eventKey === this.$route.query.eventKey) {
+              if (this.modifyDate === false) {
+                object.splice(index, 1, this.todo)
+              } else {
+                object.splice(index, 1)
+                console.log(this.todo.date)
+                if (this.todos.hasOwnProperty(this.todo.date)) {
+                  this.todos[this.todo.date].push(this.todo)
+                } else {
+                  this.todos[this.todo.date] = [ this.todo ]
+                }
+              }
+              this.$router.back()
             }
           })
         }
@@ -65,9 +114,9 @@ export default {
     },
 
     deleteEvents () {
-    //
-    // delete event and jump back
-    //
+      //
+      // delete event and jump back
+      //
       console.log('delete')
       if (this.todo.thing === '今日无事件') {
         return
@@ -77,11 +126,11 @@ export default {
           this.todos[this.$route.query.date].forEach((todo, index, object) => {
             if (todo.eventKey === this.$route.query.eventKey) {
               object.splice(index, 1)
+              this.$router.back()
             }
           })
         }
       )
-      this.$router.back()
     }
   },
   mounted () {

@@ -75,10 +75,10 @@ export default {
             if (todo.eventKey === this.todo.eventKey) {
               object.splice(index, 1)
             }
+            this.$router.back()
           })
         }
       )
-      this.$router.back()
     }
   },
   mounted () {

@@ -28,7 +28,7 @@
 
       <view v-else>
         ul
-          li(v-for='invitation in invitations[month+1]' :key="invitation.eventKey")
+          li(v-for='invitation in invitations[month]' :key="invitation.eventKey")
             <view class="item">
                 <view>
                   <p class="title">{{invitation.date}}</p>
@@ -80,6 +80,7 @@
 
 <script>
 import './icon.css'
+import { formatNumber } from '../utils'
 import { mapState } from 'vuex'
 import Vue from 'vue'
 
@@ -110,7 +111,7 @@ export default {
   // it will controll the display content
   //
     month: function () {
-      if (this.month + 1 in this.invitations) {
+      if (this.month in this.invitations) {
         this.hasData = true
       } else {
         this.hasData = false
@@ -120,10 +121,11 @@ export default {
 
   created () {
     this.sessionKey = wx.getStorageSync('sessionKey')
+    console.log(this.sessionKey)
     let now = new Date()
     this.year = now.getFullYear()
-    this.month = now.getMonth()
-    this.monthText = this.months[this.month]
+    this.month = formatNumber(now.getMonth() + 1)
+    this.monthText = this.months[parseInt(this.month) - 1]
     this.getInviteeInvitations()
   },
 
@@ -132,7 +134,7 @@ export default {
   // determine the value of 'hasData'
   // it will determine the display content
   //
-    if (this.month + 1 in this.invitations) {
+    if (this.month in this.invitations) {
       this.hasData = true
     } else {
       this.hasData = false
@@ -150,7 +152,9 @@ export default {
     //
     // getinvitations and store them
     //
-      this.invitations = {}
+      for (let month in this.invitations) {
+        this.invitations[month] = []
+      }
       this.sessionKey = wx.getStorageSync('sessionKey')
       Vue.prototype.$http
         .get('invitation/getInviteeInvitations', {
@@ -199,13 +203,13 @@ export default {
     // respond to "calendar-prev"
     // update the month and year to the previous month date
     //
-      if (this.month === 0) {
-        this.month = 11
+      if (this.month === '01') {
+        this.month = '12'
         this.year = parseInt(this.year) - 1
       } else {
-        this.month = parseInt(this.month) - 1
+        this.month = formatNumber(parseInt(this.month) - 1)
       }
-      this.monthText = this.months[this.month]
+      this.monthText = this.months[parseInt(this.month) - 1]
     },
 
     next (e) {
@@ -213,13 +217,13 @@ export default {
     // respond to "calendar-next"
     // update the month and year to the next month date
     //
-      if (this.month === 11) {
-        this.month = 0
+      if (this.month === '12') {
+        this.month = '01'
         this.year = parseInt(this.year) + 1
       } else {
-        this.month = parseInt(this.month) + 1
+        this.month = formatNumber(parseInt(this.month) + 1)
       }
-      this.monthText = this.months[this.month]
+      this.monthText = this.months[parseInt(this.month) - 1]
     }
   }
 }

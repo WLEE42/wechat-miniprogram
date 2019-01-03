@@ -42,6 +42,7 @@
 
 <script>
 import { mapState, mapMutations } from 'vuex'
+import { setTimeout } from 'timers'
 
 export default {
   data () {
@@ -56,7 +57,8 @@ export default {
       thing: '',
       place: '',
       month: '',
-      count: 0
+      count: 0,
+      eventKey: ''
     }
   },
 
@@ -85,7 +87,9 @@ export default {
   },
 
   methods: {
-    ...mapMutations([]),
+    ...mapMutations([
+      'setStatistics'
+    ]),
 
     addStatistic () {
       //
@@ -105,6 +109,7 @@ export default {
       }).then(d => {
         if (d.data.state === 'success') {
           console.log('添加时间统计成功' + d.data.state)
+          this.eventKey = d.data.eventKey
           that.statistics.push({
             title: this.title,
             thing: this.thing,
@@ -135,6 +140,13 @@ export default {
     },
 
     addChoices () {
+      if (this.newTime === '请设置时间' || this.newDate === '请设置日期') {
+        wx.showToast({
+          title: '请设置选项'
+        })
+        setTimeout(() => { wx.hideToast() }, 1000)
+        return
+      }
       this.count = this.count + 1
       this.choices[this.count] = {
         'time': this.newTime,
@@ -221,7 +233,7 @@ button {
   letter-spacing: 0.01em;
   line-height: 100rpx;
   min-width: 176rpx;
-  background-color: #FF7F24;
+  background-color: #ff7f24;
   max-width: 100%;
   vertical-align: middle;
 }
@@ -245,7 +257,7 @@ input {
 }
 
 .weui-cell {
-  background-color: #FFA000;
+  background-color: #ffa000;
   border-radius: 30rpx;
   padding: 20rpx 20rpx;
   font-size: 40rpx;
