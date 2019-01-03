@@ -83,6 +83,7 @@ const store = new Vuex.Store({
       if (!state.events[element.date]) {
         state.events[element.date] = element.thing
       }
+      console.log('添加成功')
     },
 
     setUserInfo (state, data) {

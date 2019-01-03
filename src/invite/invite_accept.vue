@@ -24,7 +24,6 @@
 <script>
 import Vue from 'vue'
 import { mapState } from 'vuex'
-import mpButton from 'mpvue-weui/src/button'
 
 export default {
   data () {
@@ -38,9 +37,6 @@ export default {
       inviterName: '',
       eventKey: ''
     }
-  },
-  components: {
-    mpButton
   },
   computed: {
     ...mapState([

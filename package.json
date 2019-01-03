@@ -17,8 +17,6 @@
     "mpvue-calendar": "^2.0.2",
     "mpvue-echarts": "^0.2.7",
     "mpvue-router-patch": "^0.2.1",
-    "mpvue-weui": "^1.0.2",
-    "vue": "^2.4.4",
     "vuex": "^3.0.0"
   },
   "devDependencies": {
@@ -53,6 +51,7 @@
     "mpvue-loader": "^1.1.2",
     "mpvue-template-compiler": "^1.0.0",
     "mpvue-webpack-target": "^1.0.0",
+    "mpvue-weui": "^1.0.4",
     "node-sass": "^4.9.4",
     "optimize-css-assets-webpack-plugin": "^3.2.0",
     "ora": "^2.0.0",
