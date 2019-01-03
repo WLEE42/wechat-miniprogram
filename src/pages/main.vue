@@ -1,27 +1,15 @@
 <template>
-  <div class='page'>
+  <div class="page">
     <view class="line">
-      <button
-        class='btn1'
-        @click="$router.replace({path:'/pages/index'})"
-      > 日程管理</button>
-
-      <button
-        class='btn2'
-        @click="$router.replace({path:'/invite/inviter_index'})"
-      > 日程邀请</button>
+      <button class="btn1" @click="$router.replace({path:'/pages/index'})"></button>
+      
+      <button class="btn2" @click="$router.replace({path:'/invite/inviter_index'})"></button>
     </view>
 
     <view class="line">
-      <button
-        class='btn3'
-        @click="$router.replace({path:'/stat/statistic_index'})"
-      > 时间统计</button>
-
-      <button
-        class='btn4'
-        @click="$router.push({path:'/pages/setting'})"
-      > 用户中心</button>
+      <button class="btn3" @click="$router.replace({path:'/stat/statistic_index'})"></button>
+      
+      <button class="btn4" @click="$router.push({path:'/pages/setting'})"></button>
     </view>
   </div>
 </template>
@@ -35,35 +23,26 @@ export default {
   },
 
   computed: {
-    ...mapState([
-      'count',
-      'todos'
-    ])
+    ...mapState(['count', 'todos'])
   },
 
-  mounted () {
-  },
+  mounted () {},
 
-  methods: {
-  }
+  methods: {}
 }
 </script>
 
 <style lang="scss" scoped>
+.page {
+  background-image: url("https://github.com/yewh16/wechat-miniprogram/blob/master/static/background.png?raw=true");
+  background-size: 100% 100%
+}
 button {
-  &.btn1 {
-    background-color: #00BFFF;
+  background-color: rgba(0,0,0,0);
+  border: none;
+  &::after{
+    border:none;
   }
-  &.btn2 {
-    background-color: #7B68EE;
-  }
-  &.btn4 {
-    background-color: #FF4500;
-  }
-  &.btn3 {
-    background-color: #F9F902;
-  }
-  border: 0px 0px;
   padding: 200rpx 32rpx;
   margin: 20rpx 10rpx;
   border-radius: 20rpx;
@@ -76,5 +55,10 @@ button {
   display: flex;
   height: 560rpx;
   margin: 15rpx 0rpx;
+}
+.bg {
+  height: 1200rpx;
+  position: relative;
+  width: 750rpx;
 }
 </style>
