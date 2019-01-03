@@ -191,9 +191,9 @@ export default {
 
   methods: {
     getStatistics () {
-    //
-    // initialize statistic.Get and store the info.
-    //
+      //
+      // initialize statistic.Get and store the info.
+      //
       this.statistics.splice(0, this.statistics.length)
       this.sessionKey = wx.getStorageSync('sessionKey')
       Vue.prototype.$http
@@ -201,10 +201,8 @@ export default {
           sessionKey: this.sessionKey
         })
         .then(d => {
-          for (let statistic in d.data.statistics) {
-            this.statistics.push(d.data.statistics[statistic])
-            this.hasData = true
-          }
+          this.statistics = d.data.statistics
+          this.hasData = true
         })
         .catch(err => {
           console.log(err.status, err.message)
@@ -386,7 +384,7 @@ ul {
 }
 
 .content {
-  background-color: #FFA000;
+  background-color: #ffa000;
   border-radius: 30rpx;
   padding-left: 20rpx;
   padding-right: 50rpx;

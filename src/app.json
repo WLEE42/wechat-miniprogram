@@ -5,7 +5,6 @@
     "pages/index",
     "pages/add",
     "pages/setting",
-    "pages/dayView",
     "pages/detail",
     "invite/inviter_index",
     "invite/invitee_index",

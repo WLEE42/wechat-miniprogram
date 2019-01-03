@@ -13,19 +13,13 @@
     ul.weui-cells
       li.weui-cell(v-for='choice in choices' :key="choice.number")
         div
-          picker.pick(mode="date" v-bind:value="choice.date" start="1999-01-01" end="2099-01-01")
+          picker.pick(mode="date" v-bind:value="choice.date" start="1999-01-01" end="2099-01-01" @change="DateChange2($event,choice)")
             label {{choice.date}}
         div
-          picker.pick(mode="time" v-bind:value="choice.time" start="00:00" end="24:00")
+          picker.pick(mode="time" v-bind:value="choice.time" start="00:00" end="24:00" @change="TimeChange2($event,choice)")
             label {{choice.time}}
-      .weui-cell
-        picker.pick(mode="time" v-bind:value="time" start="00:00" end="24:00" @change="TimeChange2" class="choose")
-          label() 时间
-          label.weui-cell__ft {{newTime}}
-        picker.pick(mode="date" v-bind:value="date" start="1999-01-01" end="2099-01-01" @change="DateChange2")
-          label() 日期
-          label.weui-cell__ft {{newDate}}
-        button(@click="addChoices") 添加选项
+
+      button(@click="addChoices") 添加选项
 
     .weui-cells
       .weui-cell
@@ -47,7 +41,7 @@ export default {
   data () {
     return {
       title: '',
-      choices: {},
+      choices: [],
       newTime: '请选择时间',
       newDate: '请选择日期',
       deadTime: '请选择时间',
@@ -56,6 +50,7 @@ export default {
       thing: '',
       place: '',
       month: '',
+      number: 0,
       count: 0
     }
   },
@@ -135,26 +130,31 @@ export default {
     },
 
     addChoices () {
-      this.count = this.count + 1
-      this.choices[this.count] = {
-        'time': this.newTime,
-        'date': this.newDate,
-        'number': 0,
-        'rank': this.count
-      }
-      this.newTime = '请设置时间'
-      this.newDate = '请设置日期'
+      this.choices.push({
+        'time': '请设置时间',
+        'date': '请设置日期',
+        'number': this.number
+      })
+      this.number++
     },
 
-    TimeChange2 (e) {
+    TimeChange2 (e, choice) {
       console.log(e.mp.detail.time)
-      this.newTime = e.mp.detail.value
+      this.choices.forEach(element => {
+        if (element.number === choice.number) {
+          element.time = e.mp.detail.value
+        }
+      })
     },
-    DateChange2 (e) {
-      this.newDate = e.mp.detail.value
+    DateChange2 (e, choice) {
+      console.log(choice)
+      this.choices.forEach(element => {
+        if (element.number === choice.number) {
+          element.date = e.mp.detail.value
+        }
+      })
     },
     TimeChange3 (e) {
-      console.log(e.mp.detail.time)
       this.deadTime = e.mp.detail.value
     },
     DateChange3 (e) {
@@ -221,7 +221,7 @@ button {
   letter-spacing: 0.01em;
   line-height: 100rpx;
   min-width: 176rpx;
-  background-color: #FF7F24;
+  background-color: #ff7f24;
   max-width: 100%;
   vertical-align: middle;
 }
@@ -245,7 +245,7 @@ input {
 }
 
 .weui-cell {
-  background-color: #FFA000;
+  background-color: #ffa000;
   border-radius: 30rpx;
   padding: 20rpx 20rpx;
   font-size: 40rpx;
