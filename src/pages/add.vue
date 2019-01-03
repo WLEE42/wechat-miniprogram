@@ -172,23 +172,23 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.title {
-  text-align: center;
-  padding: 48rpx 32rpx 32rpx;
-  color: rgba(0, 0, 0, 0.87);
-  font-size: 50rpx;
+.page {
+  background-image: url("https://github.com/yewh16/wechat-miniprogram/blob/master/static/background_1.png?raw=true");
+  background-size: 100% 100%;
+  background-color: #f2f0db;
+  height: 100%;
 }
 button {
   border: 0px 0px;
   padding: 0 32rpx;
-  margin: 150rpx 16rpx;
+  margin: 80rpx 16rpx 540rpx 16rpx;
   border-radius: 4rpx;
   box-shadow: 0 4rpx 10rpx 0 rgba(0, 0, 0, 0.26);
   color: rgb(33, 33, 33);
   letter-spacing: 0.01em;
   line-height: 100rpx;
   min-width: 176rpx;
-  background-color: #00bfff;
+  background-color:  #f2f0db;
   max-width: 100%;
   vertical-align: middle;
 }
@@ -206,8 +206,11 @@ input {
   padding: 10rpx 10rpx;
   font-size: 40rpx;
 }
-.weui-cell {
-  background-color: #00bfff;
+.weui-cells {
+  background-color: #f2f0db;
+}
+.weui-cell {  
+  background-color: #f2f0db;
   border-radius: 30rpx;
   padding: 20rpx 20rpx;
   font-size: 40rpx;
