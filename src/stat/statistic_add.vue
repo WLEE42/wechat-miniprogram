@@ -88,6 +88,11 @@ export default {
       // add statistic to server database and local storage
       //
       var that = this
+      this.choices.forEach((element, index, object) => {
+        if (element.date === '请选择日期' || element.time === '请选择时间') {
+          object.splice(index, 1)
+        }
+      })
       console.log(JSON.stringify(this.choices))
       this.$http.get('statistics/addStatistic', {
         title: this.title,
