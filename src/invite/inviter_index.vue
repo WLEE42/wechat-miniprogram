@@ -318,7 +318,6 @@ ul {
     p {
       &.title {
         font-size: 45rpx;
-        color: #f0ebb8;
       }
       display: flex;
       justify-content: space-between;
@@ -375,6 +374,7 @@ ul {
   margin-right: 5rpx;
   font-size: 40rpx;
   font-weight: 900;
+  color: black;
 }
 .item {
   display: flex;
