@@ -21,7 +21,7 @@
 
 <script>
 import { mapState, mapMutations } from 'vuex'
-import * as echarts from 'echarts/dist/echarts.simple'
+import * as echarts from 'echarts/dist/echarts.simple.min'
 import mpvueEcharts from 'mpvue-echarts'
 
 let chart = null
@@ -189,7 +189,7 @@ export default {
       title: this.thing,
       // the page to share
       // the parameters are to identify a specific event
-      path: '/pages/start?statID=' + this.sessionKey + '&eventKey=' + this.eventKey,
+      path: '/pages/start?statID=' + this.sessionKey + '&eventKey=' + this.$route.query.eventKey,
       success: function (res) {
         console.log('stat_add.onShareAppMessage: success')
         that.addInvitation()

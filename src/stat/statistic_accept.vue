@@ -29,6 +29,7 @@
     </ul>
 
     button(@click="addReply") 提交问卷
+    button.weui-btn(@click="$router.replace({path:'/pages/main'})" type="default") 返回
 </template>
 
 <script>
@@ -96,7 +97,7 @@ export default {
           this.choices[d.data.choices[i].rank] = d.data.choices[i]
           this.reply[d.data.choices[i].rank] = false
         }
-        console.log('invite_accept.onLoad: success')
+        console.log('stat_accept.onLoad: success')
       })
   },
 
@@ -109,7 +110,7 @@ export default {
       // add invitation to server database and local storage
       //
       this.$http.get('statistics/addReply', {
-        sessionKey: this.sessionKey,
+        sessionKey: this.statID,
         eventKey: this.eventKey,
         reply: JSON.stringify(this.reply)
       }).then(d => {
@@ -117,7 +118,6 @@ export default {
           console.log('回复成功' + d.data.state)
           wx.showToast({
             title: '成功！',
-            duration: 2000,
             content: '回复成功',
             success: () => {
               this.$router.replace('/pages/main')
@@ -126,8 +126,7 @@ export default {
         } else if (d.data.state === 'fail') {
           console.log('添加失败' + d.data.state)
           wx.showToast({
-            title: '失败',
-            duration: 2000
+            title: '失败'
           })
         }
       })
@@ -135,7 +134,6 @@ export default {
 
     choose ($event, choice) {
       this.reply[choice.rank] = !this.reply[choice.rank]
-      this.$mp.page.onShow()
     }
   }
 }

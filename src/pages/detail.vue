@@ -145,6 +145,9 @@ export default {
     } else {
       this.todo.thing = '今日无事件'
     }
+  },
+  onShow () {
+    wx.hideShareMenu()
   }
 }
 </script>

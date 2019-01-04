@@ -81,7 +81,7 @@
 <script>
 import './icon.css'
 import { formatNumber } from '../utils'
-import { mapState } from 'vuex'
+import { mapState, mapMutations } from 'vuex'
 import Vue from 'vue'
 
 export default {
@@ -90,7 +90,6 @@ export default {
       // store system info
       isIos: false,
       // determine which page to display
-      hasData: false,
       year: 0,
       month: 0,
       monthText: '',
@@ -102,7 +101,11 @@ export default {
     ...mapState([
       'invitations',
       'sessionKey'
-    ])
+    ]),
+    hasData: function () {
+      return this.invitations.hasOwnProperty(this.month)
+    }
+
   },
 
   watch: {
@@ -110,13 +113,6 @@ export default {
   // change the variable 'hasData' when the month changes
   // it will controll the display content
   //
-    month: function () {
-      if (this.month in this.invitations) {
-        this.hasData = true
-      } else {
-        this.hasData = false
-      }
-    }
   },
 
   created () {
@@ -126,10 +122,9 @@ export default {
     this.year = now.getFullYear()
     this.month = formatNumber(now.getMonth() + 1)
     this.monthText = this.months[parseInt(this.month) - 1]
-    this.getInviteeInvitations()
   },
 
-  onLoad () {
+  onShow () {
   //
   // determine the value of 'hasData'
   // it will determine the display content
@@ -139,59 +134,62 @@ export default {
     } else {
       this.hasData = false
     }
+    this.getInviteeInvitations()
   },
 
   onPullDownRefresh: function () {
-    this.getInviteeInvitations()
-    this.$router.replace({path: '/invite/invitee_index'})
+    this.$mp.page.onShow()
+    // this.$router.replace({path: '/invite/invitee_index'})
     wx.stopPullDownRefresh()
   },
 
   methods: {
+    ...mapMutations([
+      'setInviteeInvitations'
+    ]),
     getInviteeInvitations () {
     //
     // getinvitations and store them
     //
-      for (let month in this.invitations) {
-        this.invitations[month] = []
-      }
       this.sessionKey = wx.getStorageSync('sessionKey')
       Vue.prototype.$http
         .get('invitation/getInviteeInvitations', {
           sessionKey: this.sessionKey
         })
         .then(d => {
+          console.log(d.data)
+          this.setInviteeInvitations(d.data)
           // console.log(d.data)
-          for (let eleArray in d.data) {
-            // console.log(eleArray)
-            d.data[eleArray].forEach(element => {
-              if (this.invitations.hasOwnProperty(element.month)) {
-                this.invitations[element.month].push({
-                  time: element.time,
-                  date: element.date,
-                  month: element.month,
-                  thing: element.thing,
-                  place: element.place,
-                  eventKey: element.eventKey,
-                  inviter: element.inviter
-                })
-              } else {
-                // console.log(element.month)
-                this.invitations[element.month] = [
-                  {
-                    time: element.time,
-                    date: element.date,
-                    month: element.month,
-                    thing: element.thing,
-                    place: element.place,
-                    eventKey: element.eventKey,
-                    inviter: element.inviter
-                  }
-                ]
-              }
-              this.hasData = true
-            })
-          }
+          // for (let eleArray in d.data) {
+          //   // console.log(eleArray)
+          //   d.data[eleArray].forEach(element => {
+          //     if (this.invitations.hasOwnProperty(element.month)) {
+          //       this.invitations[element.month].push({
+          //         time: element.time,
+          //         date: element.date,
+          //         month: element.month,
+          //         thing: element.thing,
+          //         place: element.place,
+          //         eventKey: element.eventKey,
+          //         inviter: element.inviter
+          //       })
+          //     } else {
+          //       // console.log(element.month)
+          //       this.invitations[element.month] = [
+          //         {
+          //           time: element.time,
+          //           date: element.date,
+          //           month: element.month,
+          //           thing: element.thing,
+          //           place: element.place,
+          //           eventKey: element.eventKey,
+          //           inviter: element.inviter
+          //         }
+          //       ]
+          //     }
+          //     this.hasData = true
+          //   })
+          // }
         })
         .catch(err => {
           console.log(err.status, err.message)
