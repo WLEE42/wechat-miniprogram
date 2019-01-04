@@ -1,15 +1,15 @@
 <template lang="pug">
   .page
     <view>
-    <label> 标题: </label>
+    <div class="weui-cell"> 标题: </div>
     <span> {{title}} </span>
     </view>
     <view>
-    <label> 事件: </label>
+    <div class="weui-cell"> 事件: </div>
     <span> {{thing}} </span>
     </view>
     <view>
-    <label> 地点: </label>
+    <div class="weui-cell"> 地点:  </div>
     <span> {{place}} </span>
     </view>
     label.weui-cell__bd 截止时间：
@@ -20,9 +20,9 @@
         <view>
           image(v-if='reply[choice.rank]' src="/static/check.png" class="check")
           image(v-if='!reply[choice.rank]' src="/static/cross.png" class="check")
-          <label> 日期: </label>
+          <div class="weui-cell"> 日期: </div>
           <span> {{choice.date}} </span>
-          <label> 时间: </label>
+          <div class="weui-cell"> 时间: </div>
           <span> {{choice.time}} </span>
         </view>
       </li>

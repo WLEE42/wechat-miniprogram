@@ -316,7 +316,6 @@ ul {
     p {
       &.title {
         font-size: 45rpx;
-        color:#f0ebb8;
       }
       display: flex;
       justify-content: space-between;
