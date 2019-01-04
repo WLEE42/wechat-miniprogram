@@ -165,50 +165,59 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.page {
+  background-color: #f2f0db;
+  height: 100%;
+  background-image: url("https://github.com/yewh16/wechat-miniprogram/blob/master/image/background_invite.jpg?raw=true");
+  background-size: 100% 100%;
+  height: 1200rpx;
+}
 .info {
   margin-top: 50rpx;
-  margin-bottom: 100rpx;
+  margin-bottom: 60rpx;
 }
 .info view {
   display: flex;
 }
 .content {
-  background-color:#7B68EE;
+  background-color:#ece7a8;
   border-radius: 30rpx;
   padding-left: 20rpx;
   padding-right: 50rpx;
-  margin-bottom: 10rpx;
+  margin-top: 10rpx;
+  margin-bottom: 30rpx;
   margin-left: 5rpx;
   margin-right: 20rpx;
   font-size: 40rpx;
   width: 63.5%;
 }
 .content2 {
-  background-color: #7B68EE;
+  background-color: #ece7a8;
   border-radius: 30rpx;
   padding-left: 20rpx;
   padding-right: 50rpx;
-  margin-bottom: 10rpx;
-  margin-left: 50rpx;
+  margin-top: 10rpx;
+  margin-bottom: 30rpx;
+  margin-left: 40rpx;
   margin-right: 20rpx;
   font-size: 40rpx;
   width: 52%;
 }
 .title{
-  background-color: #7B68EE;
+  background-color: #ece7a8;
   border-radius: 30rpx;
   padding-left: 30rpx;
   padding-right: 10rpx;
-  margin-bottom: 10rpx;
+  margin-top: 10rpx;
+  margin-bottom: 30rpx;
   margin-left: 20rpx;
-  margin-right: 5rpx;
   font-size: 40rpx;
   font-weight: 900;
 }
 button {
   border: 0px 0px;
   padding: 0 32rpx;
-  margin: 32rpx 16rpx;
+  margin: 32rpx 10rpx;
   border-radius: 4rpx;
   box-shadow: 0 4rpx 10rpx 0 rgba(0, 0, 0, 0.26);
   color: rgb(33, 33, 33);
@@ -218,7 +227,7 @@ button {
   background-color: rgb(250, 250, 250);
   max-width: 100%;
   vertical-align: middle;
-  background-color: #7B68EE
+  background-color: #f0ebb8
 }
 .pick {
   width: 700 rpx;
