@@ -29,6 +29,7 @@
     </ul>
 
     button(@click="addReply") 提交问卷
+    button.weui-btn(@click="$router.replace({path:'/stat/statistic_index'})" type="default") 返回
 </template>
 
 <script>
