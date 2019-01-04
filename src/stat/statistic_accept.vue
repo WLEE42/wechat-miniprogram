@@ -140,6 +140,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.page {
+  background-color: #f2f0db;
+  height: 100%;
+  background-image: url("https://github.com/yewh16/wechat-miniprogram/blob/master/image/background_statistic.jpg?raw=true");
+  background-size: 100% 100%;
+  height: 1200rpx;
+}
+
 ul {
   &:before {
     content: "选项：";
@@ -165,14 +173,14 @@ ul {
 button {
   border: 0px 0px;
   padding: 0 32rpx;
-  margin: 32rpx 16rpx;
+  margin: 100rpx 16rpx;
   border-radius: 4rpx;
   box-shadow: 0 4rpx 10rpx 0 rgba(0, 0, 0, 0.26);
   color: rgb(33, 33, 33);
   letter-spacing: 0.01em;
   line-height: 100rpx;
   min-width: 176rpx;
-  background-color: #b2bec3;
+  background-color: #ece7a8;
   max-width: 100%;
   vertical-align: middle;
 }
@@ -196,7 +204,7 @@ input {
 }
 
 .weui-cell {
-  background-color: #b2bec3;
+  background-color: #ece7a8;
   border-radius: 30rpx;
   padding: 20rpx 20rpx;
   font-size: 40rpx;
