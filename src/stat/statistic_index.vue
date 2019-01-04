@@ -137,10 +137,10 @@ export default {
     } else {
       this.hasData = false
     }
+    this.getStatistics()
   },
 
   onPullDownRefresh: function () {
-    this.getStatistics()
     this.$mp.page.onShow()
     wx.stopPullDownRefresh()
   },

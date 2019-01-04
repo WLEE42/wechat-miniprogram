@@ -69,6 +69,27 @@ const store = new Vuex.Store({
         state.events[element.date] = element.thing
       }
     },
+    setInviteeInvitations (state, data) {
+      for (let key in data) {
+        let newKey = key.split('-')[1]
+        if (newKey) {
+          data[newKey] = data[key]
+          delete data[key]
+        }
+      }
+      state.invitations = data
+    },
+
+    setInviterInvitations (state, data) {
+      for (let key in data) {
+        let newKey = key.split('-')[1]
+        if (newKey) {
+          data[newKey] = data[key]
+          delete data[key]
+        }
+      }
+      state.myinvitations = data
+    },
 
     setStatistics (state, data) {
       state.statistics = data

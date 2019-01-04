@@ -19,6 +19,7 @@
     </view>
 
     button.weui-btn(@click="addTodo" type="default") 接受邀请
+    button.weui-btn(@click="$router.replace({path:'/pages/main'})" type="default") 返回
 </template>
 
 <script>
@@ -47,10 +48,16 @@ export default {
     ])
   },
 
+  onPullDownRefresh: function () {
+    this.$mp.page.onLoad()
+    // this.$router.replace({path: '/invite/invitee_index'})
+    wx.stopPullDownRefresh()
+  },
+
   onLoad: function (res) {
-  //
-  // get invitation info from database
-  //
+    //
+    // get invitation info from database
+    //
     console.log('invite_accept.onload: ' + res.inviterID + res.date)
     this.time = res.time
     this.date = res.date
@@ -59,9 +66,9 @@ export default {
   },
   methods: {
     addTodo () {
-    //
-    // accept invitation
-    //
+      //
+      // accept invitation
+      //
       var that = this
       console.log(this.sessionKey)
       this.$http.get('invitation/acceptInvitation', {
@@ -75,7 +82,7 @@ export default {
         console.log(d)
         if (d.data.state === 'success') {
           console.log('添加成功' + d.data.state)
-          this.addLocal()
+          // this.addLocal()
           wx.showModal({
             title: '成功！',
             content: '已添加日程',
@@ -104,9 +111,9 @@ export default {
     },
 
     addLocal () {
-    //
-    // add invitation to local storage
-    //
+      //
+      // add invitation to local storage
+      //
       if (this.date.split('-')[1] in this.invitations) {
         this.invitations[this.date.split('-')[1]].push({
           time: this.time,
@@ -145,10 +152,10 @@ export default {
     },
 
     getSingleInvitation () {
-    //
-    // get the content of this invitation
-    // triggered when the user is logged in
-    //
+      //
+      // get the content of this invitation
+      // triggered when the user is logged in
+      //
       var that = this
       Vue.prototype.$http
         .get('invitation/getSingleInvitation', { inviterID: this.inviterID, date: this.date, time: this.time })
@@ -232,5 +239,4 @@ button {
 .pick {
   width: 700 rpx;
 }
-
 </style>
