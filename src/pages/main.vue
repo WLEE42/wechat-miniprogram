@@ -35,7 +35,8 @@ export default {
 <style lang="scss" scoped>
 .page {
   background-image: url("https://github.com/yewh16/wechat-miniprogram/blob/master/image/background_main.jpg?raw=true");
-  background-size: 100% 100%
+  background-size: 100% 100%;
+  height: 1200rpx;
 }
 button {
   background-color: rgba(0,0,0,0);
