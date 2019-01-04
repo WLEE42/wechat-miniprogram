@@ -124,6 +124,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.page {
+  background-image: url("https://github.com/yewh16/wechat-miniprogram/blob/master/image/background_common.jpg?raw=true");
+  background-size: 100% 100%;
+  background-color: #f2f0db;
+  height: 1100rpx;
+}
 button {
   border: 0px 0px;
   padding: 0 32rpx;
@@ -176,7 +182,7 @@ button {
   margin-bottom: 10rpx;
 }
 .content {
-  background-color: #00bfff;
+  background-color: #f0ebb8;
   border-radius: 30rpx;
   padding-left: 20rpx;
   padding-right: 50rpx;
@@ -186,7 +192,7 @@ button {
   width: 80%;
 }
 .title {
-  background-color: #00bfff;
+  background-color: #f0ebb8;
   border-radius: 30rpx;
   padding-left: 20rpx;
   padding-right: 10rpx;
