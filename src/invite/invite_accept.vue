@@ -19,7 +19,7 @@
     </view>
 
     button.weui-btn(@click="addTodo" type="default") 接受邀请
-    button.weui-btn(@click="$router.replace({path:'/invite/invite_index'})" type="default") 返回
+    button.weui-btn(@click="$router.replace({path:'/pages/main'})" type="default") 返回
 </template>
 
 <script>

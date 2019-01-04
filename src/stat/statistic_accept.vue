@@ -29,7 +29,7 @@
     </ul>
 
     button(@click="addReply") 提交问卷
-    button.weui-btn(@click="$router.replace({path:'/stat/statistic_index'})" type="default") 返回
+    button.weui-btn(@click="$router.replace({path:'/pages/main'})" type="default") 返回
 </template>
 
 <script>
@@ -97,7 +97,7 @@ export default {
           this.choices[d.data.choices[i].rank] = d.data.choices[i]
           this.reply[d.data.choices[i].rank] = false
         }
-        console.log('invite_accept.onLoad: success')
+        console.log('stat_accept.onLoad: success')
       })
   },
 
@@ -134,7 +134,6 @@ export default {
 
     choose ($event, choice) {
       this.reply[choice.rank] = !this.reply[choice.rank]
-      this.$mp.page.onShow()
     }
   }
 }
