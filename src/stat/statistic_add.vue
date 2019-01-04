@@ -1,6 +1,6 @@
 <template lang="pug">
   .page
-    .weui-cells
+    .weui-cells-1
       .weui-cell
         label 标题：
         input(v-model="title" placeholder="请输入标题")
@@ -10,7 +10,7 @@
       .weui-cell
         label 地点：
         input(v-model="place" placeholder="请输入地点")
-    ul.weui-cells
+    ul.weui-cells-2
       li.weui-cell(v-for='choice in choices' :key="choice.number")
         div
           picker.pick(mode="date" v-bind:value="choice.date" start="1999-01-01" end="2099-01-01")
@@ -19,15 +19,16 @@
           picker.pick(mode="time" v-bind:value="choice.time" start="00:00" end="24:00")
             label {{choice.time}}
       .weui-cell
-        picker.pick(mode="time" v-bind:value="time" start="00:00" end="24:00" @change="TimeChange2" class="choose")
-          label() 时间
-          label.weui-cell__ft {{newTime}}
-        picker.pick(mode="date" v-bind:value="date" start="1999-01-01" end="2099-01-01" @change="DateChange2")
-          label() 日期
-          label.weui-cell__ft {{newDate}}
+        .weui-cell-1
+          picker.pick-1(mode="time" v-bind:value="time" start="00:00" end="24:00" @change="TimeChange2" class="choose")
+            label.label-1() 时间
+            label.weui-cell__ft {{newTime}}
+          picker.pick-2(mode="date" v-bind:value="date" start="1999-01-01" end="2099-01-01" @change="DateChange2")
+            label.label-1() 日期
+            label.weui-cell__ft {{newDate}}
         button(@click="addChoices") 添加选项
 
-    .weui-cells
+    .weui-cells-3
       .weui-cell
         picker.pick(mode="time" v-bind:value="time" start="00:00" end="24:00" @change="TimeChange3")
           label.weui-cell__bd 截止时间：
@@ -201,9 +202,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.page {
+  background-image: url("https://github.com/yewh16/wechat-miniprogram/blob/master/image/background_statistic.jpg?raw=true");
+  background-size: 100% 100%;
+  background-color: #f2f0db;
+  height: 100%;
+}
+
 ul {
   &:before {
-    content: "before";
     display: table;
   }
   li {
@@ -219,14 +226,25 @@ ul {
   }
 }
 
-.weui-cells {
-  margin-bottom: 100rpx;
+.weui-cells-1 {
+  margin-bottom: 0rpx;
+  background-color: #f2f0db;
+}
+
+.weui-cells-2 {
+  margin-bottom: 270rpx;
+  background-color: #f2f0db;
+}
+
+.weui-cells-3 {
+  margin-top: 270rpx;
+  background-color: #f2f0db;
 }
 
 button {
   border: 0px 0px;
   padding: 0 32rpx;
-  margin: 32rpx 16rpx;
+  margin: 0rpx 16rpx;
   border-radius: 4rpx;
   box-shadow: 0 4rpx 10rpx 0 rgba(0, 0, 0, 0.26);
   color: rgb(33, 33, 33);
@@ -236,11 +254,28 @@ button {
   min-width: 150rpx;
   max-width: 100%;
   vertical-align: middle;
+  height: 90%;
 }
 
 .pick {
   width: 700rpx;
   display: flex;
+}
+
+.pick-1 {
+  width: 700rpx;
+  display: flex;
+  margin-bottom: 40rpx;
+}
+
+.pick-2 {
+  width: 700rpx;
+  display: flex;
+  margin-top: 40rpx;
+}
+
+.label-1 {
+  margin-right: 50rpx;
 }
 
 label.weui-cell__ft {
@@ -263,6 +298,15 @@ input {
   font-size: 40rpx;
   font-weight: 900;
   margin: 10rpx 20rpx;
+}
+.weui-cell-1 {
+  background-color: #f2f0db;
+  border-radius: 30rpx;
+  padding: 20rpx 20rpx;
+  font-size: 40rpx;
+  font-weight: 900;
+  margin: 10rpx 20rpx;
+  width: 60%;
 }
 .choose {
   display: flex;
