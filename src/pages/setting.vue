@@ -92,6 +92,13 @@ export default {
 </script>
 
 <style scoped>
+.page {
+  background-color: #f2f0db;
+  height: 100%;
+  background-image: url("https://github.com/yewh16/wechat-miniprogram/blob/master/image/background_common.jpg?raw=true");
+  background-size: 100% 100%;
+  height: 1100rpx;
+}
 
 .icon {
   width: 54rpx;
@@ -131,7 +138,7 @@ export default {
 }
 
 .userinfo-nickname {
-  color: #aaa;
+  color: rgb(102, 101, 101);
   margin-left: 100rpx;
 }
 
@@ -152,11 +159,15 @@ export default {
   padding: 5px 10px;
   border: 1px solid blue;
 }
+.weui-cells {
+  background-color: #f2f0db;
+}
 .weui-cell {
-  border-radius: 30rpx;
+  border-radius: 0rpx;
   padding: 20rpx 20rpx;
   font-size: 40rpx;
   font-weight: 900;
   margin: 10rpx 20rpx;
+  background-color: #f2f0db;
 }
 </style>
