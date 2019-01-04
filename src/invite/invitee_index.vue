@@ -22,7 +22,7 @@
 
     <view class="body">
       <view v-if="!hasData" class="notfound">
-        <image src='/static/rocket.png'></image>
+        <image src='/static/background_tsinghua.jpg' class="image"></image>
         <p>还没有人邀请您</p>
       </view>
 
@@ -230,8 +230,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.page {
+  background-color: #f2f0db;
+  height: 100%;
+}
+.image {
+  height: 800rpx;
+  width: 620rpx;
+}
 .notfound{
-  margin-top:200rpx;
   text-align:center;
 }
 .calendar-tools{
@@ -309,7 +316,7 @@ ul {
     p {
       &.title {
         font-size: 45rpx;
-        color:#ea6151;
+        color:#f0ebb8;
       }
       display: flex;
       justify-content: space-between;
@@ -348,7 +355,7 @@ ul {
   margin-bottom:150rpx;
 }
 .content {
-  background-color: #7B68EE;
+  background-color: #f0ebb8;
   border-radius: 30rpx;
   padding-left: 20rpx;
   padding-right: 50rpx;
@@ -358,7 +365,7 @@ ul {
   width: 80%;
 }
 .title{
-  background-color: #7B68EE;
+  background-color: #f0ebb8;
   border-radius: 30rpx;
   padding-left: 20rpx;
   padding-right: 10rpx;

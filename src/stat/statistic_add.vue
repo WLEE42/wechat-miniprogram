@@ -26,7 +26,7 @@
           picker.pick-2(mode="date" v-bind:value="date" start="1999-01-01" end="2099-01-01" @change="DateChange2")
             label.label-1() 日期
             label.weui-cell__ft {{newDate}}
-        button(@click="addChoices") 添加选项
+        button.button-1(@click="addChoices") 添加选项
 
     .weui-cells-3
       .weui-cell
@@ -241,11 +241,27 @@ ul {
   background-color: #f2f0db;
 }
 
-button {
+.button {
   border: 0px 0px;
   padding: 0 32rpx;
   margin: 0rpx 16rpx;
   border-radius: 4rpx;
+  box-shadow: 0 4rpx 10rpx 0 rgba(0, 0, 0, 0.26);
+  color: rgb(33, 33, 33);
+  letter-spacing: 0.01em;
+  line-height: 100rpx;
+  background-color: #f0ebb8;
+  min-width: 150rpx;
+  max-width: 100%;
+  vertical-align: middle;
+  height: 90%;
+}
+
+.button-1 {
+  border: 0px 0px;
+  padding: 0 32rpx;
+  margin: 0rpx 16rpx;
+  border-radius: 20rpx;
   box-shadow: 0 4rpx 10rpx 0 rgba(0, 0, 0, 0.26);
   color: rgb(33, 33, 33);
   letter-spacing: 0.01em;

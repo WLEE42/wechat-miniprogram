@@ -5,7 +5,7 @@
         v-if="!hasData"
         class="notfound"
       >
-        <image src='/static/rocket.png'></image>
+        <image src='/static/background_tsinghua.jpg' class="image"></image>
         <p>您还没有统计</p>
       </view>
       <view v-else>
@@ -208,8 +208,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.page {
+  background-color: #f2f0db;
+  height: 100%;
+}
+.image {
+  height: 900rpx;
+  width: 700rpx;
+}
 .notfound {
-  margin-top: 200rpx;
   text-align: center;
 }
 
@@ -299,7 +306,7 @@ ul {
     p {
       &.title {
         font-size: 45rpx;
-        color: #ea6151;
+        color: #f0ebb8;
       }
       display: flex;
       justify-content: space-between;
@@ -344,7 +351,7 @@ ul {
 }
 
 .content {
-  background-color: #ffa000;
+  background-color: #f0ebb8;
   border-radius: 30rpx;
   padding-left: 20rpx;
   padding-right: 50rpx;
