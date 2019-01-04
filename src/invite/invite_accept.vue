@@ -218,7 +218,7 @@ export default {
   margin-top: 10rpx;
   margin-bottom: 30rpx;
   margin-left: 20rpx;
-  font-size: 40rpx;
+  font-size: 39rpx;
   font-weight: 900;
 }
 button {

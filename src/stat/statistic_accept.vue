@@ -1,29 +1,31 @@
 <template lang="pug">
   .page
+    <view class="info">
     <view>
-    <div class="weui-cell"> 标题: </div>
-    <span> {{title}} </span>
+    <p class="title"> 标题: </p>
+    p.content {{title}} 
     </view>
     <view>
-    <div class="weui-cell"> 事件: </div>
-    <span> {{thing}} </span>
+    p.title 事件: 
+    p.content {{thing}} 
     </view>
     <view>
-    <div class="weui-cell"> 地点:  </div>
-    <span> {{place}} </span>
+    p.title 地点:
+    p.content {{place}}
     </view>
-    label.weui-cell__bd 截止时间：
-    label.weui-cell__ft {{deadDate+' '+deadTime}}
+    <view>
+    p.title 截止时间：
+    p.content2 {{deadDate+' '+deadTime}}
+    </view>
+    </view>
 
     <ul>
-      <li v-for='choice in choices':key="choice.rank" @click="choose($event, choice)">
+      <li class="info" v-for='choice in choices':key="choice.rank" @click="choose($event, choice)">
         <view>
           image(v-if='reply[choice.rank]' src="/static/check.png" class="check")
           image(v-if='!reply[choice.rank]' src="/static/cross.png" class="check")
-          <div class="weui-cell"> 日期: </div>
-          <span> {{choice.date}} </span>
-          <div class="weui-cell"> 时间: </div>
-          <span> {{choice.time}} </span>
+          view {{choice.date}}
+          view {{choice.time}} 
         </view>
       </li>
     </ul>
@@ -134,6 +136,7 @@ export default {
 
     choose ($event, choice) {
       this.reply[choice.rank] = !this.reply[choice.rank]
+      this.$mp.page.onShow()
     }
   }
 }
@@ -146,6 +149,50 @@ export default {
   background-image: url("https://github.com/yewh16/wechat-miniprogram/blob/master/image/background_statistic.jpg?raw=true");
   background-size: 100% 100%;
   height: 1200rpx;
+}
+
+
+.info {
+  margin-top: 50rpx;
+  margin-bottom: 60rpx;
+}
+.info view {
+  display: flex;
+}
+.content {
+  background-color:#ece7a8;
+  border-radius: 30rpx;
+  padding-left: 20rpx;
+  padding-right: 50rpx;
+  margin-top: 10rpx;
+  margin-bottom: 30rpx;
+  margin-left: 5rpx;
+  margin-right: 20rpx;
+  font-size: 39rpx;
+  width: 63.5%;
+}
+.content2 {
+  background-color:#ece7a8;
+  border-radius: 30rpx;
+  padding-left: 20rpx;
+  padding-right: 50rpx;
+  margin-top: 10rpx;
+  margin-bottom: 30rpx;
+  margin-left: 5rpx;
+  margin-right: 20rpx;
+  font-size: 39rpx;
+  width: 53.5%;
+}
+.title{
+  background-color: #ece7a8;
+  border-radius: 30rpx;
+  padding-left: 30rpx;
+  padding-right: 10rpx;
+  margin-top: 10rpx;
+  margin-bottom: 30rpx;
+  margin-left: 20rpx;
+  font-size: 39rpx;
+  font-weight: 900;
 }
 
 ul {

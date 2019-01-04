@@ -12,10 +12,19 @@ const store = new Vuex.Store({
     userID: '',
     myinvitations: {},
     invitations: {},
-    statistics: []
+    statistics: [],
+    reply: {}
   },
 
   mutations: {
+    setReply (state, data) {
+      if (!state.reply.hasOwnProperty(data)) {
+        state.reply[data] = false
+        return
+      }
+      state.reply[data] = !(state.reply[data])
+      console.log(state.reply)
+    },
     showTodos (state, todo) {
       state.todos = todo
       // console.log(state.sessionKey)
