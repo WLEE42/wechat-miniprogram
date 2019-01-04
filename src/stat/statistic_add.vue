@@ -140,7 +140,7 @@ export default {
     },
 
     addChoices () {
-      if (this.newTime === '请设置时间' || this.newDate === '请设置日期') {
+      if (this.newTime === '请选择时间' || this.newDate === '请选择日期') {
         wx.showToast({
           title: '请设置选项'
         })
@@ -154,8 +154,8 @@ export default {
         'number': 0,
         'rank': this.count
       }
-      this.newTime = '请设置时间'
-      this.newDate = '请设置日期'
+      this.newTime = '请选择时间'
+      this.newDate = '请选择日期'
     },
 
     TimeChange2 (e) {

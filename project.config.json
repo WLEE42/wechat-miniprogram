@@ -53,15 +53,13 @@
 					"id": 3,
 					"name": "start",
 					"pathName": "pages/start",
-					"query": "eventKey=1&statID=oaSTc4mmsrY5LFncZexK4Zczzg0I",
-					"scene": "1007"
+					"query": "eventKey=1&statID=oaSTc4mmsrY5LFncZexK4Zczzg0I"
 				},
 				{
 					"id": -1,
 					"name": "add",
 					"pathName": "pages/add",
-					"query": "time=00:00&date=2018-12-18&inviterID=123",
-					"scene": "1007"
+					"query": "time=00:00&date=2018-12-18&inviterID=123"
 				},
 				{
 					"id": -1,
@@ -85,15 +83,13 @@
 					"id": -1,
 					"name": "stat",
 					"pathName": "stat/statistic_index",
-					"query": "",
-					"scene": "1007"
+					"query": ""
 				},
 				{
 					"id": -1,
 					"name": "stat_accept",
 					"pathName": "stat/statistic_accept",
-					"query": "eventKey=1&statID=oaSTc4mmsrY5LFncZexK4Zczzg0I",
-					"scene": "1007"
+					"query": "eventKey=1&statID=oaSTc4mmsrY5LFncZexK4Zczzg0I"
 				}
 			]
 		}
