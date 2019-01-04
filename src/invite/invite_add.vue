@@ -186,7 +186,7 @@ export default {
 
 <style lang="scss" scoped>
 .page {
-  background-image: url("https://github.com/yewh16/wechat-miniprogram/blob/master/static/background_2.png?raw=true");
+  background-image: url("https://github.com/yewh16/wechat-miniprogram/blob/master/image/background_invite.jpg?raw=true");
   background-size: 100% 100%;
   background-color: #f2f0db;
   height: 100%;
