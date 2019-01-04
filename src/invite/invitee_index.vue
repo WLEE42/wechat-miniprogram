@@ -231,6 +231,8 @@ export default {
 .page {
   background-color: #f2f0db;
   height: 100%;
+  background-image: url("https://github.com/yewh16/wechat-miniprogram/blob/master/image/background_tsinghua.jpg?raw=true");
+  background-size: 100% 100%;
 }
 .image {
   height: 800rpx;
