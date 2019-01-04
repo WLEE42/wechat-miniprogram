@@ -232,8 +232,8 @@ button {
   color: rgb(33, 33, 33);
   letter-spacing: 0.01em;
   line-height: 100rpx;
-  min-width: 176rpx;
-  background-color: #ff7f24;
+  background-color: #f0ebb8;
+  min-width: 150rpx;
   max-width: 100%;
   vertical-align: middle;
 }
@@ -257,7 +257,7 @@ input {
 }
 
 .weui-cell {
-  background-color: #ffa000;
+  background-color: #f2f0db;
   border-radius: 30rpx;
   padding: 20rpx 20rpx;
   font-size: 40rpx;

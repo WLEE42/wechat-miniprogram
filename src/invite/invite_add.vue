@@ -17,8 +17,8 @@
         label 地点：
         input(v-model="place" placeholder="请输入地点")
 
-    button.weui-btn(@click="addInvitation" type="default" open-type="share" :disabled = "disabled") 邀请好友
-    button(@click="$router.replace({path:'/invite/inviter_index'})") 返回主页面
+    button.weui-btn(class="button1" @click="addInvitation" type="default" open-type="share" :disabled = "disabled") 邀请好友
+    button(class="button2" @click="$router.replace({path:'/invite/inviter_index'})") 返回主页面
 </template>
 
 <script>
@@ -185,22 +185,34 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.page {
+  background-image: url("https://github.com/yewh16/wechat-miniprogram/blob/master/image/background_invite.jpg?raw=true");
+  background-size: 100% 100%;
+  background-color: #f2f0db;
+  height: 100%;
+}
 .weui-cells {
   margin-bottom: 100rpx;
+  background-color: #f2f0db;
 }
 button {
   border: 0px 0px;
   padding: 0 32rpx;
-  margin: 32rpx 16rpx;
   border-radius: 4rpx;
   box-shadow: 0 4rpx 10rpx 0 rgba(0, 0, 0, 0.26);
   color: rgb(33, 33, 33);
   letter-spacing: 0.01em;
   line-height: 100rpx;
   min-width: 176rpx;
-  background-color: #7B68EE;
+  background-color:#f2f0db;
   max-width: 100%;
   vertical-align: middle;
+}
+.button1 {
+  margin: 20rpx 16rpx 400rpx 16rpx;
+}
+.button2 {
+  margin: 10rpx 16rpx 20rpx 16rpx;
 }
 .pick {
   width: 700 rpx;
@@ -217,7 +229,7 @@ input{
   font-size: 40rpx;
 }
 .weui-cell{
-  background-color: #7B68EE;
+  background-color:#f2f0db;
   border-radius: 30rpx;
   padding: 20rpx 20rpx;
   font-size: 40rpx;
